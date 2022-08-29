@@ -39,7 +39,7 @@ const InputPanel = styled.div`
   z-index: 1;
 `
 const Container = styled.div`
-  border-radius: 16px;
+  border-radius: 4px;
   background: ${({ theme }) => theme.colors.input};
   box-shadow: ${({ theme }) => theme.shadows.inset};
 `

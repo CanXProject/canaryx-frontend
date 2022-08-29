@@ -62,7 +62,7 @@ const TradingViewChart = ({
       layout: {
         backgroundColor: 'transparent',
         textColor: theme.colors.textSubtle,
-        fontFamily: 'Kanit, sans-serif',
+        fontFamily: 'Poppins, sans-serif',
         fontSize: 12,
       },
       rightPriceScale: {

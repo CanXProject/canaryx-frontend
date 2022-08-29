@@ -35,7 +35,7 @@ export const ItemRow: React.FC<ItemRowProps> = ({ item, isSelected, onSelect }) 
 
 export const SearchWrapper = styled(Flex)`
   background: ${({ theme }) => theme.colors.dropdown};
-  border-radius: 24px 24px 0 0;
+  border-radius: 4px 4px 0 0;
 `
 
 export const FilterButton = styled(Flex)`

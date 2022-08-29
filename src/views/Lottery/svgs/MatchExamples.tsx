@@ -81,7 +81,7 @@ export const MatchExampleA: React.FC<{ isDark: boolean } & SvgProps> = ({ isDark
           >
             <stop stopColor="#ED4B9E" />
             <stop offset="0.190071" stopColor="#7B61FF" />
-            <stop offset="0.434873" stopColor="#1FC7D4" />
+            <stop offset="0.434873" stopColor="#0088cc" />
             <stop offset="0.638006" stopColor="#E61E24" />
             <stop offset="0.841139" stopColor="#FFD800" />
             <stop offset="1" stopColor="#FEAF2E" />

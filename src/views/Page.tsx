@@ -14,7 +14,7 @@ const StyledPage = styled.div<{ $removePadding: boolean }>`
   padding-bottom: 0;
   min-height: calc(100vh - 64px);
   
-  background: url('https://app.titano.finance/_next/static/media/background-home.8302fe55.svg');
+  background: url('	https://images.squarespace-cdn.com/content/v1/61f2…1f-fc70-47fd-b390-32d2a5ac5cfa/new+Background.png');
 
   ${({ theme }) => theme.mediaQueries.xs} {
     background-size: auto;

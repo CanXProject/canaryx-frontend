@@ -28,7 +28,7 @@ export const LimitContainer = styled.div`
 export const ChartPanel = styled.div`
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 94%;
 `
 export const TicketContainer = styled.div`
   display: flex;
@@ -89,12 +89,12 @@ export const ChartContainer = styled.div`
 `
 export const ChartArea = styled.div`
   height: 100%;
-  width: 75%;
+  width: 95%;
   padding: 7px;
 `
 export const TradeArea = styled.div`
   height: 100%;
-  width: 25%;
+  width: 20.3%;
   padding: 7px;
 `
 export const OrderBookArea = styled.div`
@@ -107,7 +107,7 @@ export const OrderBookArea = styled.div`
 export const OrderBookPart = styled.div`
   flex: 1;
   & > .header {
-    height:31px;
+    height:38px;
     background: #F5F5F5;
     border: 1px solid #D8DCE1;
     border-radius: 2px;

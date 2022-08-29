@@ -5,7 +5,7 @@ import styled from 'styled-components'
 const Wrapper = styled(Flex)`
   overflow-x: scroll;
   padding: 0;
-  border-radius: 24px 24px 0 0;
+  border-radius: 4px 4px 0 0;
   ::-webkit-scrollbar {
     display: none;
   }
@@ -32,7 +32,7 @@ export const TabToggle = styled.button<TabProps>`
   outline: 0;
   padding: 16px;
   margin: 0;
-  border-radius: 24px 24px 0 0;
+  border-radius: 4px 4px 0 0;
   font-size: 16px;
   font-weight: 600;
   color: ${({ theme, isActive }) => (isActive ? theme.colors.text : theme.colors.textSubtle)};

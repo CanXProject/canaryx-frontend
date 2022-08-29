@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { Card } from '@pancakeswap/uikit'
 
 export const BodyWrapper = styled(Card)`
-  border-radius: 24px;
+  border-radius: 4px;
   width: 328px;
   ${({ theme }) => theme.mediaQueries.md} {
     width: 550px;
