@@ -20,7 +20,7 @@ const config: (t: ContextApi['t']) => ConfigMenuItemsType[] = (t) => [
     activeIcon: '/images1/icons/icon-swap-active.svg',
     items: [
       {
-        label: t('Exchange'),
+        label: t('Swap'),
         href: '/swap',
       },
       {

@@ -26,7 +26,7 @@ const ImageWrapper = styled(Flex)`
   width: 100%;
   height: fit-content;
   img {
-    border-radius: ${({ theme }) => theme.radii.default};
+    border-radius: 4px;
   }
 `
 

@@ -33,6 +33,8 @@ export const ChartPanel = styled.div`
 export const TicketContainer = styled.div`
   display: flex;
   width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
   // padding-right: 10px;
 `
 export const PairPanel = styled.div`
@@ -49,6 +51,8 @@ export const PairContainer = styled.div`
   display: flex;
   padding: 0 20px;
   align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
 `
 export const PricePanel = styled.div`
   height: 61px;
@@ -64,8 +68,28 @@ export const PriceContainer = styled.div`
   display: flex;
   padding: 0 20px;
   align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
   justify-content: space-between;
 `
+export const HighItem = styled.div`
+margin-right: 0px;
+& > .title {
+  font-size: 12px;
+  font-weight: 400;
+  color: #8C8D91;
+  line-height: 16px;
+  align-items: center;
+}
+& > .value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #8C8D91;
+  line-height: 24px;
+}
+`
+
+
 export const PriceItem = styled.div`
   margin-right: 32px;
   & > .title {
@@ -73,12 +97,13 @@ export const PriceItem = styled.div`
     font-weight: 400;
     color: #8C8D91;
     line-height: 16px;
+    align-items: center;
   }
   & > .value {
     font-size: 16px;
     font-weight: 600;
     color: #8C8D91;
-    line-height: 24px;
+    line-height: 16px;
   }
 `
 export const ChartContainer = styled.div`
@@ -89,12 +114,12 @@ export const ChartContainer = styled.div`
 `
 export const ChartArea = styled.div`
   height: 100%;
-  width: 95%;
+  width: 79%;
   padding: 7px;
 `
 export const TradeArea = styled.div`
   height: 100%;
-  width: 20.3%;
+  width: 21.5%;
   padding: 7px;
 `
 export const OrderBookArea = styled.div`
@@ -103,14 +128,16 @@ export const OrderBookArea = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  white-space: nowrap;
+  overflow: hidden;
 `
 export const OrderBookPart = styled.div`
   flex: 1;
   & > .header {
     height:38px;
     background: #F5F5F5;
-    border: 1px solid #D8DCE1;
-    border-radius: 2px;
+    border: 0px solid #D8DCE1;
+    border-radius: 0px;
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
@@ -119,6 +146,8 @@ export const OrderBookPart = styled.div`
     padding: 0 24px;
     display: flex;
     align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
   }
   & > .trades-header {
     font-style: normal;
@@ -128,14 +157,18 @@ export const OrderBookPart = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 7px 24px;
+    white-space: nowrap;
+    overflow: hidden;
   }
   & > .trades-value {
     background: #ffffff;
-    height: 205px;
+    height: 198px;
     padding: 0 24px;
     font-style: normal;
     font-weight: 400;
     font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
     line-height: 13px;
     overflow-y: auto;
     & > .column {
@@ -220,8 +253,8 @@ export const TradeBook = styled.div`
   & > .header {
     height:48px;
     background: #F5F5F5;
-    border: 1px solid #D8DCE1;
-    border-radius: 2px;
+    border: 0px solid #D8DCE1;
+    border-radius: 0px;
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
@@ -359,7 +392,7 @@ export const CustomOrderButton = styled(Button)`
   border-radius: 2px;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 12px;
   line-height: 24px;
   text-align: center;
   letter-spacing: 0.48px;

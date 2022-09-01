@@ -12,7 +12,7 @@ const Wrapper = styled(Flex)`
   justify-content: center;
   align-items: center;
   border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
-  border-radius: ${({ theme }) => theme.radii.default};
+  border-radius: 4px;
   padding: 8px;
 
   ${({ theme }) => theme.mediaQueries.sm} {

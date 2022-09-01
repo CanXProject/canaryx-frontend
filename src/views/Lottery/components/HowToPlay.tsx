@@ -45,14 +45,14 @@ const StyledStepCard = styled(Box)`
   position: relative;
   background: ${({ theme }) => theme.colors.cardBorder};
   padding: 1px 1px 3px 1px;
-  border-radius: ${({ theme }) => theme.radii.card};
+  border-radius: 4px;
 `
 
 const StepCardInner = styled(Box)`
   width: 100%;
   padding: 24px;
   background: ${({ theme }) => theme.card.background};
-  border-radius: ${({ theme }) => theme.radii.card};
+  border-radius: 4px;
 `
 
 type Step = { title: string; subtitle: string; label: string }

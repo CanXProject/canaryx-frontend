@@ -15,7 +15,7 @@ const StyledBannerImage = styled.div.attrs<StyledBannerImageProps>(({ alt }) => 
   background-repeat: no-repeat;
   flex: none;
   width: 100%;
-  border-radius: 32px;
+  border-radius: 2px;
   height: 123px;
 
   ${({ theme }) => theme.mediaQueries.sm} {

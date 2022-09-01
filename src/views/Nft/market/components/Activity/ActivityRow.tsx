@@ -14,7 +14,7 @@ import { nftsBaseUrl, pancakeBunniesAddress } from '../../constants'
 
 const RoundedImage = styled(Image)`
   & > img {
-    border-radius: ${({ theme }) => theme.radii.default};
+    border-radius: 4px;
   }
 `
 

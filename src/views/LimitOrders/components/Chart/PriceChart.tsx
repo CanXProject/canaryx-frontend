@@ -23,7 +23,7 @@ import TradingViewChart from './TradingViewChart'
 const ChartButton = styled(Button)`
   background-color: ${({ $active, theme }) => $active && `${theme.colors.primary}0f`};
   padding: 4px 8px;
-  border-radius: 6px;
+  border-radius: 2px;
 `
 
 const PriceChart = ({

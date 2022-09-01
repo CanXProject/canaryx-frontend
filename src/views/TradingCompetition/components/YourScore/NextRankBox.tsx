@@ -14,7 +14,7 @@ const Wrapper = styled(Flex)`
   background: ${({ theme }) => theme.card.cardHeaderBackground.default};
   justify-content: center;
   align-items: center;
-  border-radius: ${({ theme }) => theme.radii.default};
+  border-radius: 4px;
   padding: 8px;
   margin-top: 8px;
 

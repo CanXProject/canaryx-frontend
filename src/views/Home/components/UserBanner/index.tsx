@@ -8,7 +8,7 @@ const StyledCard = styled(Box)`
   border-bottom: 1px ${({ theme }) => theme.colors.secondary} solid;
   border-left: 1px ${({ theme }) => theme.colors.secondary} solid;
   border-right: 1px ${({ theme }) => theme.colors.secondary} solid;
-  border-radius: ${({ theme }) => `0 0 ${theme.radii.card} ${theme.radii.card}`};
+  border-radius: 4px;
   background: ${({ theme }) =>
     theme.isDark
       ? 'linear-gradient(360deg, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 1) 100%)'

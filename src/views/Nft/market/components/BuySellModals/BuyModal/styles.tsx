@@ -28,7 +28,7 @@ export const BorderedBox = styled(Grid)`
   padding: 16px;
   background-color: ${({ theme }) => theme.colors.background};
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
-  border-radius: ${({ theme }) => theme.radii.default};
+  border-radius: 4px;
   grid-template-columns: 1fr 1fr;
   grid-row-gap: 8px;
 `

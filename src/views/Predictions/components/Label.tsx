@@ -82,7 +82,7 @@ const Label = styled(Flex)<{ dir: 'left' | 'right' }>`
 
   ${({ theme }) => theme.mediaQueries.lg} {
     align-items: center;
-    border-radius: ${({ theme }) => theme.radii.card};
+    border-radius: 4px;
     flex-direction: row;
     padding: ${({ dir }) => (dir === 'right' ? '8px 40px 8px 8px' : '8px 8px 8px 40px')};
   }

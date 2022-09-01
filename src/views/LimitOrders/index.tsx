@@ -55,7 +55,7 @@ import Page from '../Page'
 import SwapWarningModal from './components/SwapWarningModal'
 import {
   StyledInputCurrencyWrapper, StyledSwapContainer, LimitContainer, ChartPanel, TicketContainer, ActionPanel,
-  PairPanel, PairContainer, PricePanel, PriceContainer, PriceItem, ChartContainer, ChartArea, TradeArea,
+  PairPanel, PairContainer, PricePanel, PriceContainer, PriceItem, HighItem, ChartContainer, ChartArea, TradeArea,
   OrderBookArea, OrderBookPart, HistoryPanel, HistoryTab, TradeBook, HistoryTable, ActionArea, ActionTab, ActionContent, ActionPart, PriceDiv, MarketButton, PriceInput, CustomOrderButton
 } from './styles';
 import { TVChartContainer } from './TradingView/TVChartContainer'
@@ -513,14 +513,15 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                   <div className='title'>24H VOLUME</div>
                   <div className='value'>{ticker?.ticker.volume}</div>
                 </PriceItem>
-                <PriceItem>
+                <HighItem>
                   <div className='title'>24H LOW</div>
-                  <div className='value'>{ticker?.ticker.low}</div>
-                </PriceItem>
-                <PriceItem>
+                  <div style={{ color: '#D9304E' }}>{ticker?.ticker.low}</div>
+                </HighItem>
+                <img src='/images1/icons/@line.svg' alt='PriceBar' />
+                <HighItem>
                   <div className='title'>24H HIGH</div>
-                  <div className='value'>{ticker?.ticker.high}</div>
-                </PriceItem>
+                  <div style={{ color: '#0088CC' }}>{ticker?.ticker.high}</div>
+                </HighItem>
               </PriceContainer>
             </PricePanel>
           </TicketContainer>

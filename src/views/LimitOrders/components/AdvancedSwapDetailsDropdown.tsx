@@ -11,7 +11,7 @@ const AdvancedDetailsFooter = styled.div<{ show: boolean }>`
   margin-left:auto;
   margin-right:auto;
   max-width: 400px;
-  border-radius: 20px;
+  border-radius: 2px;
   background-color: ${({ theme }) => theme.colors.invertedContrast};
 
   transform: ${({ show }) => (show ? 'translateY(0%)' : 'translateY(-100%)')};

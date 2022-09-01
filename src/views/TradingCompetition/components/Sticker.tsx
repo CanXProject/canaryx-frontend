@@ -11,7 +11,7 @@ const Sticker = styled(Flex)<StickerProps>`
   height: 100%;
   background-color: ${({ theme, backgroundColor }) => backgroundColor || theme.colors.invertedContrast};
   border: 2px solid ${({ theme, borderColor }) => borderColor || theme.colors.invertedContrast};
-  border-radius: ${({ theme }) => theme.radii.circle};
+  border-radius: 4px;
   box-shadow: ${({ theme }) => theme.card.boxShadow};
 `
 

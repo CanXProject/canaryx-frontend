@@ -7,7 +7,7 @@ import { useTranslation } from 'contexts/Localization'
 const ScheduleInner = styled(Flex)`
   flex-direction: column;
   padding: 16px;
-  border-radius: ${({ theme }) => theme.radii.default};
+  border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.background};
   border: 1px ${({ theme }) => theme.colors.cardBorder} solid;
 `

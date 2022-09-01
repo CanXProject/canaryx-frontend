@@ -11,13 +11,13 @@ const RoiCardWrapper = styled(Box)`
   background: linear-gradient(180deg, #53dee9, #0088ca);
   padding: 1px;
   width: 100%;
-  border-radius: ${({ theme }) => theme.radii.default};
+  border-radius: 4px;
 `
 
 const RoiCardInner = styled(Box)`
   height: 120px;
   padding: 24px;
-  border-radius: ${({ theme }) => theme.radii.default};
+  border-radius: 4px;
   background: ${({ theme }) => theme.colors.gradients.bubblegum};
 `
 

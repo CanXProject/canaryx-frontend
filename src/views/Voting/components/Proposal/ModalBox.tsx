@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const VotingBox = styled.div`
   align-items: center;
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
-  border-radius: 12px;
+  border-radius: 2px;
   display: flex;
   height: 64px;
   justify-content: space-between;

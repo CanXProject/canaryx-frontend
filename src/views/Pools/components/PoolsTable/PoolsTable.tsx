@@ -12,7 +12,7 @@ interface PoolsTableProps {
 }
 
 const StyledTable = styled.div`
-  border-radius: ${({ theme }) => theme.radii.card};
+  border-radius: 4px;
   scroll-margin-top: 64px;
 
   background-color: ${({ theme }) => theme.card.background};
@@ -22,7 +22,7 @@ const StyledTable = styled.div`
 `
 
 const StyledTableBorder = styled.div`
-  border-radius: ${({ theme }) => theme.radii.card};
+  border-radius: 4px;
   background-color: ${({ theme }) => theme.colors.cardBorder};
   padding: 1px 1px 3px 1px;
   background-size: 400% 400%;

@@ -19,7 +19,7 @@ export const TableWrapper = styled.div`
 export const NftImage = styled(Image)`
   flex: none;
   & > img {
-    border-radius: 8px;
+    border-radius: 2px;
   }
 `
 

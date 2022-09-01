@@ -16,7 +16,7 @@ const Wrapper = styled(Flex)`
   background: linear-gradient(180deg, #0088ca 0%, #452a7a 100%);
   border: 1px solid #0088ca;
   box-sizing: border-box;
-  border-radius: 0px 0px 24px 24px;
+  border-radius: 0px 0px 4px 4px;
   padding: 16px 18px;
   margin: -30px auto 50px;
   justify-content: space-around;

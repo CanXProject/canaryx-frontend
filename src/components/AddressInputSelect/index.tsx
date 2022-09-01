@@ -20,7 +20,7 @@ const SubMenu = styled.div<{ isOpen: boolean }>`
   align-items: center;
   background: ${({ theme }) => theme.colors.input};
   border: 1px solid ${({ theme }) => theme.colors.inputSecondary};
-  border-radius: 0 0 ${({ theme }) => theme.radii.default} ${({ theme }) => theme.radii.default};
+  border-radius: 2px;
   left: 0;
   padding-bottom: 8px;
   padding-top: 16px;

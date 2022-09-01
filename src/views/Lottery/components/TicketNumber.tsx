@@ -10,7 +10,7 @@ const StyledNumberWrapper = styled(Flex)`
   position: relative;
   padding: 4px 16px;
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
-  border-radius: ${({ theme }) => theme.radii.default};
+  border-radius: 4px;
   background: ${({ theme }) => theme.colors.background};
   justify-content: space-between;
 `
@@ -19,7 +19,7 @@ const RewardHighlighter = styled.div<{ numberMatches: number }>`
   z-index: 1;
   width: ${({ numberMatches }) => `${numberMatches < 6 ? numberMatches * 17.66 : 100}%`};
   height: 34px;
-  border-radius: ${({ theme }) => theme.radii.default};
+  border-radius: 4px;
   top: 0;
   left: 0;
   position: absolute;
