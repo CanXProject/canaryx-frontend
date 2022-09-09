@@ -34,7 +34,7 @@ const StyledPage = styled.div<{ $removePadding: boolean }>`
 
 const Page: React.FC<
   React.HTMLAttributes<HTMLDivElement> & { removePadding?: boolean; hideFooterOnDesktop?: boolean }
-> = ({ children, removePadding = false, hideFooterOnDesktop = false, ...props }) => {
+> = ({ children, removePadding = false, hideFooterOnDesktop = true, ...props }) => {
   return (
     <div >
       <PageMeta />
