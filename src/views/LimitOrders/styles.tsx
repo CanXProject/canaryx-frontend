@@ -357,7 +357,7 @@ export const PriceDiv = styled.div`
     padding-right: 12px;
   }
   & > img {
-    width: 20px;
+    width: 12px;
     cursor: pointer;
   }
 `
