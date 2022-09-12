@@ -55,8 +55,9 @@ import Page from '../Page'
 import SwapWarningModal from './components/SwapWarningModal'
 import {
   StyledInputCurrencyWrapper, StyledSwapContainer, LimitContainer, ChartPanel, TicketContainer, ActionPanel,
-  PairPanel, PairContainer, PricePanel, PriceContainer, PriceItem, HighItem, ChartContainer, ChartArea, TradeArea,
-  OrderBookArea, OrderBookPart, HistoryPanel, HistoryTab, TradeBook, HistoryTable, ActionArea, ActionTab, ActionContent, ActionPart, PriceDiv, MarketButton, PriceInput, CustomOrderButton
+  PairPanel, PairContainer, PricePanel, PriceContainer, PriceItem, RangeItem, HighItem, ChartContainer, ChartArea, TradeArea,
+  OrderBookArea, OrderBookPart, HistoryPanel, HistoryTab, TradeBook, HistoryTable, ActionArea, ActionTab, ActionContent,
+  ActionPart, PriceDiv, MarketButton, PriceInput, CustomOrderButton
 } from './styles';
 import { TVChartContainer } from './TradingView/TVChartContainer'
 import { CustomWalletConnectButton, CustomWalletConnectedButton } from './TradingView/CustomWalletConnectButton'
@@ -421,6 +422,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const [pairSymbol, setPairSymbol] = useState("WSGB/CANARY");
   const default_ticker = { ticker: { price: '0', change: '0(0%)', volume: '0', low: '0', high: '0' }, buy: [], sell: [], trades: [] }
   const [ticker, setTicker] = useState(default_ticker);
+  const [labelPosition, setLabelPosition] = useState(50);
   useEffect(() => {
     if (!currencies[Field.INPUT] || !currencies[Field.OUTPUT]) return;
     let _symbol = currencies[Field.INPUT].symbol + "/" + currencies[Field.OUTPUT].symbol;
@@ -437,6 +439,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
     axios.get(`${sTradeapiLink}/ticker?symbol=${pairSymbol}`)
       .then(res => {
         setTicker(res.data);
+        setPriceRangeLabelPosition(res.data);
       })
       .catch(err => {
         console.log("ticker api error: ", err.message)
@@ -445,6 +448,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
       axios.get(`${sTradeapiLink}/ticker?symbol=${pairSymbol}`)
         .then(res => {
           setTicker(res.data);
+          setPriceRangeLabelPosition(res.data);
         })
         .catch(err => {
           console.log("ticker api error: ", err.message)
@@ -484,6 +488,15 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   useEffect(() => {
     scrollToBottom()
   }, []);
+  const setPriceRangeLabelPosition = (_ticker) => {
+    if (!ticker) return;
+    let range = 0;
+    if (!_ticker.price && (_ticker.high - _ticker.low) > 0) {
+      range = ((_ticker.price - _ticker.low) * 60 / (_ticker.high - _ticker.low));
+      range = range + 20;
+      setLabelPosition(range);
+    }
+  }
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded} style={{ padding: 0 }}>
@@ -513,15 +526,20 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                   <div className='title'>24H VOLUME</div>
                   <div className='value'>{ticker?.ticker.volume}</div>
                 </PriceItem>
-                <HighItem>
-                  <div className='title'>24H LOW</div>
-                  <div style={{ color: '#D9304E' }}>{ticker?.ticker.low}</div>
-                </HighItem>
-                <img src='/images1/icons/@line.svg' alt='PriceBar' />
-                <HighItem>
-                  <div className='title'>24H HIGH</div>
-                  <div style={{ color: '#0088CC' }}>{ticker?.ticker.high}</div>
-                </HighItem>
+                <RangeItem $labelPosition={labelPosition}>
+                  <HighItem className='price-low'>
+                    <div className='title'>24H LOW</div>
+                    <div style={{ color: '#D9304E' }}>{ticker?.ticker.low}</div>
+                  </HighItem>
+                  <img className='range-label' src='/images1/icons/@label.svg' alt="PriceLabel" />
+                  <img className='range-bar' src='/images1/icons/@line.svg' alt='PriceBar' />
+                  <HighItem className='price-high'>
+                    <div className='title'>24H HIGH</div>
+                    <div style={{ color: '#0088CC' }}>{ticker?.ticker.high}</div>
+                  </HighItem>
+                </RangeItem>
+
+
               </PriceContainer>
             </PricePanel>
           </TicketContainer>

@@ -72,8 +72,44 @@ export const PriceContainer = styled.div`
   overflow: hidden;
   justify-content: space-between;
 `
+export const RangeItem = styled.div<{ $labelPosition: number }>`
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  width: 400px;
+  @media screen and (max-width: 1280px) {
+    width: 250px;
+  }
+  @media screen and (max-width: 900px) {
+    width: 200px;
+  }
+  & > .range-bar {
+    position: absolute;
+    width: 250px;
+    bottom: 7px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    @media screen and (max-width: 1280px) {
+      width: 120px;
+    }
+    @media screen and (max-width: 900px) {
+      display: none;
+    }
+  }
+  & > .range-label {
+    position: absolute;
+    // ${({ $labelPosition }) => ($labelPosition ? 'padding: 0 120px' : 'padding: 0 40px')};
+    left: ${({ $labelPosition }) => ($labelPosition ? `${$labelPosition}%` : '50%')};
+    transform: translate(${({ $labelPosition }) => ($labelPosition ? `-${$labelPosition}%` : '-50%')}, 0);
+    bottom: 7px;
+    @media screen and (max-width: 900px) {
+      display: none;
+    }
+  }
+`
 export const HighItem = styled.div`
 margin-right: 0px;
+text-align: center;
 & > .title {
   font-size: 12px;
   font-weight: 400;
@@ -92,6 +128,7 @@ margin-right: 0px;
 
 export const PriceItem = styled.div`
   margin-right: 32px;
+  text-align: center;
   & > .title {
     font-size: 12px;
     font-weight: 400;
