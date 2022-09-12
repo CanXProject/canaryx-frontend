@@ -14,7 +14,7 @@ const DisconnectedWalletIcon = (props) => {
 
   return (
     // <div style={{ paddingRight: 24 }} >
-      <Button onClick={onPresentConnectModal} {...props} style={{ padding: 0, background: 'transparent' }}>
+      <Button onClick={onPresentConnectModal} {...props} style={{ padding: 0, background: 'transparent', boxShadow: 'none' }} id="Wallet-Button">
         {/* {t('Connect Wallet')} */}
         <img src='/images1/icons/icon-wallet-disconnected.svg' alt='ConnectWallet' style={{ cursor: 'pointer' }} />
       </Button>
