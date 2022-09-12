@@ -59,7 +59,7 @@ import {
   OrderBookArea, OrderBookPart, HistoryPanel, HistoryTab, TradeBook, HistoryTable, ActionArea, ActionTab, ActionContent, ActionPart, PriceDiv, MarketButton, PriceInput, CustomOrderButton
 } from './styles';
 import { TVChartContainer } from './TradingView/TVChartContainer'
-import CustomWalletConnectButton from './TradingView/CustomWalletConnectButton'
+import { CustomWalletConnectButton, CustomWalletConnectedButton } from './TradingView/CustomWalletConnectButton'
 import { sPairapiLink, sOrderapiLink, sTradeapiLink, toEth } from './TradingView/Constants';
 
 const StyledInput = styled.input`
@@ -628,9 +628,9 @@ export default function LimitOrders({ history }: RouteComponentProps) {
         </ChartPanel>
 
         <ActionPanel>
-          {!account && <div className='walletBtn'>
-            <CustomWalletConnectButton />
-          </div>}
+          <div className='walletBtn'>
+            {account ? <CustomWalletConnectedButton /> : <CustomWalletConnectButton />}
+          </div>
 
           <ActionArea>
             <ActionContent>

@@ -4,14 +4,10 @@ import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'contexts/Localization'
 import { CustomOrderButton } from '../styles'
 
-const CustomWalletConnectButton = (props) => {
+export const CustomWalletConnectButton = (props : any) => {
     const { t } = useTranslation()
     const { login, logout } = useAuth()
     const { onPresentConnectModal } = useWalletModal(login, logout, t)
-
-    const handleClick = () => {
-        onPresentConnectModal();
-    }
 
     return (
         <CustomOrderButton onClick={onPresentConnectModal} {...props}>
@@ -20,4 +16,11 @@ const CustomWalletConnectButton = (props) => {
     )
 }
 
-export default CustomWalletConnectButton
+export const CustomWalletConnectedButton = (props : any) => {
+    const { t } = useTranslation()
+    return (
+        <CustomOrderButton {...props}>
+            {t('Connected')}
+        </CustomOrderButton>
+    )
+}
