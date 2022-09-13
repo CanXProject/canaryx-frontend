@@ -339,7 +339,8 @@ export const ActionPanel = styled.div`
       width: 100%;
       height: 100%;
       background: linear-gradient(270deg, #1880DF 0%, #0088CC 100%);
-      border-radius: 2px;
+      border-radius: 3px;
+      border: 0px
       display: flex;
       align-items: center;
       justify-content: center;
@@ -424,7 +425,7 @@ export const PriceInput = styled.input`
 export const CustomOrderButton = styled(Button)`
   height: 38px;
   background: #F5F5F5;
-  border: 1px solid #B0B0B0;
+  border: 0px solid #B0B0B0;
   backdrop-filter: blur(4px);
   border-radius: 2px;
   font-style: normal;

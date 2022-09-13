@@ -24,6 +24,7 @@ import { GreyCard } from '../../components/Card'
 import Column, { AutoColumn } from '../../components/Layout/Column'
 import ConfirmSwapModal from './components/ConfirmSwapModal'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
+import CurrencyInputPanel2 from '../../components/CurrencyInputPanel2'
 import { AutoRow, RowBetween } from '../../components/Layout/Row'
 import AdvancedSwapDetailsDropdown from './components/AdvancedSwapDetailsDropdown'
 import confirmPriceImpactWithoutFee from './components/confirmPriceImpactWithoutFee'
@@ -414,7 +415,7 @@ export default function Swap({ history }: RouteComponentProps) {
                         ) : null}
                       </AutoRow>
                     </AutoColumn>
-                    <CurrencyInputPanel
+                    <CurrencyInputPanel2
                       value={formattedAmounts[Field.OUTPUT]}
                       onUserInput={handleTypeOutput}
                       label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}

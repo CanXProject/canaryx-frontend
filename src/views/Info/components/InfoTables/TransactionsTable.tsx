@@ -252,7 +252,7 @@ const TransactionTable: React.FC<{
             {t('Token Amount')} {arrow(SORT_FIELD.amountToken0)}
           </ClickableColumnHeader>
           <ClickableColumnHeader
-            color="secondary"
+            color="#0088cc"
             fontSize="12px"
             bold
             onClick={() => handleSort(SORT_FIELD.amountToken1)}

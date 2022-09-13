@@ -27,6 +27,7 @@ import { GreyCard } from '../../components/Card'
 import { AutoColumn } from '../../components/Layout/Column'
 import ConfirmSwapModal from './components/ConfirmSwapModal'
 import { CurrencyInputPanelCustom, TextCustom } from 'components/CurrencyInputPanel/CurrencyInputPanelCustom'
+import { CurrencyInputPanelCustom2 } from 'components/CurrencyInputPanel2/CurrencyInputPanelCustom2'
 import confirmPriceImpactWithoutFee from './components/confirmPriceImpactWithoutFee'
 import { SwapCallbackError } from './components/styleds'
 import ImportTokenWarningModal from './components/ImportTokenWarningModal'
@@ -77,7 +78,7 @@ const StyledInput = styled.input`
   text-align: right;
 
   ::placeholder {
-    color: ${({ theme }) => theme.colors.textSubtle};
+    color: ${({ theme }) => theme.colors.textDisabled};
   }
 `
 const Label = styled(Text)`
@@ -671,7 +672,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     otherCurrency={currencies[Field.OUTPUT]}
                     id="swap-currency-input"
                   />
-                  <CurrencyInputPanelCustom
+                  <CurrencyInputPanelCustom2
                     value={formattedAmounts[Field.OUTPUT]}
                     onUserInput={handleTypeOutput}
                     label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
@@ -690,10 +691,11 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     </PriceDiv>
                     <MarketButton onClick={() => {
                       selectedPrice.current.value = (formattedAmounts[Field.OUTPUT])
-                    }} scale='xs'> MARKET</MarketButton>
+                    }} scale='xs'>MARKET</MarketButton>
                   </Flex>
                   <PriceInput
-                    placeholder='0'
+                    
+                    placeholder='Set your price: 0'
                     ref={selectedPrice}
                     onChange={async e => {
                       if (e.target.value > formattedAmounts[Field.OUTPUT]) {
