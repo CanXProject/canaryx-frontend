@@ -101,7 +101,11 @@ export const RangeItem = styled.div<{ $labelPosition: number }>`
     // ${({ $labelPosition }) => ($labelPosition ? 'padding: 0 120px' : 'padding: 0 40px')};
     left: ${({ $labelPosition }) => ($labelPosition ? `${$labelPosition}%` : '50%')};
     transform: translate(${({ $labelPosition }) => ($labelPosition ? `-${$labelPosition}%` : '-50%')}, 0);
-    bottom: 7px;
+    bottom: -4px;
+    width: 35px;
+    @media screen and (max-width: 1280px) {
+      width: 12px;
+      bottom: 4px;
     @media screen and (max-width: 900px) {
       display: none;
     }

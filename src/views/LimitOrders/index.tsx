@@ -532,8 +532,9 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     <div className='title'>24H LOW</div>
                     <div style={{ color: '#D9304E' }}>{ticker?.ticker.low}</div>
                   </HighItem>
-                  <img className='range-label' src='/images1/icons/@label.svg' alt="PriceLabel" />
                   <img className='range-bar' src='/images1/icons/@line.svg' alt='PriceBar' />
+                  <img className='range-label' src='/images1/icons/@label.png' alt="PriceLabel" />
+                  
                   <HighItem className='price-high'>
                     <div className='title'>24H HIGH</div>
                     <div style={{ color: '#0088CC' }}>{ticker?.ticker.high}</div>
@@ -568,7 +569,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                   </div>
                 </OrderBookPart>
                 <OrderBookPart>
-                  <div className='header'>SPREAD: 0.125478</div>
+                  <div className='header'></div>
                   <div className='trades-value'>
                     {ticker?.buy.map((item, _index) => (
                       <div className='column' key={_index}>
