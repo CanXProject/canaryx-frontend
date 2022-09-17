@@ -508,18 +508,6 @@ export default function LimitOrders({ history }: RouteComponentProps) {
           <TicketContainer>
             <PairPanel>
               <PairContainer>
-              <PriceChartContainer
-
-inputCurrencyId={inputCurrencyId}
-inputCurrency={currencies[Field.INPUT]}
-outputCurrencyId={outputCurrencyId}
-outputCurrency={currencies[Field.OUTPUT]}
-isChartExpanded={isChartExpanded}
-setIsChartExpanded={setIsChartExpanded}
-isChartDisplayed={isChartDisplayed}
-currentSwapPrice={singleTokenPrice}
-/>
-               
                 <CurrencyLogo currency={currencies[Field.INPUT]} size="24px" style={{ marginRight: '8px' }} />
                 <CurrencyLogo currency={currencies[Field.OUTPUT]} size="24px" style={{ marginRight: '8px' }} />
                 <Text>{currencies[Field.INPUT]?.symbol}</Text>
