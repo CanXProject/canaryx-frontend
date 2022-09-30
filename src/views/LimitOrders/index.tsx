@@ -2,16 +2,24 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { CurrencyAmount, ETHER, JSBI, Token, Trade } from '@pancakeswap/sdk'
+import AddressInputPanel from './components/AddressInputPanel'
+import { ArrowWrapper, SwapCallbackError, Wrapper } from './components/styleds'
 import {
   Button,
   Text,
   Box,
+  ArrowDownIcon,
+  IconButton,
   useModal,
   Flex,
+  Card,
+  Th,
   useMatchBreakpoints,
   Td,
 } from '@pancakeswap/uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
+import LimitOrderTable from './components/LimitOrderTable'
+import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
 import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
 import SwapWarningTokens from 'config/constants/swapWarningTokens'
@@ -28,10 +36,9 @@ import { AutoColumn } from '../../components/Layout/Column'
 import ConfirmSwapModal from './components/ConfirmSwapModal'
 import { CurrencyInputPanelCustom, TextCustom } from 'components/CurrencyInputPanel/CurrencyInputPanelCustom'
 import { CurrencyInputPanelCustom2 } from 'components/CurrencyInputPanel2/CurrencyInputPanelCustom2'
-
+import TradePrice from './components/TradePrice'
 import PriceChartContainer from './components/Chart/PriceChartContainer'  
 import confirmPriceImpactWithoutFee from './components/confirmPriceImpactWithoutFee'
-import { SwapCallbackError } from './components/styleds'
 import ImportTokenWarningModal from './components/ImportTokenWarningModal'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { useCurrency, useAllTokens } from '../../hooks/Tokens'
@@ -39,6 +46,8 @@ import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useAppro
 import { useSwapCallback } from '../../hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from '../../hooks/useWrapCallback'
 import { Field } from '../../state/limitorders/actions'
+import { AutoRow, RowBetween } from '../../components/Layout/Row'
+import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
 import {
   useDefaultsFromURLSearch,
   useDerivedSwapInfo,
@@ -64,6 +73,7 @@ import {
 } from './styles';
 import { TVChartContainer } from './TradingView/TVChartContainer'
 import { CustomWalletConnectButton, CustomWalletConnectedButton } from './TradingView/CustomWalletConnectButton'
+import AdvancedSwapDetailsDropdown from './components/AdvancedSwapDetailsDropdown'
 import { sPairapiLink, sOrderapiLink, sTradeapiLink, toEth } from './TradingView/Constants';
 
 const StyledInput = styled.input`
@@ -260,7 +270,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   }, [priceImpactWithoutFee, swapCallback, tradeToConfirm, t])
 
   // errors
-  const [showInverted, setShowInverted] = useState<boolean>(false)
+  const [showInverted, setShowInverted] = useState<boolean>(true)
 
   // warnings on slippage
   const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
@@ -386,41 +396,51 @@ export default function LimitOrders({ history }: RouteComponentProps) {
       setIsapproved(false);
   }, [currencies[Field.INPUT]])
 
+  
   const [corderid, setCorderid] = useState(-1);
-  useEffect(() => {
-    async function loadData() {
-      const res = await axios.get(`${sOrderapiLink}/getorders?owner=`.concat(account));
-      // console.log("get order call === ", res.data);
-      const arr = [];
-      // for (let i = 0; i < res.data.length; i++) {
-      //   arr.push(<tr>
-      //     <Td>{defaultTokens[res.data[i].fromtoken].symbol}</Td>
-      //     <Td>{defaultTokens[res.data[i].totoken].symbol}</Td>
-      //     <Td>{new BigNumber(res.data[i].amount).dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].data.fromtoken].decimals)).toString()}</Td>
-      //     <Td>{new BigNumber(res.data[i].price).dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].data.totoken].decimals)).toString()}</Td>
-      //     <Td><Button onClick={async () => {
-      //       try {
-      //         if (res.data[i].data.fromtoken === "0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED") {
-      //           const tx = await orderbookcontract.cancelETHorder(res.data[i].data.id);
-      //           const receipt = await tx.wait();
-      //         }
-      //         else {
-      //           const tx = await orderbookcontract.cancelTokenorder(res.data[i].data.id);
-      //           const receipt = await tx.wait();
-      //         }
-      //         const resp = await axios.get(`${sOrderapiLink}/cancelorder?owner=`.concat(account).concat('&id=').concat(res.data[i].data.id))
-      //         console.log("resp.data: ", resp.data)
-      //       }
-      //       catch (err) {
-      //         console.log(err)
-      //       }
-      //     }} scale="xs">Cancel</Button></Td>
-      //   </tr>)
-      // }
+  useEffect(()=>{
+    async function loadData()
+    {
+      const res=await axios.get("https://sgborder.herokuapp.com/getorders?owner=".concat(account))
+      const arr=[];
+      for(let i=0;i<res.data.length;i++)
+      {
+        
+        arr.push( <tr>
+          <Td>{defaultTokens[res.data[i].data.fromtoken].symbol}</Td>
+          <Td>{defaultTokens[res.data[i].data.totoken].symbol}</Td>
+          <Td>{new BigNumber(res.data[i].data.amount).dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].data.fromtoken].decimals)).toString()}</Td>
+          <Td>{new BigNumber(res.data[i].data.price).dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].data.totoken].decimals)).toString()}</Td>
+          <Td><Button onClick={async ()=>{
+            try{
+              if(res.data[i].data.fromtoken==="0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED")
+              {
+                const tx=await orderbookcontract.cancelETHorder(res.data[i].data.id);
+                const receipt=await tx.wait();
+              }
+              else
+              {
+                const tx=await orderbookcontract.cancelTokenorder(res.data[i].data.id);
+                const receipt=await tx.wait();
+              }
+            const resp=await axios.get("https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].data.id))
+            console.log(resp.data)
+            
+            }
+            catch(err)
+            {
+              console.log(err)
+            }
+          }} scale="xs">Cancel</Button></Td>
+        </tr>)
+      }
       setOrderlist(arr)
     }
     loadData();
-  }, [account, corderid])
+  },[account,corderid])
+
+
+  
 
   const [pairSymbol, setPairSymbol] = useState("WSGB/CANARY");
   const default_ticker = { ticker: { price: '0', change: '0(0%)', volume: '0', low: '0', high: '0' }, buy: [], sell: [], trades: [] }
@@ -587,7 +607,8 @@ export default function LimitOrders({ history }: RouteComponentProps) {
           </ChartContainer>
           <HistoryPanel>
             <ChartArea>
-              <HistoryTab>
+           
+<HistoryTab>
                 <div className={historyTabOpenOrder ? 'active' : ''} onClick={() => setHistoryTabOpenOrder(true)}>Open Orders</div>
                 <div className={historyTabOpenOrder ? '' : 'active'} onClick={() => setHistoryTabOpenOrder(false)}>Order History</div>
               </HistoryTab>
@@ -603,6 +624,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     </tr>
                   </thead>
                   <tbody>
+                  
                     {historyTabOpenOrder && ownerOrders.map((orderItem, index) => (
                       !orderItem.cancelled && <tr key={index}>
                         <td>{orderItem.from_symbol}</td>
@@ -612,7 +634,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                         <td>...</td>
                       </tr>
                     ))}
-                    {!historyTabOpenOrder && ownerOrders.map((orderItem, index) => (
+                      {!historyTabOpenOrder && ownerOrders.map((orderItem, index) => (
                       orderItem.cancelled && <tr key={index}>
                         <td>{orderItem.from_symbol}</td>
                         <td>{orderItem.to_symbol}</td>
@@ -675,6 +697,9 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     otherCurrency={currencies[Field.OUTPUT]}
                     id="swap-currency-input"
                   />
+
+                   
+
                   <CurrencyInputPanelCustom2
                     value={formattedAmounts[Field.OUTPUT]}
                     onUserInput={handleTypeOutput}
@@ -685,20 +710,76 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     otherCurrency={currencies[Field.INPUT]}
                     id="swap-currency-output"
                   />
-                </AutoColumn>
+
+                    
+
+                    {isExpertMode && recipient !== null && !showWrap ? (
+                      <>
+                        <AutoRow justify="space-between" style={{ padding: '0 1rem' }}>
+                          <ArrowWrapper clickable={false}>
+                            <ArrowDownIcon width="16px" />
+                          </ArrowWrapper>
+                          <Button variant="text" id="remove-recipient-button" onClick={() => onChangeRecipient(null)}>
+                            {t('- Remove send')}
+                          </Button>
+                        </AutoRow>
+                        <AddressInputPanel id="recipient" value={recipient} onChange={onChangeRecipient} />
+                      </>
+                    ) : null}
+
+                    {showWrap ? null : (
+                      <AutoColumn gap="8px" style={{ padding: '0 16px' }}>
+
+                        {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
+                          <RowBetween align="center">
+                            <Label>{t('Slippage Tolerance')}</Label>
+                            <Text bold color="primary">
+                              {allowedSlippage / 100}%
+                            </Text>
+                          </RowBetween>
+                        )}
+                      </AutoColumn>
+                    )}
+ </AutoColumn>
+
+ <Box mt="1rem" style={{ paddingTop: 24 }}>
+                  <Flex width="100%" justifyContent="space-between" position="relative">
+                    
+                  </Flex>
+ <TextCustom>Price:</TextCustom>
+                          < TradePrice
+                            price={trade?.executionPrice}
+                            setShowInverted={setShowInverted}
+                            showInverted={showInverted}
+                          />
+                   </Box>
+             
+
+
                 <Box mt="1rem" style={{ paddingTop: 24 }}>
                   <Flex width="100%" justifyContent="space-between" position="relative">
                     <PriceDiv>
-                      <TextCustom>Price:</TextCustom>
-                      <img src='/images1/icons/icon-price.svg' alt='PriceIcon' />
+                      <TextCustom>Total Price:</TextCustom>
+                       <img src='/images1/icons/icon-price.svg' alt='PriceIcon'
+                            width="16px"
+                            onClick={() => {
+                              setApprovalSubmitted(false) // reset 2 step UI for approvals
+                              onSwitchTokens()
+                            }}
+                            color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? 'primary' : 'text'}
+                          />
+                    
+             
                     </PriceDiv>
                     <MarketButton onClick={() => {
                       selectedPrice.current.value = (formattedAmounts[Field.OUTPUT])
                     }} scale='xs'>MARKET</MarketButton>
+
+                    
                   </Flex>
                   <PriceInput
                     
-                    placeholder='Set your price: 0'
+                    placeholder='Set total price: 0'
                     ref={selectedPrice}
                     onChange={async e => {
                       if (e.target.value > formattedAmounts[Field.OUTPUT]) {
@@ -720,6 +801,20 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     }}
                   />
                 </Box>
+
+                    <AutoColumn justify="space-between">
+                      <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 1rem' }}>
+                      
+                        {recipient === null && !showWrap && isExpertMode ? (
+                          <Button variant="text" id="add-recipient-button" onClick={() => onChangeRecipient('')}>
+                            {t('+ Add a send (optional)')}
+                          </Button>
+                        ) : null}
+                      </AutoRow>
+                    </AutoColumn>
+
+
+
                 <Box mt="1rem">
                   {swapIsUnsupported ? (
                     <CustomOrderButton width="100%" disabled mb="4px">
@@ -756,23 +851,27 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                           let tx;
                           const counter = await orderbookcontract.orderCounter()
                           console.log(counter)
-                          try {
-                            if (address0 === "SGB") {
-                              url = `${sOrderapiLink}/placeorder?id=`.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1).concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
-                              console.log(0, url)
-                              tx = await orderbookcontract.placeETHorder(address1, new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString(), new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString(), { value: new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString() })
-                            }
-                            else if (address1 === "SGB") {
-                              url = `${sOrderapiLink}/placeorder?id=`.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
-                              console.log(1, url)
-                              tx = await orderbookcontract.placeTokenorder(address0, "0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED", new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString(), new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString())
-                            }
-                            else {
-                              url = `${sOrderapiLink}/placeorder?id=`.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1).concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
-                              console.log(2, url)
-                              const con = getBep20Contract(address0, library.getSigner());
-                              tx = await orderbookcontract.placeTokenorder(address0, address1, new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString(), new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString())
-                            }
+                            try {
+                              if (address0 === "SGB") {
+                                url = 'https://sgborder.herokuapp.com/placeorder?id='.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1).concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
+                                console.log(0, url)
+                                tx = await orderbookcontract.placeETHorder(address1, new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString(), new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString(), { value: new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString() })
+                              }
+                              else if (address1 === "SGB") {
+
+                                url = 'https://sgborder.herokuapp.com/placeorder?id='.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
+                                console.log(1, url)
+
+                                tx = await orderbookcontract.placeTokenorder(address0, "0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED", new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString(), new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString())
+                              }
+                              else {
+                                url = 'https://sgborder.herokuapp.com/placeorder?id='.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1).concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
+                                console.log(2, url)
+                                const con = getBep20Contract(address0, library.getSigner());
+
+
+                                tx = await orderbookcontract.placeTokenorder(address0, address1, new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString(), new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString())
+                              }
                             const receipt = await tx.wait()
                             console.log(receipt)
                             const res = await axios.get(url, {})
@@ -824,6 +923,17 @@ export default function LimitOrders({ history }: RouteComponentProps) {
 
                   {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
                 </Box>
+               
+
+
+                <div className='header'> {!swapIsUnsupported ? (
+                trade && <AdvancedSwapDetailsDropdown trade={trade} />
+              ) : (
+                <UnsupportedCurrencyFooter currencies={[currencies.INPUT, currencies.OUTPUT]} />
+              )}
+              </div>
+
+
               </ActionPart>
             </ActionContent>
           </ActionArea>

@@ -28,7 +28,7 @@ export const LimitContainer = styled.div`
 export const ChartPanel = styled.div`
   display: flex;
   flex-direction: column;
-  width: 94%;
+  width: 80%;
 `
 export const TicketContainer = styled.div`
   display: flex;
@@ -142,7 +142,7 @@ export const PriceItem = styled.div`
   }
   & > .value {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 400;
     color: #8C8D91;
     line-height: 16px;
   }
@@ -155,13 +155,14 @@ export const ChartContainer = styled.div`
 `
 export const ChartArea = styled.div`
   height: 100%;
-  width: 79%;
+  width: 75%;
   padding: 7px;
 `
 export const TradeArea = styled.div`
   height: 100%;
-  width: 21.5%;
+  width: 25%;
   padding: 7px;
+  
 `
 export const OrderBookArea = styled.div`
   border: 1px solid #D8DCE1;
@@ -221,9 +222,12 @@ export const OrderBookPart = styled.div`
 `
 export const HistoryPanel = styled.div`
   width: 100%;
-  height: 320px;
+  height: 450px;
   // padding-right: 10px;
   display: flex;
+  white-space: nowrap;
+  overflow-y: hidden;
+
 `
 export const HistoryTab = styled.div`
   width: 100%;
@@ -232,7 +236,9 @@ export const HistoryTab = styled.div`
   & > div {
     flex: 1;
     background: #F5F5F5;
-    border: 1px solid #D8DCE1;
+    border-left: 1px solid #ececec;
+    border-right: 1px solid #ececec;
+    border-top: 1px solid #ececec;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -251,15 +257,21 @@ export const HistoryTab = styled.div`
 `
 export const HistoryTable = styled.div`
   height: 100%;
-  padding-top: 7px;
+ 
   border-radius: 2px;
   & > table {
       width: 100%;
+      background: #FFFFFF;
+      height: 250px;
+     
+
       & > thead > tr {
-      height: 31px;
+      height: 50px;
       display: flex;
-      background: #F5F5F5;
-      border: 1px solid #D8DCE1;
+      background: #FFFFFF;
+      border-bottom: 1px solid #ececec;
+      border-left: 1px solid #ececec;
+      border-right: 1px solid #ececec;
       justify-content: space-around;
       align-items: center;
       font-style: normal;
@@ -268,24 +280,33 @@ export const HistoryTable = styled.div`
       line-height: 16px;
       text-transform: uppercase;
       color: #969696;
+      overflow: hidden;
+      overflow-y: scroll;
+        
     }
     & > tbody {
       background: #FFFFFF;
       height: 220px;
-      border: 1px solid #D8DCE1;
-      overflow-y: auto;
-      & > tr {
+      border-left: 1px solid # #ececec;
+      border-right: 1px solid #ececec;
+      border-bottom: 1px solid #ececec;
+     & > tr {
         width: 100%;
+        background: #FFFFFF;
         padding: 7px 0;
         display: flex;
         justify-content: space-around;
-        align-items: center;
+        align-items: left;
         font-style: normal;
         font-weight: 500;
         font-size: 12px;
-        line-height: 16px;
-        text-transform: uppercase;
+        white-space: nowrap;
+        
         color: #969696;
+        height: 20px;
+        font-weight: 400;
+        line-height: 13px;
+        overflow-y: scroll;
       }
     }
 `
@@ -425,6 +446,7 @@ export const PriceInput = styled.input`
   font-size: 12px;
   line-height: 12px;
   letter-spacing: 0.36px;
+  justify-content: right;
 `
 export const CustomOrderButton = styled(Button)`
   height: 38px;

@@ -18,21 +18,21 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
 
   return (
-    <AutoColumn style={{ padding: '0 16px' }}>
+    <AutoColumn style={{ padding: '16px 16px', border:'1px solid #D8DCE1' }}>
       <RowBetween>
         <RowFixed>
-          <Text fontSize="14px" color="textSubtle">
+          <Text fontSize="12px" color="textSubtle">
             {isExactIn ? t('Minimum received') : t('Maximum sold')}
           </Text>
           <QuestionHelper
             text={t(
               'Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.',
             )}
-            ml="4px"
+           
           />
         </RowFixed>
         <RowFixed>
-          <Text fontSize="14px">
+          <Text fontSize="12px">
             {isExactIn
               ? `${slippageAdjustedAmounts[Field.OUTPUT]?.toSignificant(4)} ${trade.outputAmount.currency.symbol}` ??
                 '-'
@@ -42,11 +42,11 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
       </RowBetween>
       <RowBetween>
         <RowFixed>
-          <Text fontSize="14px" color="textSubtle">
+          <Text fontSize="12px" color="textSubtle">
             {t('Price Impact')}
           </Text>
           <QuestionHelper
-            text={t('The difference between the market price and estimated price due to trade size.')}
+            text ={t('The difference between the market price and estimated price due to trade size.')}
             ml="4px"
           />
         </RowFixed>
@@ -55,7 +55,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
 
       <RowBetween>
         <RowFixed>
-          <Text fontSize="14px" color="textSubtle">
+          <Text fontSize="12px" color="textSubtle">
             {t('Liquidity Provider Fee')}
           </Text>
           <QuestionHelper
@@ -70,7 +70,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
             ml="4px"
           />
         </RowFixed>
-        <Text fontSize="14px">
+        <Text fontSize="12px">
           {realizedLPFee ? `${realizedLPFee.toSignificant(4)} ${trade.inputAmount.currency.symbol}` : '-'}
         </Text>
       </RowBetween>
@@ -97,7 +97,7 @@ export function AdvancedSwapDetails({ trade }: AdvancedSwapDetailsProps) {
             <>
               <RowBetween style={{ padding: '0 16px' }}>
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  <Text fontSize="14px" color="textSubtle">
+                  <Text fontSize="12px" color="textSubtle">
                     {t('Route')}
                   </Text>
                   <QuestionHelper

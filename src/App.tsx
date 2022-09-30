@@ -24,7 +24,7 @@ import history from './routerHistory'
 // Views included in the main bundle
 import Pools from './views/Pools'
 import Swap from './views/Swap'
-import LimitOrders from './views/LimitOrders'
+import LimitOrders from './views/LimitOrders/index'
 import {
   RedirectDuplicateTokenIds,
   RedirectOldAddLiquidityPathStructure,
