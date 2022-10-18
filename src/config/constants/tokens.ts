@@ -239,7 +239,7 @@ export const mainnetTokens = {
   ),
   syrup: new Token(
     MAINNET,
-    '0x91A46Fbf7D7a41f296457c937C782113078700b0',
+    '0xA48f6Ff9FB963A09AFcbf289a555a51C9B13F95B',
     18,
     'CRT',
     'CANARY Reward Token',

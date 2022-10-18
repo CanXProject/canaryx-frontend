@@ -26,7 +26,7 @@ const ChartButton = styled(Button)`
   border-radius: 2px;
 `
 
-const PriceChart = ({
+const TokenChart = ({
   inputCurrency,
   outputCurrency,
   onSwitchTokens,
@@ -45,7 +45,7 @@ const PriceChart = ({
   setChartView(ChartViewMode.BASIC);
   return (
     <StyledPriceChart
-      height={chartView === ChartViewMode.TRADING_VIEW ? '100%' : '100%'}
+      height={chartView === ChartViewMode.TRADING_VIEW ? '100%' : '70%'}
       overflow={chartView === ChartViewMode.TRADING_VIEW ? 'hidden' : 'unset'}
       $isDark={isDark}
       $isExpanded={isChartExpanded}
@@ -76,18 +76,10 @@ const PriceChart = ({
         )}
       </Flex>
       
-      <BasicChart
-          token0Address={token0Address}
-          token1Address={token1Address}
-          isChartExpanded={isChartExpanded}
-          inputCurrency={inputCurrency}
-          outputCurrency={outputCurrency}
-          isMobile={isMobile}
-          currentSwapPrice={currentSwapPrice}
-        />
+   
       
     </StyledPriceChart>
   )
 }
 
-export default PriceChart
+export default TokenChart

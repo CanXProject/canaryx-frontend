@@ -12,7 +12,7 @@ export const StyledPriceChart = styled(Box)<{ $isDark: boolean; $isExpanded: boo
     border: ${({ theme }) => `1px solid ${theme.colors.cardBorder}`};
     border-radius: ${({ $isExpanded }) => ($isExpanded ? '0' : '2px')};
     width: "100%";
-    height: ${({ $isExpanded }) => ($isExpanded ? 'calc(100vh - 100px)' : '484px')};
+    height: ${({ $isExpanded }) => ($isExpanded ? 'calc(100vh - 100px)' : '502px')};
   }
 `
 

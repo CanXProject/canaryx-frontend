@@ -16,6 +16,8 @@ import {
   Th,
   useMatchBreakpoints,
   Td,
+  ButtonMenu,
+  ButtonMenuItem,
 } from '@pancakeswap/uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import LimitOrderTable from './components/LimitOrderTable'
@@ -75,6 +77,19 @@ import { TVChartContainer } from './TradingView/TVChartContainer'
 import { CustomWalletConnectButton, CustomWalletConnectedButton } from './TradingView/CustomWalletConnectButton'
 import AdvancedSwapDetailsDropdown from './components/AdvancedSwapDetailsDropdown'
 import { sPairapiLink, sOrderapiLink, sTradeapiLink, toEth } from './TradingView/Constants';
+import useTheme from 'hooks/useTheme'
+
+const TableWrapper = styled.div`
+  & > div {
+    width: 100%;
+    background-color: ${({ theme }) => theme.colors.input};
+    border: 0;
+  }
+  & button {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+`
 
 const StyledInput = styled.input`
   color: ${({ theme }) => (theme.colors.text)};
@@ -308,7 +323,14 @@ export default function LimitOrders({ history }: RouteComponentProps) {
     return Boolean(isWarningToken)
   }
   const [orderlist, setOrderlist] = useState([])
+  const [corderlist, setCOrderlist] = useState([])
 
+  
+const [index, setIndex] = useState(0);
+const handleClick = (newIndex) => setIndex(newIndex);
+const { theme } = useTheme()
+
+  
   useEffect(() => {
     if (swapWarningCurrency) {
       onPresentSwapWarningModal()
@@ -401,8 +423,29 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   useEffect(()=>{
     async function loadData()
     {
-      const res=await axios.get("https://sgborder.herokuapp.com/getorders?owner=".concat(account))
+      const currency0=currencies[Field.INPUT];
+                          const address0=(currency0 instanceof Token ? currency0.address : currency0 === ETHER ? 'SGB' : '')
+                          const currency1=currencies[Field.OUTPUT];
+                          const address1=(currency1 instanceof Token ? currency1.address : currency1 === ETHER ? 'SGB' : '')
+                          let url="";
+                          if(address0==="SGB")
+                          {
+                            url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1);
+
+                          }
+                          else if(address0==="SGB")
+                          {
+                            url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED');
+                          }
+                          else
+                          {
+                            url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1);
+                          }
+                          console.log(url)
+      const res=await axios.get(url)
+      const res2=await axios.get(url.replace("getorders","getcorders"))
       const arr=[];
+      const arr2=[];
       for(let i=0;i<res.data.length;i++)
       {
         
@@ -423,9 +466,24 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                 const tx=await orderbookcontract.cancelTokenorder(res.data[i].data.id);
                 const receipt=await tx.wait();
               }
-            const resp=await axios.get("https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].data.id))
+              let url2="";
+              if(address0==="SGB")
+                          {
+                            url2="https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].data.id).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1);
+
+                          }
+                          else if(address0==="SGB")
+                          {
+                            url2="https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].data.id).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED');
+                          }
+                          else
+                          {
+                            url2="https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].data.id).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1);
+                          }
+
+            const resp=await axios.get(url2)
             console.log(resp.data)
-            
+            setCorderid(corderid-1);
             }
             catch(err)
             {
@@ -435,9 +493,21 @@ export default function LimitOrders({ history }: RouteComponentProps) {
         </tr>)
       }
       setOrderlist(arr)
+      for(let i=0;i<res2.data.length;i++)
+      {
+        
+        arr2.push( <tr>
+          <Td>{defaultTokens[res2.data[i].data.fromtoken].symbol}</Td>
+          <Td>{defaultTokens[res2.data[i].data.totoken].symbol}</Td>
+          <Td>{new BigNumber(res2.data[i].data.amount).dividedBy(BIG_TEN.pow(defaultTokens[res2.data[i].data.fromtoken].decimals)).toString()}</Td>
+          <Td>{new BigNumber(res2.data[i].data.price).dividedBy(BIG_TEN.pow(defaultTokens[res2.data[i].data.totoken].decimals)).toString()}</Td>
+          
+        </tr>)
+      }
+      setCOrderlist(arr2)
     }
     loadData();
-  },[account,corderid])
+  },[account,corderid,currencies[Field.INPUT],currencies[Field.OUTPUT]])
 
 
   
@@ -459,7 +529,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   }, [currencies[Field.INPUT], currencies[Field.OUTPUT]]);
 
   useEffect(() => {
-    axios.get(`https://sgbtrade.herokuapp.com/ticker?symbol=${pairSymbol}`)
+    axios.get(`${sTradeapiLink}/ticker?symbol=${pairSymbol}`)
       .then(res => {
         setTicker(res.data);
         setPriceRangeLabelPosition(res.data);
@@ -468,7 +538,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
         console.log("ticker api error: ", err.message)
       })
     const interval = setInterval(() => {
-      axios.get(`https://sgbtrade.herokuapp.com/ticker?symbol=${pairSymbol}`)
+      axios.get(`${sTradeapiLink}/ticker?symbol=${pairSymbol}`)
         .then(res => {
           setTicker(res.data);
           setPriceRangeLabelPosition(res.data);
@@ -521,9 +591,12 @@ export default function LimitOrders({ history }: RouteComponentProps) {
     }
   }
 
+
+  
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded} style={{ padding: 0 }}>
       <LimitContainer>
+        
         <ChartPanel>
           <TicketContainer>
             <PairPanel>
@@ -564,13 +637,40 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                 </RangeItem>
 
 
+
+
+
+
               </PriceContainer>
             </PricePanel>
           </TicketContainer>
           <ChartContainer>
+
+  {/* TRADINGVIEW CHART */}
+  
+
             <ChartArea>
               <TVChartContainer symbol={pairSymbol} />
-            </ChartArea>
+            </ChartArea> 
+
+
+  {/* SIMPLE CHART */}
+
+        {/* <ChartArea>
+            <PriceChartContainer
+             inputCurrencyId={inputCurrencyId}
+             inputCurrency={currencies[Field.INPUT]}
+             outputCurrencyId={outputCurrencyId}
+             outputCurrency={currencies[Field.OUTPUT]}
+             isChartExpanded={isChartExpanded}
+             setIsChartExpanded={setIsChartExpanded}
+             isChartDisplayed={isChartDisplayed}
+             currentSwapPrice={singleTokenPrice}/>
+            </ChartArea> */}
+
+
+  {/* ORDERBOOK */}
+
             <TradeArea>
               <OrderBookArea>
                 <OrderBookPart>
@@ -591,7 +691,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                   </div>
                 </OrderBookPart>
                 <OrderBookPart>
-                  <div className='header'></div>
+                  <div className='header'>Price: {ticker?.ticker.price}</div>
                   <div className='trades-value'>
                     {ticker?.buy.map((item, _index) => (
                       <div className='column' key={_index}>
@@ -604,49 +704,73 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                 </OrderBookPart>
               </OrderBookArea>
             </TradeArea>
+   {/* END OF ORDERBOOK */}
+
+
           </ChartContainer>
-          <HistoryPanel>
-            <ChartArea>
-           
-<HistoryTab>
-                <div className={historyTabOpenOrder ? 'active' : ''} onClick={() => setHistoryTabOpenOrder(true)}>Open Orders</div>
-                <div className={historyTabOpenOrder ? '' : 'active'} onClick={() => setHistoryTabOpenOrder(false)}>Order History</div>
-              </HistoryTab>
-              <HistoryTable>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>FROM</th>
-                      <th>TO</th>
-                      <th>AMOUNT</th>
-                      <th>LIMIT PRICE</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  
-                    {historyTabOpenOrder && ownerOrders.map((orderItem, index) => (
-                      !orderItem.cancelled && <tr key={index}>
-                        <td>{orderItem.from_symbol}</td>
-                        <td>{orderItem.to_symbol}</td>
-                        <td>{toEth(orderItem.amount)}</td>
-                        <td>{toEth(orderItem.price)}</td>
-                        <td>...</td>
-                      </tr>
-                    ))}
-                      {!historyTabOpenOrder && ownerOrders.map((orderItem, index) => (
-                      orderItem.cancelled && <tr key={index}>
-                        <td>{orderItem.from_symbol}</td>
-                        <td>{orderItem.to_symbol}</td>
-                        <td>{toEth(orderItem.amount)}</td>
-                        <td>{toEth(orderItem.price)}</td>
-                        <td>...</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </HistoryTable>
-            </ChartArea>
+      
+
+
+    {/* HISTORY */}  
+      <HistoryPanel>
+      <ChartArea>
+         
+      <Flex flex="1" justifyContent="center" mb="24px">
+      <Card style={{ width: '100%', height: 'max-content' }}>
+      <TableWrapper>
+      
+      <ButtonMenu activeIndex={index} onItemClick={handleClick}>
+        <ButtonMenuItem style={{
+            color: index === 0 ? theme.colors.text : theme.colors.textSubtle,
+            backgroundColor: index===0 ? theme.card.background : theme.colors.input,
+          }}>Open Orders</ButtonMenuItem>
+        <ButtonMenuItem style={{
+            color: index===1 ? theme.colors.text : theme.colors.textSubtle,
+            backgroundColor:  index===1 ? theme.card.background : theme.colors.input,
+          }}>Order History</ButtonMenuItem>
+      </ButtonMenu>
+  
+  </TableWrapper>
+      <Flex justifyContent="center">
+      <Box ml="auto" mr="auto" width="90%">
+        <Table>
+              <thead>
+    <tr>
+      <Th>
+      <Text fontSize="12px" bold textTransform="uppercase" color="textSubtle" textAlign="left">
+        FROM
+        </Text>
+      </Th>
+      <Th>
+      <Text fontSize="12px" bold textTransform="uppercase" color="textSubtle" textAlign="left">
+        TO
+        </Text>
+      </Th>
+      <Th><Text fontSize="12px" bold textTransform="uppercase" color="textSubtle" textAlign="left">
+        AMOUNT
+        </Text></Th>
+      <Th><Text fontSize="12px" bold textTransform="uppercase" color="textSubtle" textAlign="left">
+        LIMIT PRICE
+        </Text></Th>
+      <Th>{"".concat("")}</Th>
+      </tr>
+      </thead>
+      <tbody>
+                
+      {index===0?orderlist:corderlist}
+      </tbody>
+     </Table>
+     
+ {/* END OF HISTORY */}  
+
+     </Box>
+     </Flex>
+     </Card>
+     </Flex>
+
+  </ChartArea>
+
+ {/* COMPLETED TRADES */}   
             <TradeArea>
               <OrderBookArea>
                 <TradeBook>
@@ -668,10 +792,13 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                 </TradeBook>
               </OrderBookArea>
             </TradeArea>
-          </HistoryPanel>
-        </ChartPanel>
 
-        <ActionPanel>
+
+
+    </HistoryPanel>
+    </ChartPanel>
+
+     <ActionPanel>
           <div className='walletBtn'>
             {account ? <CustomWalletConnectedButton /> : <CustomWalletConnectButton />}
           </div>
