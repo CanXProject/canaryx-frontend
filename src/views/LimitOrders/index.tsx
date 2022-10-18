@@ -459,7 +459,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   }, [currencies[Field.INPUT], currencies[Field.OUTPUT]]);
 
   useEffect(() => {
-    axios.get(`${sTradeapiLink}/ticker?symbol=${pairSymbol}`)
+    axios.get(`https://sgbtrade.herokuapp.com/ticker?symbol=${pairSymbol}`)
       .then(res => {
         setTicker(res.data);
         setPriceRangeLabelPosition(res.data);
@@ -468,7 +468,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
         console.log("ticker api error: ", err.message)
       })
     const interval = setInterval(() => {
-      axios.get(`${sTradeapiLink}/ticker?symbol=${pairSymbol}`)
+      axios.get(`https://sgbtrade.herokuapp.com/ticker?symbol=${pairSymbol}`)
         .then(res => {
           setTicker(res.data);
           setPriceRangeLabelPosition(res.data);
