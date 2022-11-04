@@ -77,7 +77,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
         ...tokenMap,
         [token.chainId]: {
           ...tokenMap[token.chainId],
-          [token.address]: {
+          [token.address.toLowerCase()]: {
             token,
             list,
           },
@@ -121,6 +121,7 @@ function useCombinedTokenMapFromUrls(urls: string[] | undefined): TokenAddressMa
         // sort by priority so top priority goes last
         .sort(sortByListPriority)
         .reduce((allTokens, currentUrl) => {
+          console.log('lalal', currentUrl);
           const current = lists[currentUrl]?.current
           if (!current) return allTokens
           try {

@@ -430,30 +430,45 @@ const { theme } = useTheme()
                           let url="";
                           if(address0==="SGB")
                           {
-                            url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1);
+                            url=`${sOrderapiLink}/getorders?owner=`.concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f').concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1);
+                            // url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1);
 
                           }
                           else if(address0==="SGB")
                           {
-                            url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED');
+                            url=`${sOrderapiLink}/getorders?owner=`.concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f').concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED');
+                            // url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED');
                           }
                           else
                           {
-                            url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1);
+                            url=`${sOrderapiLink}/getorders?owner=`.concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f').concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1);
+                            // url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1);
                           }
                           console.log(url)
       const res=await axios.get(url)
-      const res2=await axios.get(url.replace("getorders","getcorders"))
+      const res2=await axios.get(url.replace("getorders","getorders"))
       const arr=[];
       const arr2=[];
+      console.log('default tokens', defaultTokens);
       for(let i=0;i<res.data.length;i++)
       {
-        
+        if (!defaultTokens[res.data[i].fromtoken]) {
+          // console.log('token not recognized', res.data[i].fromtoken);
+          continue;
+        }
+        // else {
+        //   console.log('found from', defaultTokens[res.data[i].fromtoken])
+        //   console.log('found to', defaultTokens[res.data[i].totoken])
+        // }
         arr.push( <tr>
-          <Td>{defaultTokens[res.data[i].data.fromtoken].symbol}</Td>
-          <Td>{defaultTokens[res.data[i].data.totoken].symbol}</Td>
-          <Td>{new BigNumber(res.data[i].data.amount).dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].data.fromtoken].decimals)).toString()}</Td>
-          <Td>{new BigNumber(res.data[i].data.price).dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].data.totoken].decimals)).toString()}</Td>
+          <Td>{defaultTokens[res.data[i].fromtoken].symbol}</Td>
+          {/*<Td>{res.data[i].from_symbol}</Td>*/}
+          <Td>{defaultTokens[res.data[i].totoken].symbol}</Td>
+          {/*<Td>{res.data[i].to_symbol}</Td>*/}
+          {/*<Td>{new BigNumber(res.data[i].amount).dividedBy(BIG_TEN.pow(18)).toString()}</Td>*/}
+          <Td>{new BigNumber(res.data[i].amount).dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].fromtoken].decimals)).toString()}</Td>
+          {/*<Td>{new BigNumber(res.data[i].price).dividedBy(BIG_TEN.pow(18)).toString()}</Td>*/}
+          <Td>{new BigNumber(res.data[i].price).dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].totoken].decimals)).toString()}</Td>
           <Td><Button onClick={async ()=>{
             try{
               if(res.data[i].data.fromtoken==="0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED")
@@ -469,16 +484,16 @@ const { theme } = useTheme()
               let url2="";
               if(address0==="SGB")
                           {
-                            url2="https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].data.id).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1);
+                            url2="https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].id).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1);
 
                           }
                           else if(address0==="SGB")
                           {
-                            url2="https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].data.id).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED');
+                            url2="https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].id).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED');
                           }
                           else
                           {
-                            url2="https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].data.id).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1);
+                            url2="https://sgborder.herokuapp.com/cancelorder?owner=".concat(account).concat('&id=').concat(res.data[i].id).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1);
                           }
 
             const resp=await axios.get(url2)
@@ -495,12 +510,19 @@ const { theme } = useTheme()
       setOrderlist(arr)
       for(let i=0;i<res2.data.length;i++)
       {
-        
+        if (!defaultTokens[res2.data[i].fromtoken]) {
+          // console.log('token not recognized', res2.data[i].fromtoken);
+          continue;
+        }
+        // else {
+        //   console.log('found from', defaultTokens[res2.data[i].fromtoken])
+        //   console.log('found to', defaultTokens[res2.data[i].totoken])
+        // }
         arr2.push( <tr>
-          <Td>{defaultTokens[res2.data[i].data.fromtoken].symbol}</Td>
-          <Td>{defaultTokens[res2.data[i].data.totoken].symbol}</Td>
-          <Td>{new BigNumber(res2.data[i].data.amount).dividedBy(BIG_TEN.pow(defaultTokens[res2.data[i].data.fromtoken].decimals)).toString()}</Td>
-          <Td>{new BigNumber(res2.data[i].data.price).dividedBy(BIG_TEN.pow(defaultTokens[res2.data[i].data.totoken].decimals)).toString()}</Td>
+          <Td>{defaultTokens[res2.data[i].fromtoken].symbol}</Td>
+          <Td>{defaultTokens[res2.data[i].totoken].symbol}</Td>
+          <Td>{new BigNumber(res2.data[i].amount).dividedBy(BIG_TEN.pow(defaultTokens[res2.data[i].fromtoken].decimals)).toString()}</Td>
+          <Td>{new BigNumber(res2.data[i].price).dividedBy(BIG_TEN.pow(defaultTokens[res2.data[i].totoken].decimals)).toString()}</Td>
           
         </tr>)
       }
@@ -553,7 +575,7 @@ const { theme } = useTheme()
   const [ownerOrders, setOwnerOrders] = useState([]);
   useEffect(() => {
     if (!account) return;
-    axios.get(`${sOrderapiLink}/getorders?owner=`.concat(account)).then(res => {
+    axios.get(`${sOrderapiLink}/getorders?owner=`.concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f')).then(res => {
       console.log("get order: ", res.data);
       setOwnerOrders(res.data);
     }).catch(e => {
