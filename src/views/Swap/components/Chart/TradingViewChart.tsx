@@ -1,5 +1,5 @@
-import { Currency } from '@pancakeswap/sdk'
-import { Box, BunnyPlaceholderIcon, Flex, Text } from '@pancakeswap/uikit'
+import { Currency } from 'canaryx-sdk'
+import { Box, BunnyPlaceholderIcon, Flex, Text } from 'canaryx-uikit'
 import TradingView, { useTradingViewEvent } from 'components/TradingView'
 import { useTranslation } from 'contexts/Localization'
 import useDebounce from 'hooks/useDebounce'

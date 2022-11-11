@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { CurrencyAmount, ETHER, JSBI, Token, Trade } from '@pancakeswap/sdk'
+import { CurrencyAmount, ETHER, JSBI, Token, Trade } from 'canaryx-sdk'
 import AddressInputPanel from './components/AddressInputPanel'
 import { ArrowWrapper, SwapCallbackError, Wrapper } from './components/styleds'
 import {
@@ -18,7 +18,7 @@ import {
   Td,
   ButtonMenu,
   ButtonMenuItem,
-} from '@pancakeswap/uikit'
+} from 'canaryx-uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import LimitOrderTable from './components/LimitOrderTable'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
