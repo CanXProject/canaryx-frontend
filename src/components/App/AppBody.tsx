@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Card } from '@pancakeswap/uikit'
+import { Card } from 'canaryx-uikit'
 
 export const BodyWrapper = styled(Card)`
   border-radius: 4px;

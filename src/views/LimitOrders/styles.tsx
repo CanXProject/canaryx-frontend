@@ -1,4 +1,4 @@
-import { Box, Flex, Button } from '@pancakeswap/uikit'
+import { Box, Flex, Button } from 'canaryx-uikit'
 import styled from 'styled-components'
 
 export const StyledSwapContainer = styled(Flex)<{ $isChartExpanded: boolean }>`

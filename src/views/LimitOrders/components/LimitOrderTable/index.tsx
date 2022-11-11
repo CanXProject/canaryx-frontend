@@ -1,6 +1,6 @@
 
 import React,{ useState, useCallback, memo } from 'react'
-import { Flex, Card,ButtonMenu, ButtonMenuItem, Button } from '@pancakeswap/uikit'
+import { Flex, Card,ButtonMenu, ButtonMenuItem, Button } from 'canaryx-uikit'
 
 import styled from 'styled-components'
 import useTheme from 'hooks/useTheme';

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Stepper } from '@pancakeswap/uikit'
+import { Stepper } from 'canaryx-uikit'
 import Page from '../Layout/Page'
 
 const Wrapper = styled(Page)`

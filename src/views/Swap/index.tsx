@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { CurrencyAmount, JSBI, Token, Trade } from '@pancakeswap/sdk'
+import { CurrencyAmount, JSBI, Token, Trade } from 'canaryx-sdk'
 import {
   Button,
   Text,
@@ -11,7 +11,7 @@ import {
   IconButton,
   BottomDrawer,
   useMatchBreakpoints,
-} from '@pancakeswap/uikit'
+} from 'canaryx-uikit'
 import { listToTokenMap } from 'state/lists/hooks'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'

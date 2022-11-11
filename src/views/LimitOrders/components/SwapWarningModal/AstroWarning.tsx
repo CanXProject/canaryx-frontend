@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'contexts/Localization'
-import { Text } from '@pancakeswap/uikit'
+import { Text } from 'canaryx-uikit'
 
 const CNYXWarning = () => {
   const { t } = useTranslation()
