@@ -449,17 +449,13 @@ const { theme } = useTheme()
       const res2=await axios.get(url.replace("getorders","getorders"))
       const arr=[];
       const arr2=[];
-      console.log('default tokens', defaultTokens);
+
       for(let i=0;i<res.data.length;i++)
       {
         if (!defaultTokens[res.data[i].fromtoken]) {
-          // console.log('token not recognized', res.data[i].fromtoken);
           continue;
         }
-        // else {
-        //   console.log('found from', defaultTokens[res.data[i].fromtoken])
-        //   console.log('found to', defaultTokens[res.data[i].totoken])
-        // }
+
         arr.push( <tr>
           <Td>{defaultTokens[res.data[i].fromtoken].symbol}</Td>
           {/*<Td>{res.data[i].from_symbol}</Td>*/}
@@ -511,13 +507,8 @@ const { theme } = useTheme()
       for(let i=0;i<res2.data.length;i++)
       {
         if (!defaultTokens[res2.data[i].fromtoken]) {
-          // console.log('token not recognized', res2.data[i].fromtoken);
           continue;
         }
-        // else {
-        //   console.log('found from', defaultTokens[res2.data[i].fromtoken])
-        //   console.log('found to', defaultTokens[res2.data[i].totoken])
-        // }
         arr2.push( <tr>
           <Td>{defaultTokens[res2.data[i].fromtoken].symbol}</Td>
           <Td>{defaultTokens[res2.data[i].totoken].symbol}</Td>
@@ -756,7 +747,7 @@ const { theme } = useTheme()
       <Flex justifyContent="center">
       <Box ml="auto" mr="auto" width="90%">
         <Table>
-              <thead>
+              <Table>
     <tr>
       <Th>
       <Text fontSize="12px" bold textTransform="uppercase" color="textSubtle" textAlign="left">
@@ -776,11 +767,13 @@ const { theme } = useTheme()
         </Text></Th>
       <Th>{"".concat("")}</Th>
       </tr>
-      </thead>
-      <tbody>
+      </Table>
+      <div style={{height: '343px', overflowY: 'auto'}}>
+      <Table>
                 
       {index===0?orderlist:corderlist}
-      </tbody>
+      </Table>
+      </div>
      </Table>
      
  {/* END OF HISTORY */}  
@@ -1002,19 +995,19 @@ const { theme } = useTheme()
                           console.log(counter)
                             try {
                               if (address0 === "SGB") {
-                                url = 'https://sgborder.herokuapp.com/placeorder?id='.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1).concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
+                                url = 'https://sgborder.herokuapp.com/order/placeorder?id='.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1).concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
                                 console.log(0, url)
                                 tx = await orderbookcontract.placeETHorder(address1, new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString(), new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString(), { value: new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString() })
                               }
                               else if (address1 === "SGB") {
 
-                                url = 'https://sgborder.herokuapp.com/placeorder?id='.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
+                                url = 'https://sgborder.herokuapp.com/order/placeorder?id='.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
                                 console.log(1, url)
 
                                 tx = await orderbookcontract.placeTokenorder(address0, "0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED", new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString(), new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString())
                               }
                               else {
-                                url = 'https://sgborder.herokuapp.com/placeorder?id='.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1).concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
+                                url = 'https://sgborder.herokuapp.com/order/placeorder?id='.concat(counter).concat('&owner=').concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1).concat('&amount=').concat(new BigNumber(formattedAmounts[Field.INPUT]).times(BIG_TEN.pow(currencies[Field.INPUT].decimals)).toString()).concat('&price=').concat(new BigNumber(selectedPrice.current.value).times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals)).toString());
                                 console.log(2, url)
                                 const con = getBep20Contract(address0, library.getSigner());
 
@@ -1033,7 +1026,7 @@ const { theme } = useTheme()
                         }}
                         id="swap-button"
                         width="100%"
-                        disabled={!isValid || !isValidLimitPrice}
+                        disabled={!isValid}
                       >
                         Place an Order
                       </CustomOrderButton>
@@ -1064,7 +1057,7 @@ const { theme } = useTheme()
                         }}
                         id="swap-button"
                         width="100%"
-                        disabled={!isValid || !isValidLimitPrice}
+                        disabled={!isValid}
                       >
                         Approve
                       </CustomOrderButton>
