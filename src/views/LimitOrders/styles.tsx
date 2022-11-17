@@ -21,15 +21,7 @@ export const StyledInputCurrencyWrapper = styled(Box)`
   }
 `
 // custom styles
-export const LimitContainer = styled.div`
-  display: flex;
-  width: 100%;
-`
-export const ChartPanel = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-`
+
 export const TicketContainer = styled.div`
   display: flex;
   width: 100%;
@@ -43,8 +35,8 @@ export const PairPanel = styled.div`
   width: 30%;
 `
 export const PairContainer = styled.div`
-  background: #FFFFFF;
-  border: 1px solid #D8DCE1;
+  background: #ffffff;
+  border: 1px solid #d8dce1;
   border-radius: 2px;
   height: 100%;
   width: 100%;
@@ -58,10 +50,13 @@ export const PricePanel = styled.div`
   height: 61px;
   padding: 7px;
   width: 70%;
+  @media screen and (max-width: 1100px) {
+    width: 100%;
+  }
 `
 export const PriceContainer = styled.div`
-  background: #FFFFFF;
-  border: 1px solid #D8DCE1;
+  background: #ffffff;
+  border: 1px solid #d8dce1;
   border-radius: 2px;
   height: 100%;
   width: 100%;
@@ -92,7 +87,7 @@ export const RangeItem = styled.div<{ $labelPosition: number }>`
     @media screen and (max-width: 1280px) {
       width: 120px;
     }
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1100px) {
       display: none;
     }
   }
@@ -111,24 +106,24 @@ export const RangeItem = styled.div<{ $labelPosition: number }>`
     }
   }
 `
-export const HighItem = styled.div`
-margin-right: 0px;
-text-align: center;
-& > .title {
-  font-size: 12px;
-  font-weight: 400;
-  color: #8C8D91;
-  line-height: 16px;
-  align-items: center;
-}
-& > .value {
-  font-size: 12px;
-  font-weight: 600;
-  color: #8C8D91;
-  line-height: 24px;
-}
-`
 
+export const HighItem = styled.div`
+  margin-right: 0px;
+  text-align: center;
+  & > .title {
+    font-size: 12px;
+    font-weight: 400;
+    color: #8c8d91;
+    line-height: 16px;
+    align-items: center;
+  }
+  & > .value {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8c8d91;
+    line-height: 24px;
+  }
+`
 
 export const PriceItem = styled.div`
   margin-right: 32px;
@@ -136,14 +131,14 @@ export const PriceItem = styled.div`
   & > .title {
     font-size: 12px;
     font-weight: 400;
-    color: #8C8D91;
+    color: #8c8d91;
     line-height: 16px;
     align-items: center;
   }
   & > .value {
     font-size: 16px;
     font-weight: 400;
-    color: #8C8D91;
+    color: #8c8d91;
     line-height: 16px;
   }
 `
@@ -153,7 +148,17 @@ export const ChartContainer = styled.div`
   // padding-right: 10px;
   display: flex;
 `
+
+export const WalletStatusContainer = styled.div`
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+`
+
 export const ChartArea = styled.div`
+  @media screen and (max-width: 1100px) {
+    display: none;
+  }
   height: 100%;
   width: 75%;
   padding: 7px;
@@ -162,10 +167,12 @@ export const TradeArea = styled.div`
   height: 100%;
   width: 25%;
   padding: 7px;
-  
 `
 export const OrderBookArea = styled.div`
-  border: 1px solid #D8DCE1;
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+  border: 1px solid #d8dce1;
   border-radius: 2px;
   height: 100%;
   display: flex;
@@ -176,15 +183,15 @@ export const OrderBookArea = styled.div`
 export const OrderBookPart = styled.div`
   flex: 1;
   & > .header {
-    height:38px;
-    background: #F5F5F5;
-    border: 0px solid #D8DCE1;
+    height: 38px;
+    background: #f5f5f5;
+    border: 0px solid #d8dce1;
     border-radius: 0px;
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
-    color: #92959A;
+    color: #92959a;
     padding: 0 24px;
     display: flex;
     align-items: center;
@@ -227,7 +234,6 @@ export const HistoryPanel = styled.div`
   display: flex;
   white-space: nowrap;
   overflow-y: hidden;
-
 `
 export const HistoryTab = styled.div`
   width: 100%;
@@ -235,7 +241,7 @@ export const HistoryTab = styled.div`
   display: flex;
   & > div {
     flex: 1;
-    background: #F5F5F5;
+    background: #f5f5f5;
     border-left: 1px solid #ececec;
     border-right: 1px solid #ececec;
     border-top: 1px solid #ececec;
@@ -249,10 +255,10 @@ export const HistoryTab = styled.div`
     line-height: 16px;
     text-align: center;
     letter-spacing: 0.48px;
-    color: #92959A;
+    color: #92959a;
   }
   & > .active {
-    background: #FFFFFF;
+    background: #ffffff;
   }
 `
 export const HistoryTable = styled.div`
@@ -287,7 +293,7 @@ export const HistoryTable = styled.div`
     & > tbody {
       background: #FFFFFF;
       height: 220px;
-      border-left: 1px solid # #ececec;
+      border-left: 1px solid #ececec;
       border-right: 1px solid #ececec;
       border-bottom: 1px solid #ececec;
      & > tr {
@@ -313,15 +319,15 @@ export const HistoryTable = styled.div`
 export const TradeBook = styled.div`
   flex: 1;
   & > .header {
-    height:48px;
-    background: #F5F5F5;
-    border: 0px solid #D8DCE1;
+    height: 48px;
+    background: #f5f5f5;
+    border: 0px solid #d8dce1;
     border-radius: 0px;
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
-    color: #92959A;
+    color: #92959a;
     padding: 0 24px;
     display: flex;
     align-items: center;
@@ -356,8 +362,15 @@ export const ActionPanel = styled.div`
   display: flex;
   flex-direction: column;
   width: 20%;
+  @media screen and (max-width: 1100px) {
+  width: 100%;
+  padding-right: 0px;
+  }
   padding-right: 10px;
   & > .walletBtn {
+    @media screen and (max-width: 900px) {
+    display: none;
+    }
     height: 61px;
     padding: 7px;
     & > button {
@@ -386,28 +399,28 @@ export const ActionTab = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #F5F5F5;
-    border: 1px solid #D8DCE1;
+    background: #f5f5f5;
+    border: 1px solid #d8dce1;
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
     text-align: center;
     letter-spacing: 0.48px;
-    color: #92959A;
+    color: #92959a;
     cursor: pointer;
   }
   & > .active {
-    background: #FFFFFF;
+    background: #ffffff;
     border: none;
   }
 `
 export const ActionContent = styled.div`
   height: 100%;
   width: 100%;
-  border: 1px solid #D8DCE1;
+  border: 1px solid #d8dce1;
   border-radius: 2px;
-  background: #FFFFFF;
+  background: #ffffff;
 `
 export const ActionPart = styled.div`
   padding: 12px;
@@ -427,16 +440,16 @@ export const PriceDiv = styled.div`
 export const MarketButton = styled(Button)`
   width: 66px;
   height: 20px;
-  background-color: #EAEAEA;
-  border: 1px solid #D8DCE1;
+  background-color: #eaeaea;
+  border: 1px solid #d8dce1;
   border-radius: 2px;
-  color: #A6A6A6;
+  color: #a6a6a6;
   opacity: unset;
   box-shadow: unset;
 `
 export const PriceInput = styled.input`
   width: 100%;
-  border: 1px solid #D8DCE1;
+  border: 1px solid #d8dce1;
   border-radius: 2px;
   height: 38px;
   margin-top: 12px;
@@ -450,8 +463,8 @@ export const PriceInput = styled.input`
 `
 export const CustomOrderButton = styled(Button)`
   height: 38px;
-  background: #F5F5F5;
-  border: 0px solid #B0B0B0;
+  background: #f5f5f5;
+  border: 0px solid #b0b0b0;
   backdrop-filter: blur(4px);
   border-radius: 2px;
   font-style: normal;
@@ -460,7 +473,37 @@ export const CustomOrderButton = styled(Button)`
   line-height: 24px;
   text-align: center;
   letter-spacing: 0.48px;
-  color: #92959A;
+  color: #92959a;
   box-shadow: unset;
   text-transform: uppercase;
+`
+
+export const ChartPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+
+  @media screen and (max-width: 1100px) {
+    width: 100%;
+  }
+
+  ${ChartContainer} {
+    @media screen and (max-width: 1100px) {
+      display: none;
+    }
+  }
+
+  ${HistoryPanel} {
+    @media screen and (max-width: 1100px) {
+      display: none;
+    }
+  }
+`
+
+export const LimitContainer = styled.div`
+  display: flex;
+  @media screen and (max-width: 1100px) {
+    flex-direction: column;
+  }
+  width: 100%;
 `

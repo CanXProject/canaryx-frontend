@@ -71,7 +71,7 @@ import {
   StyledInputCurrencyWrapper, StyledSwapContainer, LimitContainer, ChartPanel, TicketContainer, ActionPanel,
   PairPanel, PairContainer, PricePanel, PriceContainer, PriceItem, RangeItem, HighItem, ChartContainer, ChartArea, TradeArea,
   OrderBookArea, OrderBookPart, HistoryPanel, HistoryTab, TradeBook, HistoryTable, ActionArea, ActionTab, ActionContent,
-  ActionPart, PriceDiv, MarketButton, PriceInput, CustomOrderButton
+  ActionPart, PriceDiv, MarketButton, PriceInput, CustomOrderButton, WalletStatusContainer
 } from './styles';
 import { TVChartContainer } from './TradingView/TVChartContainer'
 import { CustomWalletConnectButton, CustomWalletConnectedButton } from './TradingView/CustomWalletConnectButton'
