@@ -376,7 +376,6 @@ const Farms: React.FC = () => {
         <Heading scale="lg" color="text">
           {t('Stake LP tokens to earn.')}
         </Heading>
-       
       </PageHeader>
       <Page>
         <ControlContainer>
@@ -435,7 +434,6 @@ const Farms: React.FC = () => {
           </Flex>
         )}
         <div ref={observerRef} />
-       
       </Page>
     </>
   )

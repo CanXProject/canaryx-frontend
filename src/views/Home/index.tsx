@@ -49,11 +49,7 @@ const Home: React.FC = () => {
       <PageMeta />
       <StyledHeroSection
         innerProps={{ style: { margin: '0', width: '100%' } }}
-        background={
-          theme.isDark
-            ? "#FAF9FA"
-            : 'linear-gradient(139.73deg, #E6FDFF 0%, #fff1ef 100%)'
-        }
+        background={theme.isDark ? '#FAF9FA' : 'linear-gradient(139.73deg, #E6FDFF 0%, #fff1ef 100%)'}
         index={2}
         hasCurvedDivider={false}
       >
@@ -62,7 +58,7 @@ const Home: React.FC = () => {
             <UserBanner />
           </UserBannerWrapper>
         )}
-      
+
         <Hero />
       </StyledHeroSection>
       <PageSection
@@ -71,7 +67,6 @@ const Home: React.FC = () => {
         index={2}
         hasCurvedDivider={false}
       >
-        
         <MetricsSection />
       </PageSection>
       <PageSection
@@ -80,7 +75,6 @@ const Home: React.FC = () => {
         index={2}
         hasCurvedDivider={false}
       >
-        
         <SalesSection {...swapSectionData} />
       </PageSection>
       <PageSection
@@ -89,11 +83,9 @@ const Home: React.FC = () => {
         index={2}
         hasCurvedDivider={false}
       >
-        
         <SalesSection {...earnSectionData} />
-        
       </PageSection>
-     
+
       <PageSection
         innerProps={{ style: HomeSectionContainerStyles }}
         background="#FAF9FA"
@@ -101,9 +93,7 @@ const Home: React.FC = () => {
         hasCurvedDivider={false}
       >
         <SalesSection {...cakeSectionData} />
-     
       </PageSection>
-     
     </>
   )
 }

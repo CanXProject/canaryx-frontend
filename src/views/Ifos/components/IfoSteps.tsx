@@ -52,10 +52,7 @@ const IfoSteps: React.FC<Props> = ({ ifo, walletIfoData }) => {
   const renderCardBody = (step: number) => {
     const isStepValid = stepsValidationStatus[step]
 
-    
-
     switch (step) {
-      
       case 0:
         return (
           <CardBody>

@@ -17,8 +17,7 @@ const pools: SerializedPoolConfig[] = [
     tokenPerBlock: '0.33',
     sortOrder: 1,
     isFinished: false,
-  }
-  
+  },
 ]
 
 export default pools

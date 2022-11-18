@@ -38,8 +38,6 @@ const ProfileUserMenuItem: React.FC<ProfileUserMenuItemProps> = ({ isLoading, ha
     )
   }
 
-
-
   return (
     <UserMenuItem as="button" onClick={handleClick}>
       {t('Your Profile')}

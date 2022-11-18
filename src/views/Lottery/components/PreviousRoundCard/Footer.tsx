@@ -22,7 +22,6 @@ const PreviousRoundCardFooter: React.FC<PreviousRoundCardFooterProps> = ({ lotte
   return (
     <CardFooter p="0">
       {isExpanded && <FooterExpanded lotteryNodeData={lotteryNodeData} lotteryId={lotteryId} />}
-      
     </CardFooter>
   )
 }

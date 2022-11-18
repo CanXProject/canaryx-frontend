@@ -1,15 +1,6 @@
 import React, { ReactNode } from 'react'
 import styled from 'styled-components'
-import {
-  ArrowUpIcon,
-  ArrowDownIcon,
-  Flex,
-  FlexProps,
-  Text,
-  useTooltip,
-  TooltipText,
-  InfoIcon,
-} from 'canaryx-uikit'
+import { ArrowUpIcon, ArrowDownIcon, Flex, FlexProps, Text, useTooltip, TooltipText, InfoIcon } from 'canaryx-uikit'
 import { BetPosition } from 'state/types'
 import { useTranslation } from 'contexts/Localization'
 

@@ -78,7 +78,7 @@ const processViewLotteryErrorResponse = (lotteryId: string): LotteryResponse => 
 export const fetchLottery = async (lotteryId: string): Promise<LotteryResponse> => {
   try {
     const lotteryData = await lotteryContract.viewLottery(lotteryId)
-    console.log(lotteryId,lotteryData)
+    console.log(lotteryId, lotteryData)
     return processViewLotterySuccessResponse(lotteryData, lotteryId)
   } catch (error) {
     return processViewLotteryErrorResponse(lotteryId)
@@ -163,12 +163,12 @@ export const useProcessLotteryResponse = (
     status: lotteryData.status,
     startTime: lotteryData.startTime,
     endTime: lotteryData.endTime,
-    priceTicketInDexToken:priceTicketInCake,
+    priceTicketInDexToken: priceTicketInCake,
     discountDivisor,
     treasuryFee: lotteryData.treasuryFee,
     firstTicketId: lotteryData.firstTicketId,
     lastTicketId: lotteryData.lastTicketId,
-    amountCollectedInDexToken:amountCollectedInCake,
+    amountCollectedInDexToken: amountCollectedInCake,
     finalNumber: lotteryData.finalNumber,
     dexTokenPerBracket: lotteryData.dexTokenPerBracket,
     countWinnersPerBracket: lotteryData.countWinnersPerBracket,

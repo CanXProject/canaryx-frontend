@@ -53,7 +53,6 @@ function CurrencySearch({
   const searchToken = useToken(debouncedQuery)
   const searchTokenIsAdded = useIsUserAddedToken(searchToken)
 
-  
   const showETH: boolean = useMemo(() => {
     const s = debouncedQuery.toLowerCase().trim()
     return s === '' || s === 'b' || s === 'bn' || s === 'bnb'
@@ -74,9 +73,8 @@ function CurrencySearch({
   const handleCurrencySelect = useCallback(
     (currency: Currency) => {
       onCurrencySelect(currency)
-      
     },
-    [ onCurrencySelect],
+    [onCurrencySelect],
   )
 
   // manage focus on modal show

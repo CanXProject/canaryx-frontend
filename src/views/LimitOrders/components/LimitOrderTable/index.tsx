@@ -1,9 +1,8 @@
-
-import React,{ useState, useCallback, memo } from 'react'
-import { Flex, Card,ButtonMenu, ButtonMenuItem, Button } from 'canaryx-uikit'
+import React, { useState, useCallback, memo } from 'react'
+import { Flex, Card, ButtonMenu, ButtonMenuItem, Button } from 'canaryx-uikit'
 
 import styled from 'styled-components'
-import useTheme from 'hooks/useTheme';
+import useTheme from 'hooks/useTheme'
 
 const Wrapper = styled.div`
   & > div {
@@ -17,29 +16,31 @@ const Wrapper = styled.div`
   }
 `
 
-
-
 const LimitOrderTable: React.FC = () => {
-  const [index, setIndex] = useState(0);
-  const handleClick = (newIndex) => setIndex(newIndex);
+  const [index, setIndex] = useState(0)
+  const handleClick = (newIndex) => setIndex(newIndex)
   const { theme } = useTheme()
   return (
-    
-      <Wrapper>
-      
-        <ButtonMenu activeIndex={index} onItemClick={handleClick}>
-          <ButtonMenuItem style={{
-              color: index === 0 ? theme.colors.text : theme.colors.textSubtle,
-              backgroundColor: index===0 ? theme.card.background : theme.colors.input,
-            }}>Open Orders</ButtonMenuItem>
-          <ButtonMenuItem style={{
-              color: index===1 ? theme.colors.text : theme.colors.textSubtle,
-              backgroundColor:  index===1 ? theme.card.background : theme.colors.input,
-            }}>Order History</ButtonMenuItem>
-        </ButtonMenu>
-    
+    <Wrapper>
+      <ButtonMenu activeIndex={index} onItemClick={handleClick}>
+        <ButtonMenuItem
+          style={{
+            color: index === 0 ? theme.colors.text : theme.colors.textSubtle,
+            backgroundColor: index === 0 ? theme.card.background : theme.colors.input,
+          }}
+        >
+          Open Orders
+        </ButtonMenuItem>
+        <ButtonMenuItem
+          style={{
+            color: index === 1 ? theme.colors.text : theme.colors.textSubtle,
+            backgroundColor: index === 1 ? theme.card.background : theme.colors.input,
+          }}
+        >
+          Order History
+        </ButtonMenuItem>
+      </ButtonMenu>
     </Wrapper>
-     
   )
 }
 

@@ -40,8 +40,7 @@ import { derivedPairByDataIdSelector, pairByDataIdSelector } from './selectors'
 import { DEFAULT_INPUT_CURRENCY, DEFAULT_OUTPUT_CURRENCY } from './constants'
 import fetchDerivedPriceData from './fetch/fetchDerivedPriceData'
 import { pairHasEnoughLiquidity } from './fetch/utils'
-import { fetchchartdatadaily,fetchchartdataweekly,fetchchartdatamonthly,fetchchartdatayearly } from './fetch/SgbApi'
-
+import { fetchchartdatadaily, fetchchartdataweekly, fetchchartdatamonthly, fetchchartdatayearly } from './fetch/SgbApi'
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>((state) => state.swap)
@@ -229,9 +228,7 @@ export function useDerivedSwapInfo(): {
     inputError = inputError ?? t('Invalid recipient')
   }
 
-  
   const [allowedSlippage] = useUserSlippageTolerance()
-  
 
   const slippageAdjustedAmounts = v2Trade && allowedSlippage && computeSlippageAdjustedAmounts(v2Trade, allowedSlippage)
 
@@ -478,52 +475,70 @@ export const useFetchPairPrices = ({
   ) {
     pairPrices = normalizedDerivedPairDataWithCurrentSwapPrice
   }
-  const [mychartdata, setMychartdata] = useState();
+  const [mychartdata, setMychartdata] = useState()
   const [address0, setAddress0] = useState(token0Address)
   const [address1, setAddress1] = useState(token1Address)
-  const [data0, setData0] = useState("");
-  const [data1, setData1] = useState("");
+  const [data0, setData0] = useState('')
+  const [data1, setData1] = useState('')
   const [timewd, setTimewd] = useState(timeWindow)
-  useEffect(()=>{
-    async function loaddata(){
+  useEffect(() => {
+    async function loaddata() {
       // if(address0!==token0Address||address1!==token1Address)
       // {
-        setAddress0(token0Address)
+      setAddress0(token0Address)
       setAddress1(token1Address)
-      
-      if((address0!==data0||address1!==data1||timeWindow!==timewd)&&address0.length>0&&address1.length>0)
-      {
-       
-        if(timeWindow===0)
-        setMychartdata(await fetchchartdatadaily(address0==="sgb"?"0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED":address0,address1==="sgb"?"0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED":address1))
-        else if(timeWindow===1)
-        setMychartdata(await fetchchartdataweekly(address0==="sgb"?"0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED":address0,address1==="sgb"?"0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED":address1))
-        else if(timeWindow===2)
-        setMychartdata(await fetchchartdatamonthly(address0==="sgb"?"0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED":address0,address1==="sgb"?"0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED":address1))
-        else if(timeWindow===3)
-        setMychartdata(await fetchchartdatayearly(address0==="sgb"?"0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED":address0,address1==="sgb"?"0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED":address1))
-        setData0(address0);
-        setData1(address1);
+
+      if (
+        (address0 !== data0 || address1 !== data1 || timeWindow !== timewd) &&
+        address0.length > 0 &&
+        address1.length > 0
+      ) {
+        if (timeWindow === 0)
+          setMychartdata(
+            await fetchchartdatadaily(
+              address0 === 'sgb' ? '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED' : address0,
+              address1 === 'sgb' ? '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED' : address1,
+            ),
+          )
+        else if (timeWindow === 1)
+          setMychartdata(
+            await fetchchartdataweekly(
+              address0 === 'sgb' ? '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED' : address0,
+              address1 === 'sgb' ? '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED' : address1,
+            ),
+          )
+        else if (timeWindow === 2)
+          setMychartdata(
+            await fetchchartdatamonthly(
+              address0 === 'sgb' ? '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED' : address0,
+              address1 === 'sgb' ? '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED' : address1,
+            ),
+          )
+        else if (timeWindow === 3)
+          setMychartdata(
+            await fetchchartdatayearly(
+              address0 === 'sgb' ? '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED' : address0,
+              address1 === 'sgb' ? '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED' : address1,
+            ),
+          )
+        setData0(address0)
+        setData1(address1)
         setTimewd(timeWindow)
       }
-    // }
-       
+      // }
     }
     loaddata()
-  },[address0,address1,mychartdata,data1,data0,timewd,timeWindow,token0Address,token1Address])
-  
-  pairPrices=setlocaltime(mychartdata)
- 
+  }, [address0, address1, mychartdata, data1, data0, timewd, timeWindow, token0Address, token1Address])
+
+  pairPrices = setlocaltime(mychartdata)
+
   return { pairPrices, pairId }
 }
-function setlocaltime(arr2)
-{
-  const arr1=[];
-  if(arr2)
-  for(let i=0;i<arr2.length;i++)
-  {
-    
-    arr1.push({time:fromUnixTime(arr2[i].time),value:Number(arr2[i].value)})
-  }
-  return arr1;
-} 
+function setlocaltime(arr2) {
+  const arr1 = []
+  if (arr2)
+    for (let i = 0; i < arr2.length; i++) {
+      arr1.push({ time: fromUnixTime(arr2[i].time), value: Number(arr2[i].value) })
+    }
+  return arr1
+}

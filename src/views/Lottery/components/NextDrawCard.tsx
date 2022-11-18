@@ -200,7 +200,6 @@ const NextDrawCard = () => {
             <RewardBrackets lotteryNodeData={currentRound} />
           </NextDrawWrapper>
         )}
-        
       </CardFooter>
     </StyledCard>
   )

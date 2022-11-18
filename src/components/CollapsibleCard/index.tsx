@@ -1,14 +1,5 @@
 import React, { useState } from 'react'
-import {
-  CardProps,
-  CardHeader,
-  Card,
-  Flex,
-  Heading,
-  IconButton,
-  ChevronUpIcon,
-  ChevronDownIcon,
-} from 'canaryx-uikit'
+import { CardProps, CardHeader, Card, Flex, Heading, IconButton, ChevronUpIcon, ChevronDownIcon } from 'canaryx-uikit'
 
 interface CollapsibleCardProps extends CardProps {
   initialOpenState?: boolean

@@ -122,7 +122,6 @@ export const getPancakeRabbitContract = (signer?: ethers.Signer | ethers.provide
   return getContract(pancakeRabbitsAbi, getPancakeRabbitsAddress(), signer)
 }
 
-
 export const getOrderbookContract = (signer?: ethers.Signer | ethers.providers.Provider) => {
   return getContract(orderbookAbi, getOrderBookAddress(), signer)
 }

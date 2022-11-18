@@ -269,7 +269,6 @@ const Pools: React.FC = () => {
             </Heading>
           </Flex>
           <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
-          
             <BountyCard />
           </Flex>
         </Flex>
@@ -332,7 +331,6 @@ const Pools: React.FC = () => {
         )}
         {viewMode === ViewMode.CARD ? cardLayout : tableLayout}
         <div ref={observerRef} />
-        
       </Page>
     </>
   )

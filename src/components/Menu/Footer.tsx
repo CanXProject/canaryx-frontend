@@ -40,11 +40,7 @@ type FooterVariant = 'default' | 'side'
 const Footer: React.FC<{ variant?: FooterVariant }> = ({ variant = 'default' }) => {
   const { t } = useTranslation()
   const isSide = variant === 'side'
-  return (
-    <Wrapper $isSide={isSide}/>
-      
-     
-  )
+  return <Wrapper $isSide={isSide} />
 }
 
 export default Footer

@@ -30,8 +30,8 @@ const InputPanel = styled.div`
   flex-flow: column nowrap;
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
-  border: 1px solid #D8DCE1;
+  background: #ffffff;
+  border: 1px solid #d8dce1;
   border-radius: 2px;
   height: 38px;
 `
@@ -47,7 +47,7 @@ export const TextCustom = styled(Text)`
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.48px;
-  color: #8C8D91;
+  color: #8c8d91;
 `
 const NumericalInputCustom = styled(NumericalInput)`
   padding: 0 12px;
@@ -100,7 +100,7 @@ export function CurrencyInputPanelCustom2({
     />,
   )
   return (
-    <Box id={id} style={{paddingTop: 24}}>
+    <Box id={id} style={{ paddingTop: 24 }}>
       <Flex mb="6px" alignItems="center" justifyContent="space-between">
         <CurrencySelectButton
           className="open-currency-select-button"

@@ -23,7 +23,7 @@ export interface SalesSectionProps {
 const SalesSection: React.FC<SalesSectionProps> = (props) => {
   const { t } = useTranslation()
 
-  const { headingText, bodyText, reverse, primaryButton, secondaryButton,  images } = props
+  const { headingText, bodyText, reverse, primaryButton, secondaryButton, images } = props
 
   const headingTranslatedText = t(headingText)
   const bodyTranslatedText = t(bodyText)
@@ -68,7 +68,7 @@ const SalesSection: React.FC<SalesSectionProps> = (props) => {
               </Link>
             ) : (
               <RouterLink to={secondaryButton.to}>{secondaryButton.text}</RouterLink>
-            )}            
+            )}
           </Flex>
         </Flex>
         <Flex
@@ -77,7 +77,7 @@ const SalesSection: React.FC<SalesSectionProps> = (props) => {
           flex={[null, null, null, '1']}
           mb={['10px', null, null, '0']}
         >
-          <img  src={images.attributes[0].src} alt="bnb" />
+          <img src={images.attributes[0].src} alt="bnb" />
         </Flex>
       </Flex>
     </Flex>

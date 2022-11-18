@@ -10,8 +10,8 @@ const config: (t: ContextApi['t']) => ConfigMenuItemsType[] = (t) => [
     href: '/limitorders',
     icon: '/images1/icons/icon-trade.svg',
     activeIcon: '/images1/icons/icon-trade-active.svg',
-    showItemsOnMobile:false,
-    items:[]
+    showItemsOnMobile: false,
+    items: [],
   },
   {
     label: t('Swap'),
@@ -50,17 +50,17 @@ const config: (t: ContextApi['t']) => ConfigMenuItemsType[] = (t) => [
     href: '/ifo',
     icon: '/images1/icons/icon-ifo.svg',
     activeIcon: '/images1/icons/icon-ifo-active.svg',
-    showItemsOnMobile:false,
-    items:[]
+    showItemsOnMobile: false,
+    items: [],
   },
   {
     label: t('Create Token'),
     href: '/tokengen',
     icon: '/images1/icons/icon-create.svg',
     activeIcon: '/images1/icons/icon-create-active.svg',
-    showItemsOnMobile:false,
-    items:[]
-  }
+    showItemsOnMobile: false,
+    items: [],
+  },
 ]
 
 export default config

@@ -101,7 +101,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
           <Text>{t('Earn')}:</Text>
           <Text bold>{earnLabel}</Text>
         </Flex>
-       
+
         <CardActionsContainer
           farm={farm}
           lpLabel={lpLabel}

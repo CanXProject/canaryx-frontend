@@ -11,7 +11,6 @@ import { multicallv2 } from 'utils/multicall'
 import { PublicIfoData } from '../../types'
 import { getStatus } from '../helpers'
 
-
 const TAX_PRECISION = ethers.FixedNumber.from(10000000000)
 
 const formatPool = (pool) => ({

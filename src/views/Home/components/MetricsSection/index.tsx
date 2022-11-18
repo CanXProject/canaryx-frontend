@@ -38,16 +38,9 @@ const Stats = () => {
 
   return (
     <Flex justifyContent="center" alignItems="center" flexDirection="column">
-      
       <Heading textAlign="center" scale="xl">
         {t('CREATE. TRADE. EARN.')}
       </Heading>
-     
-      
-
-
-
-     
     </Flex>
   )
 }

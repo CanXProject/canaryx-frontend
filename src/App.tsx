@@ -34,9 +34,6 @@ import RedirectOldRemoveLiquidityPathStructure from './views/RemoveLiquidity/red
 import { RedirectPathToSwapOnly, RedirectToSwap } from './views/Swap/redirects'
 import { useInactiveListener } from './hooks/useInactiveListener'
 
-
-
-
 // Route-based code splitting
 // Only pool is included in the main bundle because of it's the most visited page
 const Home = lazy(() => import('./views/Home'))
@@ -77,24 +74,23 @@ const App: React.FC = () => {
   useScrollOnRouteChange()
   useUserAgent()
   useInactiveListener()
-  const [slippage,setUserSlippageTolerance]=useUserSlippageTolerance()
-  useEffect(()=>{
+  const [slippage, setUserSlippageTolerance] = useUserSlippageTolerance()
+  useEffect(() => {
     setUserSlippageTolerance(1800)
-  },[setUserSlippageTolerance])
-  
+  }, [setUserSlippageTolerance])
 
   return (
     <Router history={history}>
       <ResetCSS />
       <GlobalStyle />
-     
+
       <Menu>
         <SuspenseWithChunkError fallback={<PageLoader />}>
           <Switch>
             <Route path="/" exact>
               <Home />
             </Route>
-            
+
             <Route path="/farms">
               <Farms />
             </Route>
@@ -104,11 +100,11 @@ const App: React.FC = () => {
             <Route path="/ifo">
               <Ifos />
             </Route>
-           
+
             <Route path="/tokengen">
               <Tokengen />
             </Route>
-            
+
             {/* Using this format because these components use routes injected props. We need to rework them with hooks */}
             <Route exact strict path="/swap" component={Swap} />
             <Route exact strict path="/limitorders" component={LimitOrders} />
@@ -133,7 +129,6 @@ const App: React.FC = () => {
             <Route path="/staking">
               <Redirect to="/pools" />
             </Route>
-            
 
             {/* 404 */}
             <Route component={NotFound} />

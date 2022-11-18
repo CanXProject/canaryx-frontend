@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Flex, Heading, Button ,Link} from 'canaryx-uikit'
+import { Flex, Heading, Button, Link } from 'canaryx-uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
 import ConnectWalletButton from 'components/ConnectWalletButton'
@@ -74,10 +74,6 @@ const StarsWrapper = styled.div`
   }
 `
 
-
-
-
-
 const Hero = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
@@ -85,7 +81,6 @@ const Hero = () => {
 
   return (
     <>
-      
       <Flex
         position="relative"
         flexDirection={['column-reverse', null, null, 'row']}
@@ -101,7 +96,7 @@ const Hero = () => {
           <Heading scale="md" mb="24px">
             {t('Your gateway to the decentralized finance movement on Songbird Network.')}
           </Heading>
-         
+
           <Flex>
             {!account && <ConnectWalletButton mr="8px" />}
             <Link mr="16px" href="/swap">
@@ -118,12 +113,10 @@ const Hero = () => {
         >
           <BunnyWrapper>
             <picture>
-              <img width="95%" style={{margin:"5%",marginTop:"15%"}} src="/logo1.png" alt={t('Lunar bunny')} />
+              <img width="95%" style={{ margin: '5%', marginTop: '15%' }} src="/logo1.png" alt={t('Lunar bunny')} />
             </picture>
           </BunnyWrapper>
-         
         </Flex>
-        
       </Flex>
     </>
   )

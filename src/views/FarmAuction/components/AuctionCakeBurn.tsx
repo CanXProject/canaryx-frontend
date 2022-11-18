@@ -49,7 +49,7 @@ const AuctionCakeBurn: React.FC = () => {
         <BurnedText textTransform="uppercase" bold color="secondary">
           {t('Burned')}
         </BurnedText>
-       
+
         {!burnedAmountAsUSD.isNaN() && !burnedAmountAsUSD.isZero() ? (
           <Text color="textSubtle">
             ~${burnedAmountAsUSD.toNumber().toLocaleString('en', { maximumFractionDigits: 0 })}

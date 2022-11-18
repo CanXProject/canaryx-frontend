@@ -30,7 +30,7 @@ const ifos: Ifo[] = [
     articleUrl: 'https://canarydex.netlify.app/voting/proposal/QmUqRxjwZCWeZWEdgV2vHJ6hex7jMW7i247NKFas73xc8j',
     tokenOfferingPrice: 2.5,
     version: 2,
-  }
+  },
 ]
 
 export default ifos

@@ -63,7 +63,7 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
   const isNotVaultAndHasStake = !isAutoVault && stakedBalance.gt(0)
 
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
-    
+
   const stakedTokenBalance = getBalanceNumber(stakedBalance, stakingToken.decimals)
   const stakedTokenDollarBalance = getBalanceNumber(
     stakedBalance.multipliedBy(stakingTokenPrice),
@@ -179,7 +179,6 @@ const Staked: React.FunctionComponent<StackedActionProps> = ({ pool, userDataLoa
 
   // Wallet connected, user data loaded and approved
   if (isNotVaultAndHasStake || isVaultWithShares) {
-    
     return (
       <ActionContainer isAutoVault={isAutoVault}>
         <ActionTitles>

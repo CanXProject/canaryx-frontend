@@ -97,7 +97,8 @@ const LineChart = ({ data, setHoverValue, setHoverDate, isChangePositive, timeWi
           axisLine={false}
           tickLine={false}
           tickFormatter={(time) => {
-            return time.toLocaleString(locale, dateFormatting)}}
+            return time.toLocaleString(locale, dateFormatting)
+          }}
           minTickGap={8}
         />
         <YAxis dataKey="value" axisLine={false} tickLine={false} domain={['auto', 'auto']} hide />

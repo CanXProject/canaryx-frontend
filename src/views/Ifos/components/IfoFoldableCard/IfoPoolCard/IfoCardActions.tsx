@@ -19,7 +19,7 @@ interface Props {
   isLoading: boolean
 }
 
-const IfoCardActions: React.FC<Props> = ({ poolId, ifo, publicIfoData, walletIfoData,  isLoading }) => {
+const IfoCardActions: React.FC<Props> = ({ poolId, ifo, publicIfoData, walletIfoData, isLoading }) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const userPoolCharacteristics = walletIfoData[poolId]
@@ -31,8 +31,6 @@ const IfoCardActions: React.FC<Props> = ({ poolId, ifo, publicIfoData, walletIfo
   if (!account) {
     return <ConnectWalletButton width="100%" />
   }
-
-  
 
   return (
     <>

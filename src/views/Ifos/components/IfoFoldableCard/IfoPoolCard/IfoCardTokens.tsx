@@ -109,7 +109,7 @@ const IfoCardTokens: React.FC<IfoCardTokensProps> = ({
     if (isLoading) {
       return <SkeletonCardTokens />
     }
-    
+
     if (publicIfoData.status === 'coming_soon') {
       return (
         <>

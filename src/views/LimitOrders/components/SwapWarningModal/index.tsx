@@ -59,7 +59,6 @@ const SwapWarningModal: React.FC<SwapWarningModalProps> = ({ swapCurrency, onDis
       symbol: SwapWarningTokensConfig.bondly.symbol,
       component: <BondlyWarning />,
     },
-    
   }
 
   const SWAP_WARNING = TOKEN_WARNINGS[swapCurrency.address]

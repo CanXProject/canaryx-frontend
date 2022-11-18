@@ -64,7 +64,6 @@ import PriceChartContainer from './components/Chart/PriceChartContainer'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import CurrencyInputHeader from './components/CurrencyInputHeader'
 
-
 const Label = styled(Text)`
   font-size: 12px;
   font-weight: bold;
@@ -78,7 +77,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const [isChartExpanded, setIsChartExpanded] = useState(false)
   const [userChartPreference, setUserChartPreference] = useExchangeChartManager(isMobile)
   const [isChartDisplayed, setIsChartDisplayed] = useState(false)
-  
+
   useEffect(() => {
     setUserChartPreference(false)
   }, [isChartDisplayed, setUserChartPreference])
@@ -339,7 +338,6 @@ export default function Swap({ history }: RouteComponentProps) {
 
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded}>
-      
       <Flex width="100%" justifyContent="center" position="relative">
         {!isMobile && (
           <PriceChartContainer
@@ -572,7 +570,7 @@ export default function Swap({ history }: RouteComponentProps) {
                 </Wrapper>
               </AppBody>
               {!swapIsUnsupported ? (
-                trade && <AdvancedSwapDetailsDropdown  trade={trade} />
+                trade && <AdvancedSwapDetailsDropdown trade={trade} />
               ) : (
                 <UnsupportedCurrencyFooter currencies={[currencies.INPUT, currencies.OUTPUT]} />
               )}

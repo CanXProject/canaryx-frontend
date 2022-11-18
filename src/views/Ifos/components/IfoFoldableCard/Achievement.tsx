@@ -57,7 +57,6 @@ const Achievement: React.FC<Props> = ({ ifo, publicIfoData }) => {
             <Text bold mr="8px">
               {t('IFO Shopper: %title%', { title: campaignTitle })}
             </Text>
-            
           </Flex>
           {publicIfoData.currencyPriceInUSD.gt(0) ? (
             <Text color="textSubtle" fontSize="12px">

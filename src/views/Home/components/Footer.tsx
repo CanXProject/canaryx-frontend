@@ -93,13 +93,13 @@ const Footer = () => {
         </Flex>
       </BgWrapper>
       <FloatingPancakesWrapper>
-          <TopLeftImgWrapper>
-            <CompositeImage {...topLeftImage} maxHeight="256px" />
-          </TopLeftImgWrapper>
-          <BottomRightImgWrapper>
-            <CompositeImage {...bottomRightImage} maxHeight="256px" />
-          </BottomRightImgWrapper>
-        </FloatingPancakesWrapper>
+        <TopLeftImgWrapper>
+          <CompositeImage {...topLeftImage} maxHeight="256px" />
+        </TopLeftImgWrapper>
+        <BottomRightImgWrapper>
+          <CompositeImage {...bottomRightImage} maxHeight="256px" />
+        </BottomRightImgWrapper>
+      </FloatingPancakesWrapper>
       <Wrapper>
         <Heading mb="24px" scale="xl" color="white">
           {t('Start in seconds.')}

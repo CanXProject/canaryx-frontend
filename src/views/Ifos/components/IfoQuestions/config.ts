@@ -34,7 +34,7 @@ const config = (t: ContextApi['t']) => {
     {
       title: t('Where does the participation fee go?'),
       description: [t('The CANARY from the participation fee will be thrown into the weekly token burn.')],
-    }
+    },
   ]
 }
 export default config
