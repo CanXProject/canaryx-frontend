@@ -12,7 +12,6 @@ import {
   BottomDrawer,
   useMatchBreakpoints,
 } from 'canaryx-uikit'
-import { listToTokenMap } from 'state/lists/hooks'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
 import Footer from 'components/Menu/Footer'
@@ -34,7 +33,6 @@ import ImportTokenWarningModal from './components/ImportTokenWarningModal'
 import ProgressSteps from './components/ProgressSteps'
 import { AppBody } from '../../components/App'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
-import DEFAULT_TOKEN_LIST from '../../config/constants/tokenLists/pancake-default.tokenlist.json'
 import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { useCurrency, useAllTokens } from '../../hooks/Tokens'
@@ -64,6 +62,10 @@ import PriceChartContainer from './components/Chart/PriceChartContainer'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import CurrencyInputHeader from './components/CurrencyInputHeader'
 
+// import { listToTokenMap } from 'state/lists/hooks'
+// import DEFAULT_TOKEN_LIST from '../../config/constants/tokenLists/pancake-default.tokenlist.json'
+
+
 const Label = styled(Text)`
   font-size: 12px;
   font-weight: bold;
@@ -75,7 +77,7 @@ export default function Swap({ history }: RouteComponentProps) {
   const { t } = useTranslation()
   const { isMobile } = useMatchBreakpoints()
   const [isChartExpanded, setIsChartExpanded] = useState(false)
-  const [userChartPreference, setUserChartPreference] = useExchangeChartManager(isMobile)
+  const [, setUserChartPreference] = useExchangeChartManager(isMobile)
   const [isChartDisplayed, setIsChartDisplayed] = useState(false)
 
   useEffect(() => {

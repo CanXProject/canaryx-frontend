@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Text, PancakeToggle, Toggle, Flex, Modal, InjectedModalProps, ThemeSwitcher } from 'canaryx-uikit'
+import { Text, Toggle, Flex, Modal, InjectedModalProps } from 'canaryx-uikit'
 import {
-  useAudioModeManager,
   useExpertModeManager,
   useUserExpertModeAcknowledgementShow,
   useUserSingleHopOnly,
@@ -31,7 +30,7 @@ const SettingsModal: React.FC<InjectedModalProps> = ({ onDismiss }) => {
   const { onChangeRecipient } = useSwapActionHandlers()
 
   const { t } = useTranslation()
-  const { theme, isDark, toggleTheme } = useTheme()
+  const { theme } = useTheme()
 
   if (showConfirmExpertModal) {
     return (

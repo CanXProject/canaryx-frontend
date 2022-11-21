@@ -5,7 +5,7 @@ import { ethers } from 'ethers'
 import { formatUnits } from 'ethers/lib/utils'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { Heading, Flex, Image, Text } from 'canaryx-uikit'
+import { Heading, Flex, Text } from 'canaryx-uikit'
 import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import { useTranslation } from 'contexts/Localization'
@@ -32,9 +32,10 @@ import PoolCard from './components/PoolCard'
 import CakeVaultCard from './components/CakeVaultCard'
 import PoolTabButtons from './components/PoolTabButtons'
 import BountyCard from './components/BountyCard'
-import HelpButton from './components/HelpButton'
 import PoolsTable from './components/PoolsTable/PoolsTable'
 import { getAprData, getCakeVaultEarnings } from './helpers'
+
+// import HelpButton from './components/HelpButton'
 
 const CardLayout = styled(FlexLayout)`
   justify-content: center;

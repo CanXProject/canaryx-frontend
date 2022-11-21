@@ -28,7 +28,6 @@ export const viewUserInfoForLotteryId = async (
 ): Promise<LotteryTicket[]> => {
   try {
     const data = await lotteryContract.viewUserInfoForLotteryId(account, lotteryId, cursor, perRequestLimit)
-    console.log(data)
     return processRawTicketsResponse(data)
   } catch (error) {
     console.error('viewUserInfoForLotteryId', error)
