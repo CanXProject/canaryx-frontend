@@ -9,10 +9,11 @@ import Hero from './components/Hero'
 import { swapSectionData, earnSectionData, cakeSectionData } from './components/SalesSection/data'
 import MetricsSection from './components/MetricsSection'
 import SalesSection from './components/SalesSection'
-import FarmsPoolsRow from './components/FarmsPoolsRow'
-import Footer from './components/Footer'
-import { WedgeTopLeft, InnerWedgeWrapper, OuterWedgeWrapper, WedgeTopRight } from './components/WedgeSvgs'
 import UserBanner from './components/UserBanner'
+
+// import FarmsPoolsRow from './components/FarmsPoolsRow'
+// import Footer from './components/Footer'
+// import { WedgeTopLeft, InnerWedgeWrapper, OuterWedgeWrapper, WedgeTopRight } from './components/WedgeSvgs'
 
 const StyledHeroSection = styled(PageSection)`
   padding-top: 16px;

@@ -1,15 +1,16 @@
 import React from 'react'
-import { useTranslation } from 'contexts/Localization'
-import { Button } from 'canaryx-uikit'
 import { useWeb3React } from '@web3-react/core'
-import { Link } from 'react-router-dom'
 import { Ifo, PoolIds } from 'config/constants/types'
 import { WalletIfoData, PublicIfoData } from 'views/Ifos/types'
-import { nftsBaseUrl } from 'views/Nft/market/constants'
 import ConnectWalletButton from 'components/ConnectWalletButton'
 import ContributeButton from './ContributeButton'
 import ClaimButton from './ClaimButton'
 import { SkeletonCardActions } from './Skeletons'
+
+// import { Button } from 'canaryx-uikit'
+// import { Link } from 'react-router-dom'
+// import { nftsBaseUrl } from 'views/Nft/market/constants'
+// import { useTranslation } from 'contexts/Localization'
 
 interface Props {
   poolId: PoolIds
@@ -20,7 +21,7 @@ interface Props {
 }
 
 const IfoCardActions: React.FC<Props> = ({ poolId, ifo, publicIfoData, walletIfoData, isLoading }) => {
-  const { t } = useTranslation()
+  // const { t } = useTranslation()
   const { account } = useWeb3React()
   const userPoolCharacteristics = walletIfoData[poolId]
 

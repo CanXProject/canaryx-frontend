@@ -3,7 +3,6 @@ import { Currency, ETHER, Token } from 'canaryx-sdk'
 import { Text, Input, Box } from 'canaryx-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { FixedSizeList } from 'react-window'
-import { useAudioModeManager } from 'state/user/hooks'
 import useDebounce from 'hooks/useDebounce'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { useAllTokens, useToken, useIsUserAddedToken, useFoundOnInactiveList } from '../../hooks/Tokens'
@@ -17,6 +16,9 @@ import useTokenComparator from './sorting'
 
 import ImportRow from './ImportRow'
 
+// import { useAudioModeManager } from 'state/user/hooks'
+
+
 interface CurrencySearchProps {
   selectedCurrency?: Currency | null
   onCurrencySelect: (currency: Currency) => void
@@ -26,7 +28,7 @@ interface CurrencySearchProps {
   setImportToken: (token: Token) => void
 }
 
-const swapSound = new Audio('swap.mp3')
+// const swapSound = new Audio('swap.mp3')
 
 function CurrencySearch({
   selectedCurrency,

@@ -2,7 +2,7 @@ import React from 'react'
 import { Flex, Text, Button, Link } from 'canaryx-uikit'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
-import CompositeImage, { CompositeImageProps } from '../CompositeImage'
+import { CompositeImageProps } from '../CompositeImage'
 import ColoredWordHeading from '../ColoredWordHeading'
 
 interface SalesSectionButton {

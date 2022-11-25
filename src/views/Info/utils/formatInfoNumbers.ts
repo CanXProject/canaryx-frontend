@@ -57,7 +57,7 @@ export const formatAmount = (
   if (isInteger && amount < 1000) {
     format = '0'
   }
-  console.log(amount)
+
   const amountWithPrecision = parseFloat(amount.toFixed(precision))
 
   // toUpperCase is needed cause numeral doesn't have support for capital K M B out of the box

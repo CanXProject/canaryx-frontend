@@ -1,8 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Box, Heading, Text } from 'canaryx-uikit'
 import Container from 'components/Layout/Container'
 import { useTranslation } from 'contexts/Localization'
+// import styled from 'styled-components'
 
 const Hero = () => {
   const { t } = useTranslation()

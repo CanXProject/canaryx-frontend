@@ -1,6 +1,6 @@
-import { MenuItemsType, DropdownMenuItemType } from 'canaryx-uikit'
+import { MenuItemsType } from 'canaryx-uikit'
 import { ContextApi } from 'contexts/Localization/types'
-import { nftsBaseUrl } from 'views/Nft/market/constants'
+// import { nftsBaseUrl } from 'views/Nft/market/constants'
 
 export type ConfigMenuItemsType = MenuItemsType & { hideSubNav?: boolean }
 

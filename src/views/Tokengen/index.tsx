@@ -1,49 +1,52 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import PageSection from 'components/PageSection'
 import { useWeb3React } from '@web3-react/core'
-import useTheme from 'hooks/useTheme'
-import { Box, Button, Checkbox, Flex, Link, Radio, Text } from 'canaryx-uikit'
-import { RowBetween } from 'components/Layout/Row'
+import { Box, Button, Checkbox, Flex, Link, Text } from 'canaryx-uikit'
 import Page from 'views/Page'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from 'views/Swap/styles'
 import { AppBody } from 'components/App'
 import { useTokenGenContract } from 'hooks/useContract'
 import useToast from 'hooks/useToast'
-import { BIG_NINE, BIG_TEN } from 'utils/bigNumber'
 import { useGetBnbBalance } from 'hooks/useTokenBalance'
 import axios from 'axios'
 
-const InputRow = styled.div<{ selected: boolean }>`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-end;
-  padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
-`
+// import PageSection from 'components/PageSection'
+// import { RowBetween } from 'components/Layout/Row'
+// import { BIG_NINE, BIG_TEN } from 'utils/bigNumber'
+// import useTheme from 'hooks/useTheme'
 
-const LabelRow = styled.div`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 0.75rem;
-  line-height: 1rem;
-  padding: 0.75rem 1rem 0 1rem;
-`
-const InputPanel = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  position: relative;
-  border-radius: '4px';
-  background-color: ${({ theme }) => theme.colors.backgroundAlt};
-  z-index: 1;
-`
-const Container = styled.div`
-  border-radius: 4px;
-  background: ${({ theme }) => theme.colors.input};
-  box-shadow: ${({ theme }) => theme.shadows.inset};
-`
+
+
+// const InputRow = styled.div<{ selected: boolean }>`
+//   display: flex;
+//   flex-flow: row nowrap;
+//   align-items: center;
+//   justify-content: flex-end;
+//   padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
+// `
+
+// const LabelRow = styled.div`
+//   display: flex;
+//   flex-flow: row nowrap;
+//   align-items: center;
+//   color: ${({ theme }) => theme.colors.text};
+//   font-size: 0.75rem;
+//   line-height: 1rem;
+//   padding: 0.75rem 1rem 0 1rem;
+// `
+// const InputPanel = styled.div`
+//   display: flex;
+//   flex-flow: column nowrap;
+//   position: relative;
+//   border-radius: '4px';
+//   background-color: ${({ theme }) => theme.colors.backgroundAlt};
+//   z-index: 1;
+// `
+// const Container = styled.div`
+//   border-radius: 4px;
+//   background: ${({ theme }) => theme.colors.input};
+//   box-shadow: ${({ theme }) => theme.shadows.inset};
+// `
 
 const StyledInput = styled.input`
   color: ${({ theme }) => theme.colors.text};
@@ -61,9 +64,9 @@ const StyledInput = styled.input`
     color: ${({ theme }) => theme.colors.textSubtle};
   }
 `
-const gasPrice = BIG_TEN.times(BIG_TEN.pow(BIG_NINE)).toString()
+// const gasPrice = BIG_TEN.times(BIG_TEN.pow(BIG_NINE)).toString()
 const Tokengen: React.FC = () => {
-  const { theme } = useTheme()
+  // const { theme } = useTheme()
   const { account } = useWeb3React()
   const { toastError, toastSuccess } = useToast()
   const contract = useTokenGenContract()
@@ -89,7 +92,6 @@ const Tokengen: React.FC = () => {
     if (account && account.startsWith('0x')) {
       const counter = await contract.counter(account)
       if (counter > 0) {
-        console.log(account, counter)
         const arr = []
         for (let i = counter - 1; i > -1; i--) {
           const data = await contract.deployedtokens(account, i)

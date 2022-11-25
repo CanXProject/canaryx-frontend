@@ -8,7 +8,7 @@ import SwapWarningTokensConfig from 'config/constants/swapWarningTokens'
 import SafemoonWarning from './SafemoonWarning'
 import BondlyWarning from './BondlyWarning'
 import Acknowledgement from './Acknowledgement'
-import AstroWarning from './AstroWarning'
+// import AstroWarning from './AstroWarning'
 
 const StyledModalContainer = styled(ModalContainer)`
   max-width: 440px;

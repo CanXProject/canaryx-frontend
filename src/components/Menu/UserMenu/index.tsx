@@ -4,24 +4,25 @@ import { Flex, LogoutIcon, useModal, UserMenu as UIKitUserMenu, UserMenuDivider,
 import history from 'routerHistory'
 import useAuth from 'hooks/useAuth'
 import { useProfile } from 'state/profile/hooks'
-import ConnectWalletButton from 'components/ConnectWalletButton'
 import DisconnectedWalletIcon from 'components/ConnectWalletButtonIcon'
 import { FetchStatus, useGetBnbBalance } from 'hooks/useTokenBalance'
 import { useTranslation } from 'contexts/Localization'
 import { nftsBaseUrl } from 'views/Nft/market/constants'
 import WalletModal, { WalletView, LOW_BNB_BALANCE } from './WalletModal'
-import ProfileUserMenuItem from './ProfileUserMenutItem'
 import WalletUserMenuItem from './WalletUserMenuItem'
+// import ConnectWalletButton from 'components/ConnectWalletButton'
+// import ProfileUserMenuItem from './ProfileUserMenutItem'
+
 
 const UserMenu = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
   const { logout } = useAuth()
   const { balance, fetchStatus } = useGetBnbBalance()
-  const { isInitialized, isLoading, profile } = useProfile()
+  const { profile } = useProfile()
   const [onPresentWalletModal] = useModal(<WalletModal initialView={WalletView.WALLET_INFO} />)
   const [onPresentTransactionModal] = useModal(<WalletModal initialView={WalletView.TRANSACTIONS} />)
-  const hasProfile = isInitialized && !!profile
+  // const hasProfile = isInitialized && !!profile
   const avatarSrc = profile?.nft?.image?.thumbnail
   const hasLowBnbBalance = fetchStatus === FetchStatus.SUCCESS && balance.lte(LOW_BNB_BALANCE)
 

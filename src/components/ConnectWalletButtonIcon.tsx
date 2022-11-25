@@ -8,9 +8,9 @@ const DisconnectedWalletIcon = (props) => {
   const { login, logout } = useAuth()
   const { onPresentConnectModal } = useWalletModal(login, logout, t)
 
-  const handleClick = () => {
-    onPresentConnectModal()
-  }
+  // const handleClick = () => {
+  //   onPresentConnectModal()
+  // }
 
   return (
     // <div style={{ paddingRight: 24 }} >

@@ -1,15 +1,12 @@
-/* eslint-disable */
+/* eslint-disable no-continue */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { CurrencyAmount, ETHER, JSBI, Token, Trade } from 'canaryx-sdk'
-import AddressInputPanel from './components/AddressInputPanel'
-import { ArrowWrapper, SwapCallbackError, Wrapper } from './components/styleds'
 import {
   Button,
   Text,
   Box,
   ArrowDownIcon,
-  IconButton,
   useModal,
   Flex,
   Card,
@@ -20,7 +17,6 @@ import {
   ButtonMenuItem,
 } from 'canaryx-uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
-import LimitOrderTable from './components/LimitOrderTable'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
 import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
@@ -33,19 +29,18 @@ import { getOrderBookAddress } from 'utils/addressHelpers'
 import { space } from 'styled-system'
 import BigNumber from 'bignumber.js'
 import { CurrencyLogo } from 'components/Logo'
-import { GreyCard } from '../../components/Card'
-import { AutoColumn } from '../../components/Layout/Column'
-import ConfirmSwapModal from './components/ConfirmSwapModal'
 import { CurrencyInputPanelCustom, TextCustom } from 'components/CurrencyInputPanel/CurrencyInputPanelCustom'
 import { CurrencyInputPanelCustom2 } from 'components/CurrencyInputPanel2/CurrencyInputPanelCustom2'
+import useTheme from 'hooks/useTheme'
+import AddressInputPanel from './components/AddressInputPanel'
+import { ArrowWrapper, SwapCallbackError } from './components/styleds'
+import { GreyCard } from '../../components/Card'
+import { AutoColumn } from '../../components/Layout/Column'
 import TradePrice from './components/TradePrice'
-import PriceChartContainer from './components/Chart/PriceChartContainer'
-import confirmPriceImpactWithoutFee from './components/confirmPriceImpactWithoutFee'
 import ImportTokenWarningModal from './components/ImportTokenWarningModal'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { useCurrency, useAllTokens } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useApproveCallback'
-import { useSwapCallback } from '../../hooks/useSwapCallback'
 import useWrapCallback, { WrapType } from '../../hooks/useWrapCallback'
 import { Field } from '../../state/limitorders/actions'
 import { AutoRow, RowBetween } from '../../components/Layout/Row'
@@ -55,7 +50,6 @@ import {
   useDerivedSwapInfo,
   useSwapActionHandlers,
   useSwapState,
-  useSingleTokenSwapInfo,
 } from '../../state/limitorders/hooks'
 import {
   useExpertModeManager,
@@ -64,12 +58,9 @@ import {
   useExchangeChartManager,
 } from '../../state/user/hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import Page from '../Page'
 import SwapWarningModal from './components/SwapWarningModal'
 import {
-  StyledInputCurrencyWrapper,
-  StyledSwapContainer,
   LimitContainer,
   ChartPanel,
   TicketContainer,
@@ -87,9 +78,7 @@ import {
   OrderBookArea,
   OrderBookPart,
   HistoryPanel,
-  HistoryTab,
   TradeBook,
-  HistoryTable,
   ActionArea,
   ActionTab,
   ActionContent,
@@ -98,13 +87,19 @@ import {
   MarketButton,
   PriceInput,
   CustomOrderButton,
-  WalletStatusContainer,
+  StyledButton,
 } from './styles'
 import { TVChartContainer } from './TradingView/TVChartContainer'
 import { CustomWalletConnectButton, CustomWalletConnectedButton } from './TradingView/CustomWalletConnectButton'
 import AdvancedSwapDetailsDropdown from './components/AdvancedSwapDetailsDropdown'
-import { sPairapiLink, sOrderapiLink, sTradeapiLink, toEth } from './TradingView/Constants'
-import useTheme from 'hooks/useTheme'
+import { sOrderapiLink, sTradeapiLink } from './TradingView/Constants'
+
+// import LimitOrderTable from './components/LimitOrderTable'
+// import PriceChartContainer from './components/Chart/PriceChartContainer'
+// import ConfirmSwapModal from './components/ConfirmSwapModal'
+// import confirmPriceImpactWithoutFee from './components/confirmPriceImpactWithoutFee'
+// import { useSwapCallback } from '../../hooks/useSwapCallback'
+// import { computeTradePriceBreakdown } from '../../utils/prices'
 
 const TableWrapper = styled.div`
   & > div {
@@ -118,23 +113,6 @@ const TableWrapper = styled.div`
   }
 `
 
-const StyledInput = styled.input`
-  color: ${({ theme }) => theme.colors.text};
-  width: 100%;
-  position: relative;
-  font-weight: 500;
-  outline: none;
-  border: none;
-  font-size: 16px;
-  white-space: nowrap;
-  padding: 20px;
-  background: '#999999';
-  text-align: right;
-
-  ::placeholder {
-    color: ${({ theme }) => theme.colors.textDisabled};
-  }
-`
 const Label = styled(Text)`
   font-size: 12px;
   font-weight: bold;
@@ -159,10 +137,10 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const selectedPrice = useRef<HTMLInputElement>(null)
   const orderbookcontract = useOrderbookContract()
   const { isMobile } = useMatchBreakpoints()
-  const [isChartExpanded, setIsChartExpanded] = useState(false)
-  const [userChartPreference, setUserChartPreference] = useExchangeChartManager(isMobile)
-  const [isChartDisplayed, setIsChartDisplayed] = useState(true)
-  const [isValidLimitPrice, setIsValidLimitPrice] = useState(false)
+  const [isChartExpanded] = useState(false)
+  const [, setUserChartPreference] = useExchangeChartManager(isMobile)
+  const [isChartDisplayed] = useState(true)
+  const [, setIsValidLimitPrice] = useState(false)
   const [isapproved, setIsapproved] = useState(true)
   useEffect(() => {
     setUserChartPreference(false)
@@ -179,6 +157,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   )
   // dismiss warning if all imported tokens are in active lists
   const defaultTokens = useAllTokens()
+
   const importTokensNotInDefault =
     urlLoadedTokens &&
     urlLoadedTokens.filter((token: Token) => {
@@ -198,10 +177,10 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo()
 
   // Price data
-  const {
-    [Field.INPUT]: { currencyId: inputCurrencyId },
-    [Field.OUTPUT]: { currencyId: outputCurrencyId },
-  } = useSwapState()
+  // const {
+  //   [Field.INPUT]: { currencyId: inputCurrencyId },
+  //   [Field.OUTPUT]: { currencyId: outputCurrencyId },
+  // } = useSwapState()
 
   const {
     wrapType,
@@ -211,7 +190,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
   const trade = showWrap ? undefined : v2Trade
 
-  const singleTokenPrice = useSingleTokenSwapInfo()
+  // const singleTokenPrice = useSingleTokenSwapInfo()
 
   const parsedAmounts = showWrap
     ? {
@@ -241,7 +220,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   )
 
   // modal and loading
-  const [{ tradeToConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
+  const [{ swapErrorMessage }] = useState<{
     tradeToConfirm: Trade | undefined
     attemptingTxn: boolean
     swapErrorMessage: string | undefined
@@ -267,7 +246,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const noRoute = !route
 
   // check whether the user has approved the router on the input token
-  const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
+  const [approval] = useApproveCallbackFromTrade(trade, allowedSlippage)
 
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
@@ -283,60 +262,60 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
   // the callback to execute the swap
-  const { callback: swapCallback, error: swapCallbackError } = useSwapCallback(trade, allowedSlippage, recipient)
+  // const { callback: swapCallback } = useSwapCallback(trade, allowedSlippage, recipient)
 
-  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+  // const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
 
   const [singleHopOnly] = useUserSingleHopOnly()
 
-  const handleSwap = useCallback(() => {
-    if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {
-      return
-    }
-    if (!swapCallback) {
-      return
-    }
-    setSwapState({ attemptingTxn: true, tradeToConfirm, swapErrorMessage: undefined, txHash: undefined })
-    swapCallback()
-      .then((hash) => {
-        setSwapState({ attemptingTxn: false, tradeToConfirm, swapErrorMessage: undefined, txHash: hash })
-      })
-      .catch((error) => {
-        setSwapState({
-          attemptingTxn: false,
-          tradeToConfirm,
-          swapErrorMessage: error.message,
-          txHash: undefined,
-        })
-      })
-  }, [priceImpactWithoutFee, swapCallback, tradeToConfirm, t])
+  // const handleSwap = useCallback(() => {
+  //   if (priceImpactWithoutFee && !confirmPriceImpactWithoutFee(priceImpactWithoutFee, t)) {
+  //     return
+  //   }
+  //   if (!swapCallback) {
+  //     return
+  //   }
+  //   setSwapState({ attemptingTxn: true, tradeToConfirm, swapErrorMessage: undefined, txHash: undefined })
+  //   swapCallback()
+  //     .then((hash) => {
+  //       setSwapState({ attemptingTxn: false, tradeToConfirm, swapErrorMessage: undefined, txHash: hash })
+  //     })
+  //     .catch((error) => {
+  //       setSwapState({
+  //         attemptingTxn: false,
+  //         tradeToConfirm,
+  //         swapErrorMessage: error.message,
+  //         txHash: undefined,
+  //       })
+  //     })
+  // }, [priceImpactWithoutFee, swapCallback, tradeToConfirm, t])
 
   // errors
   const [showInverted, setShowInverted] = useState<boolean>(true)
 
   // warnings on slippage
-  const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
+  // const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   // show approve flow when: no error on inputs, not approved or pending, or approved in current session
   // never show if price impact is above threshold in non expert mode
-  const showApproveFlow =
-    !swapInputError &&
-    (approval === ApprovalState.NOT_APPROVED ||
-      approval === ApprovalState.PENDING ||
-      (approvalSubmitted && approval === ApprovalState.APPROVED)) &&
-    !(priceImpactSeverity > 3 && !isExpertMode)
+  // const showApproveFlow =
+  //   !swapInputError &&
+  //   (approval === ApprovalState.NOT_APPROVED ||
+  //     approval === ApprovalState.PENDING ||
+  //     (approvalSubmitted && approval === ApprovalState.APPROVED)) &&
+  //   !(priceImpactSeverity > 3 && !isExpertMode)
 
-  const handleConfirmDismiss = useCallback(() => {
-    setSwapState({ tradeToConfirm, attemptingTxn, swapErrorMessage, txHash })
-    // if there was a tx hash, we want to clear the input
-    if (txHash) {
-      onUserInput(Field.INPUT, '')
-    }
-  }, [attemptingTxn, onUserInput, swapErrorMessage, tradeToConfirm, txHash])
+  // const handleConfirmDismiss = useCallback(() => {
+  //   setSwapState({ tradeToConfirm, attemptingTxn, swapErrorMessage, txHash })
+  //   // if there was a tx hash, we want to clear the input
+  //   if (txHash) {
+  //     onUserInput(Field.INPUT, '')
+  //   }
+  // }, [attemptingTxn, onUserInput, swapErrorMessage, tradeToConfirm, txHash])
 
-  const handleAcceptChanges = useCallback(() => {
-    setSwapState({ tradeToConfirm: trade, swapErrorMessage, txHash, attemptingTxn })
-  }, [attemptingTxn, swapErrorMessage, trade, txHash])
+  // const handleAcceptChanges = useCallback(() => {
+  //   setSwapState({ tradeToConfirm: trade, swapErrorMessage, txHash, attemptingTxn })
+  // }, [attemptingTxn, swapErrorMessage, trade, txHash])
 
   // swap warning state
   const [swapWarningCurrency, setSwapWarningCurrency] = useState(null)
@@ -413,23 +392,23 @@ export default function LimitOrders({ history }: RouteComponentProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [importTokensNotInDefault.length])
 
-  const [onPresentConfirmModal] = useModal(
-    <ConfirmSwapModal
-      trade={trade}
-      originalTrade={tradeToConfirm}
-      onAcceptChanges={handleAcceptChanges}
-      attemptingTxn={attemptingTxn}
-      txHash={txHash}
-      recipient={recipient}
-      allowedSlippage={allowedSlippage}
-      onConfirm={handleSwap}
-      swapErrorMessage={swapErrorMessage}
-      customOnDismiss={handleConfirmDismiss}
-    />,
-    true,
-    true,
-    'confirmSwapModal',
-  )
+  // const [onPresentConfirmModal] = useModal(
+  //   <ConfirmSwapModal
+  //     trade={trade}
+  //     originalTrade={tradeToConfirm}
+  //     onAcceptChanges={handleAcceptChanges}
+  //     attemptingTxn={attemptingTxn}
+  //     txHash={txHash}
+  //     recipient={recipient}
+  //     allowedSlippage={allowedSlippage}
+  //     onConfirm={handleSwap}
+  //     swapErrorMessage={swapErrorMessage}
+  //     customOnDismiss={handleConfirmDismiss}
+  //   />,
+  //   true,
+  //   true,
+  //   'confirmSwapModal',
+  // )
 
   useEffect(() => {
     const currency0 = currencies[Field.INPUT]
@@ -469,7 +448,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
           .concat(address1)
         // url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1);
       }
-      console.log(url)
+
       const res = await axios.get(url)
       const res2 = await axios.get(url.replace('getorders', 'getorders'))
       const arr = []
@@ -478,21 +457,21 @@ export default function LimitOrders({ history }: RouteComponentProps) {
       for (let i = 0; i < res.data.length; i++) {
         if (!defaultTokens[res.data[i].fromtoken]) {
           continue
-        }
+        } 
 
         arr.push(
           <tr>
             <Td>{defaultTokens[res.data[i].fromtoken].symbol}</Td>
-            {/*<Td>{res.data[i].from_symbol}</Td>*/}
+            {/* <Td>{res.data[i].from_symbol}</Td> */}
             <Td>{defaultTokens[res.data[i].totoken].symbol}</Td>
-            {/*<Td>{res.data[i].to_symbol}</Td>*/}
-            {/*<Td>{new BigNumber(res.data[i].amount).dividedBy(BIG_TEN.pow(18)).toString()}</Td>*/}
+            {/* <Td>{res.data[i].to_symbol}</Td> */}
+            {/* <Td>{new BigNumber(res.data[i].amount).dividedBy(BIG_TEN.pow(18)).toString()}</Td> */}
             <Td>
               {new BigNumber(res.data[i].amount)
                 .dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].fromtoken].decimals))
                 .toString()}
             </Td>
-            {/*<Td>{new BigNumber(res.data[i].price).dividedBy(BIG_TEN.pow(18)).toString()}</Td>*/}
+            {/* <Td>{new BigNumber(res.data[i].price).dividedBy(BIG_TEN.pow(18)).toString()}</Td> */}
             <Td>
               {new BigNumber(res.data[i].price)
                 .dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].totoken].decimals))
@@ -504,10 +483,10 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                   try {
                     if (res.data[i].data.fromtoken === '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED') {
                       const tx = await orderbookcontract.cancelETHorder(res.data[i].data.id)
-                      const receipt = await tx.wait()
+                      await tx.wait()
                     } else {
                       const tx = await orderbookcontract.cancelTokenorder(res.data[i].data.id)
-                      const receipt = await tx.wait()
+                      await tx.wait()
                     }
                     let url2 = ''
                     if (address0 === 'SGB') {
@@ -537,11 +516,11 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                         .concat(address1)
                     }
 
-                    const resp = await axios.get(url2)
-                    console.log(resp.data)
+                    await axios.get(url2)
+
                     setCorderid(corderid - 1)
                   } catch (err) {
-                    console.log(err)
+                    console.error(err)
                   }
                 }}
                 scale="xs"
@@ -557,6 +536,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
         if (!defaultTokens[res2.data[i].fromtoken]) {
           continue
         }
+
         arr2.push(
           <tr>
             <Td>{defaultTokens[res2.data[i].fromtoken].symbol}</Td>
@@ -580,24 +560,25 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   }, [account, corderid, currencies[Field.INPUT], currencies[Field.OUTPUT]])
 
   const [pairSymbol, setPairSymbol] = useState('WSGB/CANARY')
-  const default_ticker = {
+  const defaultTicker = {
     ticker: { price: '0', change: '0(0%)', volume: '0', low: '0', high: '0' },
     buy: [],
     sell: [],
     trades: [],
   }
-  const [ticker, setTicker] = useState(default_ticker)
+  const [ticker, setTicker] = useState(defaultTicker)
   const [labelPosition, setLabelPosition] = useState(50)
   useEffect(() => {
     if (!currencies[Field.INPUT] || !currencies[Field.OUTPUT]) return
-    let _symbol = currencies[Field.INPUT].symbol + '/' + currencies[Field.OUTPUT].symbol
+    const _symbol = `${currencies[Field.INPUT].symbol}/${currencies[Field.OUTPUT].symbol}`
     if (pairSymbol === _symbol) return
-    let symbols = _symbol.split('/')
+    const symbols = _symbol.split('/')
     if (symbols.indexOf('SGB') >= 0) {
       symbols[symbols.indexOf('SGB')] = 'WSGB'
     }
-    let fixed_symbol = symbols[0] + '/' + symbols[1]
-    setPairSymbol(fixed_symbol)
+    const fixedSymbol = `${symbols[0]}/${symbols[1]}`
+
+    setPairSymbol(fixedSymbol)
   }, [currencies[Field.INPUT], currencies[Field.OUTPUT]])
 
   useEffect(() => {
@@ -608,7 +589,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
         setPriceRangeLabelPosition(res.data)
       })
       .catch((err) => {
-        console.log('ticker api error: ', err.message)
+        console.error(err)
       })
     const interval = setInterval(() => {
       axios
@@ -618,23 +599,22 @@ export default function LimitOrders({ history }: RouteComponentProps) {
           setPriceRangeLabelPosition(res.data)
         })
         .catch((err) => {
-          console.log('ticker api error: ', err.message)
+          console.error(err)
         })
     }, 600000)
     return () => clearInterval(interval)
   }, [pairSymbol])
 
-  const [ownerOrders, setOwnerOrders] = useState([])
+  const [, setOwnerOrders] = useState([])
   useEffect(() => {
     if (!account) return
     axios
       .get(`${sOrderapiLink}/getorders?owner=`.concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f'))
       .then((res) => {
-        console.log('get order: ', res.data)
         setOwnerOrders(res.data)
       })
       .catch((e) => {
-        console.log('get order error: ', e.message)
+        console.error(e)
       })
   }, [account, corderid])
 
@@ -642,7 +622,8 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const scrollToBottom = () => {
     orderEndRef.current?.scroll(0, 10000)
   }
-  const [historyTabOpenOrder, setHistoryTabOpenOrder] = useState(true)
+  // const [historyTabOpenOrder, setHistoryTabOpenOrder] = useState(true)
+
   const [actionTabBuy, setActionTabBuy] = useState(true)
   const switchTabBuy = (isBuy) => {
     if ((isBuy && !actionTabBuy) || (!isBuy && actionTabBuy)) {
@@ -663,7 +644,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
     let range = 0
     if (!_ticker.price && _ticker.high - _ticker.low > 0) {
       range = ((_ticker.price - _ticker.low) * 60) / (_ticker.high - _ticker.low)
-      range = range + 20
+      range += 20
       setLabelPosition(range)
     }
   }
@@ -745,8 +726,8 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     <div>Total</div>
                   </div>
                   <div className="trades-value" ref={orderEndRef}>
-                    {ticker?.sell.map((item, _index) => (
-                      <div className="column" key={_index}>
+                    {ticker?.sell.map((item) => (
+                      <div className="column" key={`column-${item.total}`}>
                         <div style={{ color: '#D9304E' }}>{item.price}</div>
                         <div>{item.amount}</div>
                         <div>{item.total}</div>
@@ -757,8 +738,8 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                 <OrderBookPart>
                   <div className="header">Price: {ticker?.ticker.price}</div>
                   <div className="trades-value">
-                    {ticker?.buy.map((item, _index) => (
-                      <div className="column" key={_index}>
+                    {ticker?.buy.map((item) => (
+                      <div className="column" key={`column-${item.total}`}>
                         <div style={{ color: '#0F8F62' }}>{item.price}</div>
                         <div>{item.amount}</div>
                         <div>{item.total}</div>
@@ -825,6 +806,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                           </tr>
                         </Table>
                         <div style={{ height: '343px', overflowY: 'auto' }}>
+                          {/* <Table>{orderlist}</Table> */}
                           <Table>{index === 0 ? orderlist : corderlist}</Table>
                         </div>
                       </Table>
@@ -847,8 +829,8 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     <div>Time</div>
                   </div>
                   <div className="trades-value" ref={orderEndRef}>
-                    {ticker?.trades.map((item, _index) => (
-                      <div className="column" key={_index}>
+                    {ticker?.trades.map((item) => (
+                      <div className="column" key={`column-${item.type}-${item.amount}-${item.time}`}>
                         <div style={{ color: item.type === 'sell' ? '#D9304E' : '#0F8F62' }}>{item.price}</div>
                         <div>{item.amount}</div>
                         <div>{item.time}</div>
@@ -867,12 +849,12 @@ export default function LimitOrders({ history }: RouteComponentProps) {
           <ActionArea>
             <ActionContent>
               <ActionTab>
-                <div className={actionTabBuy ? 'active' : ''} onClick={() => switchTabBuy(true)}>
+                <StyledButton $isActive={!actionTabBuy} className={actionTabBuy ? 'active' : ''} onClick={() => switchTabBuy(true)}>
                   BUY
-                </div>
-                <div className={actionTabBuy ? '' : 'active'} onClick={() => switchTabBuy(false)}>
+                </StyledButton>
+                <StyledButton $isActive={actionTabBuy} className={actionTabBuy ? '' : 'active'} onClick={() => switchTabBuy(false)}>
                   Sell
-                </div>
+                </StyledButton>
               </ActionTab>
               <ActionPart>
                 <AutoColumn gap="md">
@@ -928,7 +910,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                 </AutoColumn>
 
                 <Box mt="1rem" style={{ paddingTop: 24 }}>
-                  <Flex width="100%" justifyContent="space-between" position="relative"></Flex>
+                  <Flex width="100%" justifyContent="space-between" position="relative" />
                   <TextCustom>Price:</TextCustom>
                   <TradePrice
                     price={trade?.executionPrice}
@@ -949,6 +931,8 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                           setApprovalSubmitted(false) // reset 2 step UI for approvals
                           onSwitchTokens()
                         }}
+                        onKeyUp={() => false}
+                        aria-hidden="true"
                         color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? 'primary' : 'text'}
                       />
                     </PriceDiv>
@@ -1035,7 +1019,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                         let url = ''
                         let tx
                         const counter = await orderbookcontract.orderCounter()
-                        console.log(counter)
+
                         try {
                           if (address0 === 'SGB') {
                             url = 'https://sgborder.herokuapp.com/order/placeorder?id='
@@ -1057,7 +1041,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                                   .times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals))
                                   .toString(),
                               )
-                            console.log(0, url)
+
                             tx = await orderbookcontract.placeETHorder(
                               address1,
                               new BigNumber(formattedAmounts[Field.INPUT])
@@ -1092,7 +1076,6 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                                   .times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals))
                                   .toString(),
                               )
-                            console.log(1, url)
 
                             tx = await orderbookcontract.placeTokenorder(
                               address0,
@@ -1125,8 +1108,8 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                                   .times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals))
                                   .toString(),
                               )
-                            console.log(2, url)
-                            const con = getBep20Contract(address0, library.getSigner())
+
+                            // const con = getBep20Contract(address0, library.getSigner())
 
                             tx = await orderbookcontract.placeTokenorder(
                               address0,
@@ -1139,13 +1122,12 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                                 .toString(),
                             )
                           }
-                          const receipt = await tx.wait()
-                          console.log(receipt)
-                          const res = await axios.get(url, {})
+                          await tx.wait()
+
+                          axios.get(url, {})
                           setCorderid(corderid + 1)
-                          console.log(res)
                         } catch (err) {
-                          console.log(err)
+                          console.error(err)
                         }
                       }}
                       id="swap-button"
@@ -1161,12 +1143,12 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                         const currency0 = currencies[Field.INPUT]
                         const address0 =
                           currency0 instanceof Token ? currency0.address : currency0 === ETHER ? 'SGB' : ''
-                        const currency1 = currencies[Field.OUTPUT]
-                        const address1 =
-                          currency1 instanceof Token ? currency1.address : currency1 === ETHER ? 'SGB' : ''
+                        // const currency1 = currencies[Field.OUTPUT]
+                        // const address1 =
+                        //   currency1 instanceof Token ? currency1.address : currency1 === ETHER ? 'SGB' : ''
 
-                        const counter = await orderbookcontract.orderCounter()
-                        console.log(counter)
+                        await orderbookcontract.orderCounter()
+
                         try {
                           if (address0 !== 'SGB') {
                             const con = getBep20Contract(address0, library.getSigner())
@@ -1176,11 +1158,11 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                                 .times(BIG_TEN.pow(currencies[Field.INPUT].decimals))
                                 .toString(),
                             )
-                            const receipt = await tx.wait()
+                            await tx.wait()
                             setIsapproved(true)
                           }
                         } catch (err) {
-                          console.log(err)
+                          console.error(err)
                         }
                       }}
                       id="swap-button"
