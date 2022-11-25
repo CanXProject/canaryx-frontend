@@ -11,13 +11,13 @@ import { CurrencyLogo, DoubleCurrencyLogo } from '../Logo'
 import { RowBetween } from '../Layout/Row'
 import { Input as NumericalInput } from './NumericalInput'
 
-const InputRow = styled.div<{ selected: boolean }>`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-end;
-  padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
-`
+// const InputRow = styled.div<{ selected: boolean }>`
+//   display: flex;
+//   flex-flow: row nowrap;
+//   align-items: center;
+//   justify-content: flex-end;
+//   /* padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')}; */
+// `
 const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm' })`
   padding: 0 0.5rem;
 `
@@ -57,13 +57,41 @@ const NumericalInputCustom = styled(NumericalInput)`
   line-height: 12px;
   letter-spacing: 0.36px;
 `
+
+const StyledButton = styled(Button)`
+  width: 48px;
+  height: 25px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border: 1px solid #d8dce1;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 0.48px;
+  color: #92959a;
+  cursor: pointer;
+`
+
+const buttonsConfig = [
+  {
+    buttonLabel: '25%',
+    buttonValue: 0.25,
+  },
+  { buttonLabel: '50%', buttonValue: 0.5 },
+  { buttonLabel: '75%', buttonValue: 0.75 },
+  { buttonLabel: '100%', buttonValue: 1 },
+]
 interface CurrencyInputPanelProps {
   value: string
   onUserInput: (value: string) => void
   onMax?: () => void
-  showMaxButton: boolean
-  label?: string
   onCurrencySelect: (currency: Currency) => void
+  onPercentChange?: (buttonValue: number) => void
   currency?: Currency | null
   disableCurrencySelect?: boolean
   hideBalance?: boolean
@@ -76,8 +104,6 @@ export function CurrencyInputPanelCustom({
   value,
   onUserInput,
   onMax,
-  showMaxButton,
-  label,
   onCurrencySelect,
   currency,
   disableCurrencySelect = false,
@@ -86,6 +112,7 @@ export function CurrencyInputPanelCustom({
   otherCurrency,
   id,
   showCommonBases,
+  onPercentChange,
 }: CurrencyInputPanelProps) {
   const { account } = useActiveWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
@@ -155,13 +182,18 @@ export function CurrencyInputPanelCustom({
               />
             </RowBetween>
           </LabelRow>
-          <InputRow selected={disableCurrencySelect}>
+          <Flex paddingTop="5px">
+            {buttonsConfig.map(({ buttonLabel, buttonValue }) => (
+              <StyledButton onClick={() => onPercentChange(buttonValue)}>{buttonLabel}</StyledButton>
+            ))}
+          </Flex>
+          {/* <InputRow selected={disableCurrencySelect}>
             {account && currency && showMaxButton && label !== 'To' && (
               <Button onClick={onMax} scale="xs" variant="secondary">
                 MAX
               </Button>
             )}
-          </InputRow>
+          </InputRow> */}
         </Container>
       </InputPanel>
     </Box>

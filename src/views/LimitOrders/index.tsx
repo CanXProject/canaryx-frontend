@@ -44,6 +44,7 @@ import { ApprovalState, useApproveCallbackFromTrade } from '../../hooks/useAppro
 import useWrapCallback, { WrapType } from '../../hooks/useWrapCallback'
 import { Field } from '../../state/limitorders/actions'
 import { AutoRow, RowBetween } from '../../components/Layout/Row'
+import { useCurrencyBalance } from '../../state/wallet/hooks'
 import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
 import {
   useDefaultsFromURLSearch,
@@ -142,6 +143,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const [isChartDisplayed] = useState(true)
   const [, setIsValidLimitPrice] = useState(false)
   const [isapproved, setIsapproved] = useState(true)
+
   useEffect(() => {
     setUserChartPreference(false)
   }, [isChartDisplayed, setUserChartPreference])
@@ -175,6 +177,8 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   // swap state
   const { independentField, typedValue, recipient } = useSwapState()
   const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo()
+
+  const inputCurrencyBalance = useCurrencyBalance(account ?? undefined, currencies[Field.INPUT] ?? undefined)
 
   // Price data
   // const {
@@ -259,7 +263,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   }, [approval, approvalSubmitted])
 
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
-  const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
+  // const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
   // the callback to execute the swap
   // const { callback: swapCallback } = useSwapCallback(trade, allowedSlippage, recipient)
@@ -378,6 +382,13 @@ export default function LimitOrders({ history }: RouteComponentProps) {
 
     [onCurrencySelection],
   )
+
+  const handlePercentChange = (buttonValue: number) => {
+    const value = new BigNumber(buttonValue);
+    const percentageChangedValue = value.multipliedBy(inputCurrencyBalance.toSignificant(6));
+
+    onUserInput(Field.INPUT, percentageChangedValue.toString());
+  }
 
   const swapIsUnsupported = useIsTransactionUnsupported(currencies?.INPUT, currencies?.OUTPUT)
 
@@ -857,15 +868,16 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                 </StyledButton>
               </ActionTab>
               <ActionPart>
-                <AutoColumn gap="md">
+                <AutoColumn gap="24px">
                   <CurrencyInputPanelCustom
-                    label={independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')}
+                    // label={independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')}
+                    // showMaxButton={!atMaxAmountInput}
                     value={formattedAmounts[Field.INPUT]}
-                    showMaxButton={!atMaxAmountInput}
                     currency={currencies[Field.INPUT]}
                     onUserInput={handleTypeInput}
                     onMax={handleMaxInput}
                     onCurrencySelect={handleInputSelect}
+                    onPercentChange={handlePercentChange}
                     otherCurrency={currencies[Field.OUTPUT]}
                     id="swap-currency-input"
                   />
