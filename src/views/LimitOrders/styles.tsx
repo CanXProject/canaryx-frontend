@@ -391,10 +391,8 @@ export const ActionArea = styled.div`
   width: 100%;
   padding: 7px;
 `
-export const ActionTab = styled.div`
-  height: 31px;
-  display: flex;
-  & > div {
+
+export const StyledButton = styled(Button)`
     flex: 1;
     display: flex;
     align-items: center;
@@ -409,11 +407,16 @@ export const ActionTab = styled.div`
     letter-spacing: 0.48px;
     color: #92959a;
     cursor: pointer;
-  }
-  & > .active {
-    background: #ffffff;
-    border: none;
-  }
+
+    ${({ $isActive }) => $isActive} {
+      background: #ffffff;
+      border: none;
+    }
+`
+
+export const ActionTab = styled.div`
+  height: 31px;
+  display: flex;
 `
 export const ActionContent = styled.div`
   height: 100%;
