@@ -85,10 +85,11 @@ import {
   ActionContent,
   ActionPart,
   PriceDiv,
-  MarketButton,
   PriceInput,
   CustomOrderButton,
   StyledButton,
+  OrderTypeContainer,
+  OrderTypeButton,
 } from './styles'
 import { TVChartContainer } from './TradingView/TVChartContainer'
 import { CustomWalletConnectButton, CustomWalletConnectedButton } from './TradingView/CustomWalletConnectButton'
@@ -143,6 +144,8 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const [isChartDisplayed] = useState(true)
   const [, setIsValidLimitPrice] = useState(false)
   const [isapproved, setIsapproved] = useState(true)
+  const [isMarketOrder, setIsMarketOrder] = useState(true)
+  const [orderPrice, setOrderPrice] = useState("0");
 
   useEffect(() => {
     setUserChartPreference(false)
@@ -384,10 +387,10 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   )
 
   const handlePercentChange = (buttonValue: number) => {
-    const value = new BigNumber(buttonValue);
-    const percentageChangedValue = value.multipliedBy(inputCurrencyBalance.toSignificant(6));
+    const value = new BigNumber(buttonValue)
+    const percentageChangedValue = value.multipliedBy(inputCurrencyBalance.toSignificant(6))
 
-    onUserInput(Field.INPUT, percentageChangedValue.toString());
+    onUserInput(Field.INPUT, percentageChangedValue.toString())
   }
 
   const swapIsUnsupported = useIsTransactionUnsupported(currencies?.INPUT, currencies?.OUTPUT)
@@ -395,6 +398,15 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const [onPresentImportTokenWarningModal] = useModal(
     <ImportTokenWarningModal tokens={importTokensNotInDefault} onCancel={() => history.push('/limitorders/')} />,
   )
+
+  useEffect(() => {
+    if (isMarketOrder) selectedPrice.current.value = formattedAmounts[Field.OUTPUT]
+  }, [formattedAmounts])
+
+  useEffect(() => {
+    if (!isMarketOrder) selectedPrice.current.value = String(Number(formattedAmounts[Field.INPUT]) * Number(orderPrice))
+  }, [orderPrice])
+  
 
   useEffect(() => {
     if (importTokensNotInDefault.length > 0) {
@@ -468,7 +480,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
       for (let i = 0; i < res.data.length; i++) {
         if (!defaultTokens[res.data[i].fromtoken]) {
           continue
-        } 
+        }
 
         arr.push(
           <tr>
@@ -860,14 +872,34 @@ export default function LimitOrders({ history }: RouteComponentProps) {
           <ActionArea>
             <ActionContent>
               <ActionTab>
-                <StyledButton $isActive={!actionTabBuy} className={actionTabBuy ? 'active' : ''} onClick={() => switchTabBuy(true)}>
+                <StyledButton
+                  $isActive={!actionTabBuy}
+                  className={actionTabBuy ? 'active' : ''}
+                  onClick={() => switchTabBuy(true)}
+                >
                   BUY
                 </StyledButton>
-                <StyledButton $isActive={actionTabBuy} className={actionTabBuy ? '' : 'active'} onClick={() => switchTabBuy(false)}>
+                <StyledButton
+                  $isActive={actionTabBuy}
+                  className={actionTabBuy ? '' : 'active'}
+                  onClick={() => switchTabBuy(false)}
+                >
                   Sell
                 </StyledButton>
               </ActionTab>
               <ActionPart>
+                <AutoColumn>
+                  <Flex>
+                    <OrderTypeContainer>
+                      <OrderTypeButton $isActive={isMarketOrder} onClick={() => setIsMarketOrder(!isMarketOrder)}>
+                        Market
+                      </OrderTypeButton>
+                      <OrderTypeButton $isActive={!isMarketOrder} onClick={() => setIsMarketOrder(!isMarketOrder)}>
+                        Limit Order
+                      </OrderTypeButton>
+                    </OrderTypeContainer>
+                  </Flex>
+                </AutoColumn>
                 <AutoColumn gap="24px">
                   <CurrencyInputPanelCustom
                     // label={independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')}
@@ -921,17 +953,28 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                   )}
                 </AutoColumn>
 
-                <Box mt="1rem" style={{ paddingTop: 24 }}>
+                <Box mt="1rem">
                   <Flex width="100%" justifyContent="space-between" position="relative" />
                   <TextCustom>Price:</TextCustom>
-                  <TradePrice
-                    price={trade?.executionPrice}
-                    setShowInverted={setShowInverted}
-                    showInverted={showInverted}
-                  />
+                  {isMarketOrder ? (
+                    <TradePrice
+                      price={trade?.executionPrice}
+                      setShowInverted={setShowInverted}
+                      showInverted={showInverted}
+                    />
+                  ) : (
+                    <PriceInput
+                      placeholder="0"
+                      disabled={isMarketOrder}
+                      onChange={(e) => {
+                        setOrderPrice(e.target.value);
+                      }}
+                      value={orderPrice}
+                    />
+                  )}
                 </Box>
 
-                <Box mt="1rem" style={{ paddingTop: 24 }}>
+                <Box mt="1rem">
                   <Flex width="100%" justifyContent="space-between" position="relative">
                     <PriceDiv>
                       <TextCustom>Total Price:</TextCustom>
@@ -948,18 +991,19 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                         color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? 'primary' : 'text'}
                       />
                     </PriceDiv>
-                    <MarketButton
+                    {/* <MarketButton
                       onClick={() => {
                         selectedPrice.current.value = formattedAmounts[Field.OUTPUT]
                       }}
                       scale="xs"
                     >
                       MARKET
-                    </MarketButton>
+                    </MarketButton> */}
                   </Flex>
                   <PriceInput
                     placeholder="Set total price: 0"
                     ref={selectedPrice}
+                    disabled={isMarketOrder}
                     onChange={async (e) => {
                       if (e.target.value > formattedAmounts[Field.OUTPUT]) {
                         const currency0 = currencies[Field.INPUT]

@@ -393,25 +393,66 @@ export const ActionArea = styled.div`
 `
 
 export const StyledButton = styled(Button)`
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border: 1px solid #d8dce1;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 0.48px;
+  color: #92959a;
+  cursor: pointer;
+
+  ${({ $isActive }) => $isActive} {
+    background: #ffffff;
+    border: none;
+  }
+`
+
+export const OrderTypeContainer = styled(Flex)`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #d8dce1;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 0.48px;
+  color: #92959a;
+  cursor: pointer;
+  height: 35px;
+`
+
+export const OrderTypeButton = styled(Button)`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 0.48px;
+  color: #92959a;
+  cursor: pointer;
+  padding: 0 12px;
+  height: 100%;
+
+  ${({ $isActive }) => $isActive} {
     background: #f5f5f5;
     border: 1px solid #d8dce1;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-    text-align: center;
-    letter-spacing: 0.48px;
-    color: #92959a;
-    cursor: pointer;
-
-    ${({ $isActive }) => $isActive} {
-      background: #ffffff;
-      border: none;
-    }
+  }
 `
 
 export const ActionTab = styled.div`
