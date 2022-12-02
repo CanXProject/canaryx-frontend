@@ -15,6 +15,7 @@ import {
   Td,
   ButtonMenu,
   ButtonMenuItem,
+  useTooltip,
 } from 'canaryx-uikit'
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
@@ -145,7 +146,13 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const [, setIsValidLimitPrice] = useState(false)
   const [isapproved, setIsapproved] = useState(true)
   const [isMarketOrder, setIsMarketOrder] = useState(true)
-  const [orderPrice, setOrderPrice] = useState("0");
+  const [orderPrice, setOrderPrice] = useState('0')
+  const [sellTickerHightlighted, setSellTickerHightlighted] = useState([])
+  const [buyTickerHightlighted, setBuyTickerHightlighted] = useState([])
+  const [tooltipComponent, setTooltipComponent] = useState(null)
+
+  const { targetRef: sellTickerRef, tooltip: sellTooltip, tooltipVisible: sellTooltipVisible } = useTooltip(tooltipComponent, { placement: 'left', trigger: 'hover' })
+  const { targetRef: buyTickerRef, tooltip: buyTooltip, tooltipVisible: buyTooltipVisible } = useTooltip(tooltipComponent, { placement: 'left', trigger: 'hover' })
 
   useEffect(() => {
     setUserChartPreference(false)
@@ -406,7 +413,6 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   useEffect(() => {
     if (!isMarketOrder) selectedPrice.current.value = String(Number(formattedAmounts[Field.INPUT]) * Number(orderPrice))
   }, [orderPrice])
-  
 
   useEffect(() => {
     if (importTokensNotInDefault.length > 0) {
@@ -672,6 +678,39 @@ export default function LimitOrders({ history }: RouteComponentProps) {
     }
   }
 
+  const handleMouseOnAveragePrice = (sellTickerIndex: number, side: string) => {
+    const sideTickers = [...(side === 'sell' ? ticker.sell : ticker.buy)].map((item, tickerIndex) => {
+      return { ...item, tickerIndex }
+    })
+    const sortedTickers = sideTickers.filter((_, tickerIndex) => {
+      return side === 'sell' ? tickerIndex >= sellTickerIndex : tickerIndex <= sellTickerIndex
+    })
+    const sortedTickersIds = sortedTickers.map((item) => item.tickerIndex)
+    const tooltipData = sortedTickers.reduce(({ price, amount, total }, curr) => {
+      return {
+        price: price + curr.price,
+        amount: amount + curr.amount,
+        total: total + curr.total,
+      }
+    })
+
+    const tooltipTickersComponent = (
+      <Flex flexDirection="column">
+        <Text color="#92959a">Avg Price: {(tooltipData.price / sortedTickersIds.length).toFixed(2)}</Text>
+        <Text color="#92959a">Amount: {tooltipData.amount.toFixed(2)}</Text>
+        <Text color="#92959a">Total: {tooltipData.total.toFixed(2)}</Text>
+      </Flex>
+    )
+
+    setTooltipComponent(tooltipTickersComponent)
+  
+    if (side === 'sell') {
+      setSellTickerHightlighted(sortedTickersIds)
+    } else {
+      setBuyTickerHightlighted(sortedTickersIds)
+    }
+  }
+
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded} style={{ padding: 0 }}>
       <LimitContainer>
@@ -749,24 +788,62 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     <div>Total</div>
                   </div>
                   <div className="trades-value" ref={orderEndRef}>
-                    {ticker?.sell.map((item) => (
-                      <div className="column" key={`column-${item.total}`}>
-                        <div style={{ color: '#D9304E' }}>{item.price}</div>
-                        <div>{item.amount}</div>
-                        <div>{item.total}</div>
-                      </div>
+                    {ticker?.sell.map((item, sellTickerIndex) => (
+                      <>
+                        {sellTooltipVisible && sellTooltip}
+                        <div
+                          className="column"
+                          style={
+                            sellTickerHightlighted.includes(sellTickerIndex)
+                              ? { backgroundColor: '#7e7e7e4a' }
+                              : { backgroundColor: 'transparent' }
+                          }
+                          onMouseEnter={() => handleMouseOnAveragePrice(sellTickerIndex, 'sell')}
+                          onMouseLeave={() => setSellTickerHightlighted([])}
+                          key={`column-${item.total}`}
+                        >
+                          <Flex
+                            width="100%"
+                            justifyContent="space-between"
+                            ref={sellTickerHightlighted[0] === sellTickerIndex ? sellTickerRef : null}
+                          >
+                            <div style={{ color: '#D9304E' }}>{item.price}</div>
+                            <div>{item.amount}</div>
+                            <div>{item.total}</div>
+                          </Flex>
+                        </div>
+                      </>
                     ))}
                   </div>
                 </OrderBookPart>
                 <OrderBookPart>
                   <div className="header">Price: {ticker?.ticker.price}</div>
                   <div className="trades-value">
-                    {ticker?.buy.map((item) => (
-                      <div className="column" key={`column-${item.total}`}>
-                        <div style={{ color: '#0F8F62' }}>{item.price}</div>
-                        <div>{item.amount}</div>
-                        <div>{item.total}</div>
-                      </div>
+                    {ticker?.buy.map((item, buyTickerIndex) => (
+                      <>
+                        {buyTooltipVisible && buyTooltip}
+                        <div
+                          style={
+                            buyTickerHightlighted.includes(buyTickerIndex)
+                              ? { backgroundColor: '#7e7e7e4a' }
+                              : { backgroundColor: 'transparent' }
+                          }
+                          onMouseEnter={() => handleMouseOnAveragePrice(buyTickerIndex, 'buy')}
+                          onMouseLeave={() => setBuyTickerHightlighted([])}
+                          className="column"
+                          key={`column-${item.total}`}
+                        >
+                          <Flex
+                            width="100%"
+                            justifyContent="space-between"
+                            ref={buyTickerHightlighted[buyTickerHightlighted.length - 1] === buyTickerIndex ? buyTickerRef : null}
+                          >
+                            <div style={{ color: '#0F8F62' }}>{item.price}</div>
+                            <div>{item.amount}</div>
+                            <div>{item.total}</div>
+                          </Flex>
+                        </div>
+                      </>
                     ))}
                   </div>
                 </OrderBookPart>
@@ -967,7 +1044,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                       placeholder="0"
                       disabled={isMarketOrder}
                       onChange={(e) => {
-                        setOrderPrice(e.target.value);
+                        setOrderPrice(e.target.value)
                       }}
                       value={orderPrice}
                     />
