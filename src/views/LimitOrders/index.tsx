@@ -95,6 +95,8 @@ import { TVChartContainer } from './TradingView/TVChartContainer'
 import { CustomWalletConnectButton, CustomWalletConnectedButton } from './TradingView/CustomWalletConnectButton'
 import AdvancedSwapDetailsDropdown from './components/AdvancedSwapDetailsDropdown'
 import { sOrderapiLink, sTradeapiLink } from './TradingView/Constants'
+import { OrderStatus } from './constants'
+import { OrderHistory } from './types'
 
 // import LimitOrderTable from './components/LimitOrderTable'
 // import PriceChartContainer from './components/Chart/PriceChartContainer'
@@ -145,7 +147,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const [, setIsValidLimitPrice] = useState(false)
   const [isapproved, setIsapproved] = useState(true)
   const [isMarketOrder, setIsMarketOrder] = useState(true)
-  const [orderPrice, setOrderPrice] = useState("0");
+  const [orderPrice, setOrderPrice] = useState('0')
 
   useEffect(() => {
     setUserChartPreference(false)
@@ -406,7 +408,6 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   useEffect(() => {
     if (!isMarketOrder) selectedPrice.current.value = String(Number(formattedAmounts[Field.INPUT]) * Number(orderPrice))
   }, [orderPrice])
-  
 
   useEffect(() => {
     if (importTokensNotInDefault.length > 0) {
@@ -447,136 +448,138 @@ export default function LimitOrders({ history }: RouteComponentProps) {
       const address0 = currency0 instanceof Token ? currency0.address : currency0 === ETHER ? 'SGB' : ''
       const currency1 = currencies[Field.OUTPUT]
       const address1 = currency1 instanceof Token ? currency1.address : currency1 === ETHER ? 'SGB' : ''
-      let url = ''
-      if (address0 === 'SGB') {
-        url = `${sOrderapiLink}/getorders?owner=`
-          .concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f')
-          .concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED')
-          .concat('&totoken=')
-          .concat(address1)
-        // url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1);
-      } else if (address0 === 'SGB') {
-        url = `${sOrderapiLink}/getorders?owner=`
-          .concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f')
-          .concat('&fromtoken=')
-          .concat(address0)
-          .concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED')
-        // url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED');
-      } else {
-        url = `${sOrderapiLink}/getorders?owner=`
-          .concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f')
-          .concat('&fromtoken=')
-          .concat(address0)
-          .concat('&totoken=')
-          .concat(address1)
-        // url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1);
-      }
+      // let url = ''
+      // if (address0 === 'SGB') {
+      //   url = `${sOrderapiLink}/getorders?owner=`
+      //     .concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f')
+      //     .concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED')
+      //     .concat('&totoken=')
+      //     .concat(address1)
+      //   // url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED').concat('&totoken=').concat(address1);
+      // } else if (address0 === 'SGB') {
+      //   url = `${sOrderapiLink}/getorders?owner=`
+      //     .concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f')
+      //     .concat('&fromtoken=')
+      //     .concat(address0)
+      //     .concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED')
+      //   // url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED');
+      // } else {
+      //   url = `${sOrderapiLink}/getorders?owner=`
+      //     .concat('0x9411d474002ad455ae2bdd5ca9cf40686be8355f')
+      //     .concat('&fromtoken=')
+      //     .concat(address0)
+      //     .concat('&totoken=')
+      //     .concat(address1)
+      //   // url="https://sgborder.herokuapp.com/getorders?owner=".concat(account).concat('&fromtoken=').concat(address0).concat('&totoken=').concat(address1);
+      // }
 
-      const res = await axios.get(url)
-      const res2 = await axios.get(url.replace('getorders', 'getorders'))
+      // const res = await axios.get(url)
+      // const res2 = await axios.get(url.replace('getorders', 'getorders'))
       const arr = []
       const arr2 = []
 
-      for (let i = 0; i < res.data.length; i++) {
-        if (!defaultTokens[res.data[i].fromtoken]) {
-          continue
+      const { data } = await axios.get(`https://sgbchart.herokuapp.com/orders/getorders?owner=${account}`)
+
+      if (data && data.length > 0) {
+        const sortedData = data
+          .filter((item: OrderHistory) => item.status !== OrderStatus.COMPLETED)
+          .map((item) => ({
+            ...item,
+            fromtoken: item.fromtoken.toLowerCase(),
+            owner: item.owner.toLowerCase(),
+            totoken: item.totoken.toLowerCase(),
+          }))
+
+        for (let i = 0; i < sortedData.length; i++) {
+          const { amount, fromtoken: fromToken, id, price, totoken: toToken } = sortedData[i]
+
+          arr.push(
+            <tr>
+              <Td>{defaultTokens[fromToken].symbol}</Td>
+              {/* <Td>{res.data[i].from_symbol}</Td> */}
+              <Td>{defaultTokens[toToken].symbol}</Td>
+              {/* <Td>{res.data[i].to_symbol}</Td> */}
+              {/* <Td>{new BigNumber(res.data[i].amount).dividedBy(BIG_TEN.pow(18)).toString()}</Td> */}
+              <Td>{new BigNumber(amount).dividedBy(BIG_TEN.pow(defaultTokens[fromToken].decimals)).toString()}</Td>
+              {/* <Td>{new BigNumber(res.data[i].price).dividedBy(BIG_TEN.pow(18)).toString()}</Td> */}
+              <Td>{new BigNumber(price).dividedBy(BIG_TEN.pow(defaultTokens[toToken].decimals)).toString()}</Td>
+              <Td>
+                <Button
+                  onClick={async () => {
+                    try {
+                      if (fromToken === '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED') {
+                        const tx = await orderbookcontract.cancelETHorder(id)
+                        await tx.wait()
+                      } else {
+                        const tx = await orderbookcontract.cancelTokenorder(id)
+                        await tx.wait()
+                      }
+                      let url2 = ''
+                      if (address0 === 'SGB') {
+                        url2 = 'https://sgborder.herokuapp.com/cancelorder?owner='
+                          .concat(account)
+                          .concat('&id=')
+                          .concat(id)
+                          .concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED')
+                          .concat('&totoken=')
+                          .concat(address1)
+                      } else if (address0 === 'SGB') {
+                        url2 = 'https://sgborder.herokuapp.com/cancelorder?owner='
+                          .concat(account)
+                          .concat('&id=')
+                          .concat(id)
+                          .concat('&fromtoken=')
+                          .concat(address0)
+                          .concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED')
+                      } else {
+                        url2 = 'https://sgborder.herokuapp.com/cancelorder?owner='
+                          .concat(account)
+                          .concat('&id=')
+                          .concat(id)
+                          .concat('&fromtoken=')
+                          .concat(address0)
+                          .concat('&totoken=')
+                          .concat(address1)
+                      }
+                      await axios.get(url2)
+                      setCorderid(corderid - 1)
+                    } catch (err) {
+                      console.error(err)
+                    }
+                  }}
+                  scale="xs"
+                >
+                  Cancel
+                </Button>
+              </Td>
+            </tr>,
+          )
         }
-
-        arr.push(
-          <tr>
-            <Td>{defaultTokens[res.data[i].fromtoken].symbol}</Td>
-            {/* <Td>{res.data[i].from_symbol}</Td> */}
-            <Td>{defaultTokens[res.data[i].totoken].symbol}</Td>
-            {/* <Td>{res.data[i].to_symbol}</Td> */}
-            {/* <Td>{new BigNumber(res.data[i].amount).dividedBy(BIG_TEN.pow(18)).toString()}</Td> */}
-            <Td>
-              {new BigNumber(res.data[i].amount)
-                .dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].fromtoken].decimals))
-                .toString()}
-            </Td>
-            {/* <Td>{new BigNumber(res.data[i].price).dividedBy(BIG_TEN.pow(18)).toString()}</Td> */}
-            <Td>
-              {new BigNumber(res.data[i].price)
-                .dividedBy(BIG_TEN.pow(defaultTokens[res.data[i].totoken].decimals))
-                .toString()}
-            </Td>
-            <Td>
-              <Button
-                onClick={async () => {
-                  try {
-                    if (res.data[i].data.fromtoken === '0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED') {
-                      const tx = await orderbookcontract.cancelETHorder(res.data[i].data.id)
-                      await tx.wait()
-                    } else {
-                      const tx = await orderbookcontract.cancelTokenorder(res.data[i].data.id)
-                      await tx.wait()
-                    }
-                    let url2 = ''
-                    if (address0 === 'SGB') {
-                      url2 = 'https://sgborder.herokuapp.com/cancelorder?owner='
-                        .concat(account)
-                        .concat('&id=')
-                        .concat(res.data[i].id)
-                        .concat('&fromtoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED')
-                        .concat('&totoken=')
-                        .concat(address1)
-                    } else if (address0 === 'SGB') {
-                      url2 = 'https://sgborder.herokuapp.com/cancelorder?owner='
-                        .concat(account)
-                        .concat('&id=')
-                        .concat(res.data[i].id)
-                        .concat('&fromtoken=')
-                        .concat(address0)
-                        .concat('&totoken=0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED')
-                    } else {
-                      url2 = 'https://sgborder.herokuapp.com/cancelorder?owner='
-                        .concat(account)
-                        .concat('&id=')
-                        .concat(res.data[i].id)
-                        .concat('&fromtoken=')
-                        .concat(address0)
-                        .concat('&totoken=')
-                        .concat(address1)
-                    }
-
-                    await axios.get(url2)
-
-                    setCorderid(corderid - 1)
-                  } catch (err) {
-                    console.error(err)
-                  }
-                }}
-                scale="xs"
-              >
-                Cancel
-              </Button>
-            </Td>
-          </tr>,
-        )
       }
+
       setOrderlist(arr)
-      for (let i = 0; i < res2.data.length; i++) {
-        if (!defaultTokens[res2.data[i].fromtoken]) {
-          continue
-        }
+      // for (let i = 0; i < res2.data.length; i++) {
+      //   if (!defaultTokens[res2.data[i].fromtoken]) {
+      //     continue
+      //   }
 
-        arr2.push(
-          <tr>
-            <Td>{defaultTokens[res2.data[i].fromtoken].symbol}</Td>
-            <Td>{defaultTokens[res2.data[i].totoken].symbol}</Td>
-            <Td>
-              {new BigNumber(res2.data[i].amount)
-                .dividedBy(BIG_TEN.pow(defaultTokens[res2.data[i].fromtoken].decimals))
-                .toString()}
-            </Td>
-            <Td>
-              {new BigNumber(res2.data[i].price)
-                .dividedBy(BIG_TEN.pow(defaultTokens[res2.data[i].totoken].decimals))
-                .toString()}
-            </Td>
-          </tr>,
-        )
-      }
+      //   arr2.push(
+      //     <tr>
+      //       <Td>{defaultTokens[res2.data[i].fromtoken].symbol}</Td>
+      //       <Td>{defaultTokens[res2.data[i].totoken].symbol}</Td>
+      //       <Td>
+      //         {new BigNumber(res2.data[i].amount)
+      //           .dividedBy(BIG_TEN.pow(defaultTokens[res2.data[i].fromtoken].decimals))
+      //           .toString()}
+      //       </Td>
+      //       <Td>
+      //         {new BigNumber(res2.data[i].price)
+      //           .dividedBy(BIG_TEN.pow(defaultTokens[res2.data[i].totoken].decimals))
+      //           .toString()}
+      //       </Td>
+      //     </tr>,
+      //   )
+      // }
       setCOrderlist(arr2)
     }
     loadData()
@@ -967,7 +970,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                       placeholder="0"
                       disabled={isMarketOrder}
                       onChange={(e) => {
-                        setOrderPrice(e.target.value);
+                        setOrderPrice(e.target.value)
                       }}
                       value={orderPrice}
                     />
@@ -1178,10 +1181,14 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                                 .toString(),
                             )
                           }
-                          await tx.wait()
+                          await tx.wait().then(({ logs }) => {
+                            const orderId = parseInt(logs[0].data, 16)
 
-                          axios.get(url, {})
-                          setCorderid(corderid + 1)
+                            axios.get(`https://sgbchart.herokuapp.com/orders/placeorder?id=${orderId}`)
+                          })
+
+                          // axios.get(url, {})
+                          // setCorderid(corderid + 1)
                         } catch (err) {
                           console.error(err)
                         }
