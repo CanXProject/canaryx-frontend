@@ -212,7 +212,7 @@ export const OrderBookPart = styled.div`
   & > .trades-value {
     background: #ffffff;
     height: 198px;
-    padding: 0 24px;
+    /* padding: 0 24px; */
     font-style: normal;
     font-weight: 400;
     font-size: 11px;
@@ -222,8 +222,11 @@ export const OrderBookPart = styled.div`
     overflow-y: auto;
     & > .column {
       display: flex;
+      width: 100%;
       justify-content: space-between;
-      padding: 7px 0;
+      padding: 7px 24px;
+      cursor: pointer;
+      z-index: 2;
     }
   }
 `
