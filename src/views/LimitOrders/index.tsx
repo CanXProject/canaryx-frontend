@@ -153,8 +153,16 @@ export default function LimitOrders({ history }: RouteComponentProps) {
   const [buyTickerHightlighted, setBuyTickerHightlighted] = useState([])
   const [tooltipComponent, setTooltipComponent] = useState(null)
 
-  const { targetRef: sellTickerRef, tooltip: sellTooltip, tooltipVisible: sellTooltipVisible } = useTooltip(tooltipComponent, { placement: 'left', trigger: 'hover' })
-  const { targetRef: buyTickerRef, tooltip: buyTooltip, tooltipVisible: buyTooltipVisible } = useTooltip(tooltipComponent, { placement: 'left', trigger: 'hover' })
+  const {
+    targetRef: sellTickerRef,
+    tooltip: sellTooltip,
+    tooltipVisible: sellTooltipVisible,
+  } = useTooltip(tooltipComponent, { placement: 'left', trigger: 'hover' })
+  const {
+    targetRef: buyTickerRef,
+    tooltip: buyTooltip,
+    tooltipVisible: buyTooltipVisible,
+  } = useTooltip(tooltipComponent, { placement: 'left', trigger: 'hover' })
 
   useEffect(() => {
     setUserChartPreference(false)
@@ -707,7 +715,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
     )
 
     setTooltipComponent(tooltipTickersComponent)
-  
+
     if (side === 'sell') {
       setSellTickerHightlighted(sortedTickersIds)
     } else {
@@ -840,7 +848,11 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                           <Flex
                             width="100%"
                             justifyContent="space-between"
-                            ref={buyTickerHightlighted[buyTickerHightlighted.length - 1] === buyTickerIndex ? buyTickerRef : null}
+                            ref={
+                              buyTickerHightlighted[buyTickerHightlighted.length - 1] === buyTickerIndex
+                                ? buyTickerRef
+                                : null
+                            }
                           >
                             <div style={{ color: '#0F8F62' }}>{item.price}</div>
                             <div>{item.amount}</div>
@@ -1181,13 +1193,11 @@ export default function LimitOrders({ history }: RouteComponentProps) {
 
                             tx = await orderbookcontract.placeETHorder(
                               address1,
-                              new BigNumber(formattedAmounts[Field.INPUT])
-                                .times(BIG_TEN.pow(currencies[Field.INPUT].decimals))
-                                .toString(),
                               new BigNumber(selectedPrice.current.value)
                                 .times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals))
                                 .toString(),
                               {
+                                gasLimit: new BigNumber('190000').toString(),
                                 value: new BigNumber(formattedAmounts[Field.INPUT])
                                   .times(BIG_TEN.pow(currencies[Field.INPUT].decimals))
                                   .toString(),
@@ -1259,6 +1269,8 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                                 .toString(),
                             )
                           }
+                          console.log(tx)
+
                           await tx.wait().then(({ logs }) => {
                             const orderId = parseInt(logs[0].data, 16)
 
