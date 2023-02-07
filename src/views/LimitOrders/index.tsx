@@ -495,7 +495,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
 
       const { data } = await axios.get(`https://sgbchart.herokuapp.com/orders/getorders?owner=${account}`)
 
-      if (data && data.length > 0) {
+      if (data && data.length > 0 && defaultTokens) {
         const sortedData = data
           .filter((item: OrderHistory) => item.status !== OrderStatus.COMPLETED)
           .map((item) => ({
@@ -510,12 +510,12 @@ export default function LimitOrders({ history }: RouteComponentProps) {
 
           arr.push(
             <tr>
-              <Td>{defaultTokens[fromToken].symbol}</Td>
+              <Td>{defaultTokens[fromToken]?.symbol}</Td>
               {/* <Td>{res.data[i].from_symbol}</Td> */}
               <Td>{defaultTokens[toToken].symbol}</Td>
               {/* <Td>{res.data[i].to_symbol}</Td> */}
               {/* <Td>{new BigNumber(res.data[i].amount).dividedBy(BIG_TEN.pow(18)).toString()}</Td> */}
-              <Td>{new BigNumber(amount).dividedBy(BIG_TEN.pow(defaultTokens[fromToken].decimals)).toString()}</Td>
+              <Td>{new BigNumber(amount).dividedBy(BIG_TEN.pow(defaultTokens[fromToken]?.decimals)).toString()}</Td>
               {/* <Td>{new BigNumber(res.data[i].price).dividedBy(BIG_TEN.pow(18)).toString()}</Td> */}
               <Td>{new BigNumber(price).dividedBy(BIG_TEN.pow(defaultTokens[toToken].decimals)).toString()}</Td>
               <Td>

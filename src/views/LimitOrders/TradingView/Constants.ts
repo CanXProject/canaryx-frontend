@@ -5,6 +5,8 @@ export const sPairapiLink = 'https://tradingview.canaryx.finance/chart'
 export const sOrderapiLink = 'https://sgborder.herokuapp.com/order'
 // export const sOrderapiLink = "http://127.0.0.1:5011/order"
 export const sTradeapiLink = 'https://sgbtrade1.herokuapp.com/trade'
+
+export const nTradeapiLink = 'https://sgbchart.herokuapp.com/trade'
 // export const sTradeapiLink = "http://127.0.0.1:5012/trade"  https://tradingview.canaryx.finance/trade
 
 export function toEth(amount: any) {

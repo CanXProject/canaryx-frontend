@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react'
 import { ChartingLibraryWidgetOptions, TradingTerminalWidgetOptions, widget } from '../../../charting_library'
-import { sTradeapiLink } from './Constants'
+import { sTradeapiLink, nTradeapiLink } from './Constants'
 
 interface ChartComponentProps {
   symbol: string
@@ -9,11 +9,11 @@ interface ChartComponentProps {
 export const TVChartContainer: React.FC<ChartComponentProps> = (props) => {
   const defaultPropos = {
     // symbol: 'AAPL',
-    symbol: 'WSGB/CANARY',
+    symbol: 'SGB/CANARY',
     interval: '1D',
     containerId: 'tv_chart_container',
     // datafeedUrl: 'https://demo_feed.tradingview.com',
-    datafeedUrl: sTradeapiLink,
+    datafeedUrl: nTradeapiLink,
     libraryPath: '/charting_library/',
     chartsStorageUrl: 'https://saveload.tradingview.com',
     chartsStorageApiVersion: '1.1',
@@ -36,10 +36,8 @@ export const TVChartContainer: React.FC<ChartComponentProps> = (props) => {
       container: ref.current,
       symbol: defaultPropos.symbol,
       // BEWARE: no trailing slash is expected in feed URL
-
       // @ts-ignore
       datafeed: new window.Datafeeds.UDFCompatibleDatafeed(defaultPropos.datafeedUrl),
-      // @ts-ingore
       interval: '1D',
       'has-intraday': true,
       has_intraday: true,
@@ -56,11 +54,9 @@ export const TVChartContainer: React.FC<ChartComponentProps> = (props) => {
       autosize: defaultPropos.autosize,
       studies_overrides: defaultPropos.studiesOverrides,
     }
-
+    
     widgetOptions.datafeed.onReady(function (configuration) {
-      configuration.supported_resolutions = ['1D', '2D', '3D', 'W', 'M', '3M']
-      configuration.supports_marks = false
-      configuration.supports_timescale_marks = false
+      configuration.supported_resolutions = ['1', '1H', '1D', '2D', '3D', 'W', 'M', '3M'] // 1m 1h
     })
     const tvWidget1 = new widget(widgetOptions as any)
 
@@ -82,9 +78,9 @@ export const TVChartContainer: React.FC<ChartComponentProps> = (props) => {
   }, [tvWidget])
 
   const [pairSymbol, setPairSymbol] = useState('')
+  
   useEffect(() => {
     if (tvWidget === null || props.symbol === pairSymbol) return
-    console.log('PairSymbol: ', props.symbol)
     tvWidget.onChartReady(() => {
       tvWidget.headerReady().then(() => {
         tvWidget.setSymbol(props.symbol, 600000)
