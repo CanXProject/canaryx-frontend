@@ -1168,8 +1168,10 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                         let url = ''
                         let tx
                         const counter = await orderbookcontract.orderCounter()
+                        const desiredPriceMinusFee = Number(selectedPrice.current.value) - Number(selectedPrice.current.value) * 0.25
 
                         try {
+
                           if (address0 === 'SGB') {
                             url = 'https://sgborder.herokuapp.com/order/placeorder?id='
                               .concat(counter)
@@ -1193,7 +1195,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
 
                             tx = await orderbookcontract.placeETHorder(
                               address1,
-                              new BigNumber(selectedPrice.current.value)
+                              new BigNumber(desiredPriceMinusFee)
                                 .times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals))
                                 .toString(),
                               {
@@ -1230,7 +1232,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                               new BigNumber(formattedAmounts[Field.INPUT])
                                 .times(BIG_TEN.pow(currencies[Field.INPUT].decimals))
                                 .toString(),
-                              new BigNumber(selectedPrice.current.value)
+                              new BigNumber(desiredPriceMinusFee)
                                 .times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals))
                                 .toString(),
                             )
@@ -1264,12 +1266,11 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                               new BigNumber(formattedAmounts[Field.INPUT])
                                 .times(BIG_TEN.pow(currencies[Field.INPUT].decimals))
                                 .toString(),
-                              new BigNumber(selectedPrice.current.value)
+                              new BigNumber(desiredPriceMinusFee)
                                 .times(BIG_TEN.pow(currencies[Field.OUTPUT].decimals))
                                 .toString(),
                             )
                           }
-                          console.log(tx)
 
                           await tx.wait().then(({ logs }) => {
                             const orderId = parseInt(logs[0].data, 16)

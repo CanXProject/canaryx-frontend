@@ -63,7 +63,6 @@ const PreviousRoundCardBody: React.FC<{ lotteryNodeData: LotteryRound; lotteryId
   const isLargerScreen = isLg || isXl || isXxl
 
   const currentLotteryIdAsInt = parseInt(currentLotteryId)
-  console.log(currentLotteryId)
   const mostRecentFinishedRoundId =
     status === LotteryStatus.CLAIMABLE ? currentLotteryIdAsInt : currentLotteryIdAsInt - 1
   const isLatestRound = mostRecentFinishedRoundId.toString() === lotteryId
