@@ -1168,7 +1168,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                         let url = ''
                         let tx
                         const counter = await orderbookcontract.orderCounter()
-                        const desiredPriceMinusFee = Number(selectedPrice.current.value) - Number(selectedPrice.current.value) * 0.25
+                        const desiredPriceMinusFee = Number(selectedPrice.current.value) - Number(selectedPrice.current.value) * 0.0025
 
                         try {
 
