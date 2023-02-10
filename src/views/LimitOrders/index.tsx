@@ -800,7 +800,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     <div>Total</div>
                   </div>
                   <div className="trades-value" ref={orderEndRef}>
-                    {ticker?.sell.map((item, sellTickerIndex) => (
+                    {[...ticker?.sell].reverse().map((item, sellTickerIndex) => (
                       <>
                         {sellTooltipVisible && sellTooltip}
                         <div
@@ -831,7 +831,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                 <OrderBookPart>
                   <div className="header">Price: {ticker?.ticker.price}</div>
                   <div className="trades-value">
-                    {ticker?.buy.map((item, buyTickerIndex) => (
+                    {[...ticker?.buy].reverse().map((item, buyTickerIndex) => (
                       <>
                         {buyTooltipVisible && buyTooltip}
                         <div
