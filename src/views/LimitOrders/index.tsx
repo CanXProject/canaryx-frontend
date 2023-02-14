@@ -95,7 +95,7 @@ import {
 import { TVChartContainer } from './TradingView/TVChartContainer'
 import { CustomWalletConnectButton, CustomWalletConnectedButton } from './TradingView/CustomWalletConnectButton'
 import AdvancedSwapDetailsDropdown from './components/AdvancedSwapDetailsDropdown'
-import { sOrderapiLink, sTradeapiLink } from './TradingView/Constants'
+import { sOrderapiLink, sTradeapiLink, nTradeapiLink } from './TradingView/Constants'
 import { OrderStatus } from './constants'
 import { OrderHistory } from './types'
 
@@ -624,7 +624,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
 
   useEffect(() => {
     axios
-      .get(`${sTradeapiLink}/ticker?symbol=${pairSymbol}`)
+      .get(`${nTradeapiLink}/ticker?symbol=${pairSymbol}`)
       .then((res) => {
         setTicker(res.data)
         setPriceRangeLabelPosition(res.data)
@@ -634,7 +634,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
       })
     const interval = setInterval(() => {
       axios
-        .get(`${sTradeapiLink}/ticker?symbol=${pairSymbol}`)
+        .get(`${nTradeapiLink}/ticker?symbol=${pairSymbol}`)
         .then((res) => {
           setTicker(res.data)
           setPriceRangeLabelPosition(res.data)
