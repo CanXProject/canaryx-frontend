@@ -14,11 +14,11 @@ const StyledInput = styled.input<{ error?: boolean; fontSize?: string; align?: s
   background-color: transparent;
   font-size: 14px;
   text-align: ${({ align }) => align && align};
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0px;
-  text-align: right;
   -webkit-appearance: textfield;
 
   ::-webkit-search-decoration {
@@ -77,9 +77,10 @@ export const Input = React.memo(function InnerInput({
       // text-specific options
       type="text"
       pattern="^[0-9]*[.,]?[0-9]*$"
-      placeholder={placeholder || 'Enter amount to sell: 0.0'}
+      placeholder={placeholder || 'Enter Amount: 0.0'}
       minLength={1}
       maxLength={79}
+      align="left"
       spellCheck="false"
     />
   )

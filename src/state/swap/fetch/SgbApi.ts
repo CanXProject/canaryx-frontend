@@ -2,18 +2,23 @@ import axios from 'axios'
 import { sPairapiLink } from 'views/LimitOrders/TradingView/Constants'
 
 const fetchchartdatadaily = async (token0, token1) => {
+
+  const url =   `${sPairapiLink}/getpairdata?token0=`
+  .concat(token0)
+  .concat('&token1=')
+  .concat(token1)
+    .concat('&interval=pairsdaily')
+  
+
   const data = await axios.get(
-    `${sPairapiLink}/getpairdata?token0=`
-      .concat(token0)
-      .concat('&token1=')
-      .concat(token1)
-      .concat('&interval=pairsdaily'),
+  url,
     {
       headers: {
         'content-type': 'application/json',
       },
     },
   )
+
   return data.data
 }
 const fetchchartdataweekly = async (token0, token1) => {

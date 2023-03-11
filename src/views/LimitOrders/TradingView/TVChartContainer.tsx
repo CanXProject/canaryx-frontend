@@ -9,7 +9,7 @@ interface ChartComponentProps {
 export const TVChartContainer: React.FC<ChartComponentProps> = (props) => {
   const defaultPropos = {
     // symbol: 'AAPL',
-    symbol: 'SGB/CANARY',
+    // symbol: 'SGB/CANARY',
     interval: '1D',
     containerId: 'tv_chart_container',
     // datafeedUrl: 'https://demo_feed.tradingview.com',
@@ -32,9 +32,15 @@ export const TVChartContainer: React.FC<ChartComponentProps> = (props) => {
 
   const ref = useRef()
   useEffect(() => {
+    if (!props.symbol) {
+      return
+    }
+
+
     const widgetOptions = {
       container: ref.current,
-      symbol: defaultPropos.symbol,
+      symbol:props.symbol,
+      // symbol: defaultPropos.symbol,
       // BEWARE: no trailing slash is expected in feed URL
       // @ts-ignore
       datafeed: new window.Datafeeds.UDFCompatibleDatafeed(defaultPropos.datafeedUrl),
@@ -62,12 +68,15 @@ export const TVChartContainer: React.FC<ChartComponentProps> = (props) => {
 
     setTvWidget(tvWidget1)
     // (window as any).tvWidget = tvWidget1;
-  }, [])
+  }, [props.symbol])
 
   useEffect(() => {
     if (tvWidget == null) return
     tvWidget.onChartReady(() => {
-      tvWidget.headerReady().then(() => {})
+      tvWidget.headerReady().then(() => {
+        // tvWidget.setSymbol(props.symbol, 600000)
+
+      })
     })
     return () => {
       if (tvWidget !== null) {
@@ -75,18 +84,22 @@ export const TVChartContainer: React.FC<ChartComponentProps> = (props) => {
         setTvWidget(null)
       }
     }
-  }, [tvWidget])
+  }, [tvWidget,])
 
   const [pairSymbol, setPairSymbol] = useState('')
   
-  useEffect(() => {
-    if (tvWidget === null || props.symbol === pairSymbol) return
-    tvWidget.onChartReady(() => {
-      tvWidget.headerReady().then(() => {
-        tvWidget.setSymbol(props.symbol, 600000)
-      })
-    })
-  }, [props.symbol])
+  // useEffect(() => {
+  //   if (tvWidget === null || props.symbol === pairSymbol) return
+  //   tvWidget.onChartReady(() => {
+
+  //     tvWidget.headerReady().then(() => {
+
+  //       tvWidget.setSymbol(props.symbol, 600000)
+  //     })
+  //   })
+  
+  //   console.log("TradinView",props.symbol)
+  // }, [props.symbol])
 
   return <div id={defaultPropos.containerId} className={'TVChartContainer'} ref={ref} style={{ height: '100%' }} />
 }

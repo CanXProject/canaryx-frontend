@@ -127,7 +127,7 @@ const StakeAction: React.FC<FarmCardActionsProps> = ({
           <Balance
             fontSize="12px"
             color="textSubtle"
-            decimals={2}
+            decimals={4}
             value={getBalanceNumber(lpPrice.times(stakedBalance))}
             unit=" USD"
             prefix="~"

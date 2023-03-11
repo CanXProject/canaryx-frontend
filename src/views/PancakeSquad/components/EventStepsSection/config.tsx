@@ -59,7 +59,7 @@ const stepsConfigBuilder = ({ t, userInfos, eventInfos, userStatus, account, the
         <>
           <Button
             as="a"
-            href="https://canarydex.netlify.app/swap?outputCurrency=0xB2cD91b79df296ea181AA5f6d729E5136e1853A4"
+            href="/swap?outputCurrency=0xB2cD91b79df296ea181AA5f6d729E5136e1853A4"
             target="_blank"
             width="100%"
           >

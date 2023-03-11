@@ -20,6 +20,7 @@ const InputRow = styled.div<{ selected: boolean }>`
 `
 const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm' })`
   padding: 0 0.5rem;
+  background:#e9eaeb
 `
 const LabelRow = styled.div`
   display: flex;
@@ -102,7 +103,20 @@ export function CurrencyInputPanelCustom2({
   return (
     <Box id={id} style={{ paddingTop: 24 }}>
       <Flex mb="6px" alignItems="center" justifyContent="space-between">
-        <CurrencySelectButton
+      
+        {/* {account && (
+          <Text onClick={onMax} color="textSubtle" fontSize="12px" style={{ display: 'inline', cursor: 'pointer' }}>
+            {!hideBalance && !!currency
+              ? t('Balance: %balance%', { balance: selectedCurrencyBalance?.toSignificant(6) ?? t('Loading') })
+              : ' -'}
+          </Text>
+        )} */}
+      </Flex>
+      <InputPanel>
+        <Container>
+          <LabelRow>
+            <RowBetween>
+            <CurrencySelectButton
           className="open-currency-select-button"
           selected={!!currency}
           onClick={() => {
@@ -134,18 +148,6 @@ export function CurrencyInputPanelCustom2({
             {!disableCurrencySelect && <ChevronDownIcon />}
           </Flex>
         </CurrencySelectButton>
-        {account && (
-          <Text onClick={onMax} color="textSubtle" fontSize="12px" style={{ display: 'inline', cursor: 'pointer' }}>
-            {!hideBalance && !!currency
-              ? t('Balance: %balance%', { balance: selectedCurrencyBalance?.toSignificant(6) ?? t('Loading') })
-              : ' -'}
-          </Text>
-        )}
-      </Flex>
-      <InputPanel>
-        <Container>
-          <LabelRow>
-            <RowBetween>
               <NumericalInputCustom
                 className="token-amount-input"
                 value={value}

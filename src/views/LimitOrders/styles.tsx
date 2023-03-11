@@ -417,8 +417,33 @@ export const StyledButton = styled(Button)`
   }
 `
 
-export const OrderTypeContainer = styled(Flex)`
+
+
+export const SellOrBuyStyledButton = styled(StyledButton)`
   flex: 1;
+  display: flex;
+  background: #f5f5f5;
+
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d8dce1;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 0.48px;
+  color: #92959a;
+  cursor: pointer;
+
+  ${({ $isActive }) => $isActive} {
+    background: ${props=>props.bgColor?props.bgColor:"#d8dce1"};
+    border: none;
+    color:white;
+  }
+`
+export const OrderTypeContainer = styled(Flex)`
+  // flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -453,8 +478,9 @@ export const OrderTypeButton = styled(Button)`
   height: 100%;
 
   ${({ $isActive }) => $isActive} {
-    background: #f5f5f5;
+    background: ${props=>props.activeColor?props.activeColor:"#f5f5f5"};
     border: 1px solid #d8dce1;
+    color:white;
   }
 `
 
@@ -510,8 +536,10 @@ export const PriceInput = styled.input`
 `
 export const CustomOrderButton = styled(Button)`
   height: 38px;
-  background: #f5f5f5;
+  background: ${props=>props.bgColor?props.bgColor:"#f5f5f5"};
   border: 0px solid #b0b0b0;
+  color: ${props=>props.textColor?props.textColor:"#92959a"};
+
   backdrop-filter: blur(4px);
   border-radius: 2px;
   font-style: normal;
@@ -520,7 +548,6 @@ export const CustomOrderButton = styled(Button)`
   line-height: 24px;
   text-align: center;
   letter-spacing: 0.48px;
-  color: #92959a;
   box-shadow: unset;
   text-transform: uppercase;
 `

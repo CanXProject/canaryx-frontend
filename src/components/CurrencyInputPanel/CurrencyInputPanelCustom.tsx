@@ -20,6 +20,8 @@ import { Input as NumericalInput } from './NumericalInput'
 // `
 const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm' })`
   padding: 0 0.5rem;
+  background:#e9eaeb
+
 `
 const LabelRow = styled.div`
   display: flex;
@@ -99,6 +101,7 @@ interface CurrencyInputPanelProps {
   otherCurrency?: Currency | null
   id: string
   showCommonBases?: boolean
+  isLimitOrder?:boolean
 }
 export function CurrencyInputPanelCustom({
   value,
@@ -111,6 +114,7 @@ export function CurrencyInputPanelCustom({
   pair = null, // used for double token logo
   otherCurrency,
   id,
+  isLimitOrder,
   showCommonBases,
   onPercentChange,
 }: CurrencyInputPanelProps) {
@@ -129,7 +133,20 @@ export function CurrencyInputPanelCustom({
   return (
     <Box id={id} style={{ paddingTop: 24 }}>
       <Flex mb="6px" alignItems="center" justifyContent="space-between">
-        <CurrencySelectButton
+    
+        {/* {account && (
+          <Text onClick={onMax} color="textSubtle" fontSize="12px" style={{ display: 'inline', cursor: 'pointer' }}>
+            {!hideBalance && !!currency
+              ? t('Balance: %balance%', { balance: selectedCurrencyBalance?.toSignificant(6) ?? t('Loading') })
+              : ' -'}
+          </Text>
+        )} */}
+      </Flex>
+      <InputPanel>
+        <Container>
+          <LabelRow>
+            <RowBetween>
+            <CurrencySelectButton
           className="open-currency-select-button"
           selected={!!currency}
           onClick={() => {
@@ -161,18 +178,6 @@ export function CurrencyInputPanelCustom({
             {!disableCurrencySelect && <ChevronDownIcon />}
           </Flex>
         </CurrencySelectButton>
-        {account && (
-          <Text onClick={onMax} color="textSubtle" fontSize="12px" style={{ display: 'inline', cursor: 'pointer' }}>
-            {!hideBalance && !!currency
-              ? t('Balance: %balance%', { balance: selectedCurrencyBalance?.toSignificant(6) ?? t('Loading') })
-              : ' -'}
-          </Text>
-        )}
-      </Flex>
-      <InputPanel>
-        <Container>
-          <LabelRow>
-            <RowBetween>
               <NumericalInputCustom
                 className="token-amount-input"
                 value={value}
@@ -182,11 +187,13 @@ export function CurrencyInputPanelCustom({
               />
             </RowBetween>
           </LabelRow>
-          <Flex paddingTop="5px">
+
+          {!isLimitOrder? <Flex paddingTop="5px">
             {buttonsConfig.map(({ buttonLabel, buttonValue }) => (
               <StyledButton onClick={() => onPercentChange(buttonValue)}>{buttonLabel}</StyledButton>
             ))}
-          </Flex>
+          </Flex>:null}
+         
           {/* <InputRow selected={disableCurrencySelect}>
             {account && currency && showMaxButton && label !== 'To' && (
               <Button onClick={onMax} scale="xs" variant="secondary">

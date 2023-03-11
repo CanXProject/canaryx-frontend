@@ -1,7 +1,8 @@
 /* eslint-disable no-continue */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { CurrencyAmount, ETHER, JSBI, Token, Trade } from 'canaryx-sdk'
+
+import {Currency, CurrencyAmount, ETHER, JSBI, Token, Trade } from 'canaryx-sdk'
 import {
   Button,
   Text,
@@ -17,6 +18,7 @@ import {
   ButtonMenuItem,
   useTooltip,
 } from 'canaryx-uikit'
+import moment from "moment"
 import { useIsTransactionUnsupported } from 'hooks/Trades'
 import UnsupportedCurrencyFooter from 'components/UnsupportedCurrencyFooter'
 import { RouteComponentProps } from 'react-router-dom'
@@ -91,6 +93,7 @@ import {
   StyledButton,
   OrderTypeContainer,
   OrderTypeButton,
+  SellOrBuyStyledButton,
 } from './styles'
 import { TVChartContainer } from './TradingView/TVChartContainer'
 import { CustomWalletConnectButton, CustomWalletConnectedButton } from './TradingView/CustomWalletConnectButton'
@@ -101,11 +104,51 @@ import { OrderHistory } from './types'
 
 // import LimitOrderTable from './components/LimitOrderTable'
 // import PriceChartContainer from './components/Chart/PriceChartContainer'
-// import ConfirmSwapModal from './components/ConfirmSwapModal'
+import ConfirmSwapModal from './components/ConfirmSwapModal'
 // import confirmPriceImpactWithoutFee from './components/confirmPriceImpactWithoutFee'
 // import { useSwapCallback } from '../../hooks/useSwapCallback'
 // import { computeTradePriceBreakdown } from '../../utils/prices'
 
+interface CurrencyBalanceProps {
+ 
+  currency?: Currency | null
+ 
+}
+
+
+const renderTotalMarketPrice = (price, showInverted) => {
+  const formattedPrice = showInverted ? price?.toSignificant(6) : price?.invert()?.toSignificant(6)
+
+  const show = Boolean(price?.baseCurrency && price?.quoteCurrency)
+  const label = showInverted
+    ? `${price?.quoteCurrency?.symbol}`
+    : `${price?.quoteCurrency?.symbol}`
+
+  if (show) {
+    return `${formattedPrice} ${label}`
+
+  }
+  return "0"
+}
+const CurrencyBalance = ({ currency }: CurrencyBalanceProps) => {
+  const { account, library } = useActiveWeb3React()
+
+    const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
+
+  if (!currency) {
+    return <></>
+  }
+  const renderText = () => {
+    if (selectedCurrencyBalance?.toSignificant(6)) {
+      return     `${currency.name} : ${selectedCurrencyBalance?.toSignificant(6)}`
+
+    }
+    return ""
+  }
+  return <TextCustom>
+    {renderText()}
+  </TextCustom>
+}
 const TableWrapper = styled.div`
   & > div {
     width: 100%;
@@ -723,6 +766,11 @@ export default function LimitOrders({ history }: RouteComponentProps) {
     }
   }
 
+
+
+ 
+ 
+  
   return (
     <Page removePadding={isChartExpanded} hideFooterOnDesktop={isChartExpanded} style={{ padding: 0 }}>
       <LimitContainer>
@@ -829,7 +877,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                   </div>
                 </OrderBookPart>
                 <OrderBookPart>
-                  <div className="header">Price: {ticker?.ticker.price}</div>
+                  <div className="header">Spread: {ticker?.ticker.price}</div>
                   <div className="trades-value">
                     {[...ticker?.buy].reverse().map((item, buyTickerIndex) => (
                       <>
@@ -949,7 +997,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                       <div className="column" key={`column-${item.type}-${item.amount}-${item.time}`}>
                         <div style={{ color: item.type === 'sell' ? '#D9304E' : '#0F8F62' }}>{item.price}</div>
                         <div>{item.amount}</div>
-                        <div>{item.time}</div>
+                        <div>{moment(item.time).format("DD MMM hh:mm a")}</div>
                       </div>
                     ))}
                   </div>
@@ -965,36 +1013,42 @@ export default function LimitOrders({ history }: RouteComponentProps) {
           <ActionArea>
             <ActionContent>
               <ActionTab>
-                <StyledButton
+                <SellOrBuyStyledButton
+                  bgColor="#0088cc"
                   $isActive={!actionTabBuy}
                   className={actionTabBuy ? 'active' : ''}
                   onClick={() => switchTabBuy(true)}
                 >
                   BUY
-                </StyledButton>
-                <StyledButton
+                </SellOrBuyStyledButton>
+                <SellOrBuyStyledButton
+                                    bgColor="#da2f4f"
+
                   $isActive={actionTabBuy}
                   className={actionTabBuy ? '' : 'active'}
                   onClick={() => switchTabBuy(false)}
                 >
                   Sell
-                </StyledButton>
+                </SellOrBuyStyledButton>
               </ActionTab>
               <ActionPart>
-                <AutoColumn>
-                  <Flex>
+              <Flex>
                     <OrderTypeContainer>
-                      <OrderTypeButton $isActive={isMarketOrder} onClick={() => setIsMarketOrder(!isMarketOrder)}>
+                    <OrderTypeButton $isActive={isMarketOrder}
+                      activeColor="linear-gradient(270deg, rgb(24, 128, 223) 0%, rgb(0, 136, 204)  100%)"
+                      onClick={() => setIsMarketOrder(!isMarketOrder)}>
                         Market
                       </OrderTypeButton>
-                      <OrderTypeButton $isActive={!isMarketOrder} onClick={() => setIsMarketOrder(!isMarketOrder)}>
-                        Limit Order
+                    <OrderTypeButton
+                      activeColor="linear-gradient(270deg, rgb(24, 128, 223) 0%, rgb(0, 136, 204)  100%)"
+                      $isActive={!isMarketOrder} onClick={() => setIsMarketOrder(!isMarketOrder)}>
+                        Limit
                       </OrderTypeButton>
                     </OrderTypeContainer>
                   </Flex>
-                </AutoColumn>
                 <AutoColumn gap="24px">
                   <CurrencyInputPanelCustom
+                    isLimitOrder={isMarketOrder}
                     // label={independentField === Field.OUTPUT && !showWrap && trade ? t('From (estimated)') : t('From')}
                     // showMaxButton={!atMaxAmountInput}
                     value={formattedAmounts[Field.INPUT]}
@@ -1007,7 +1061,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     id="swap-currency-input"
                   />
 
-                  <CurrencyInputPanelCustom2
+                 {isMarketOrder? <CurrencyInputPanelCustom2
                     value={formattedAmounts[Field.OUTPUT]}
                     onUserInput={handleTypeOutput}
                     label={independentField === Field.INPUT && !showWrap && trade ? t('To (estimated)') : t('To')}
@@ -1016,7 +1070,7 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     onCurrencySelect={handleOutputSelect}
                     otherCurrency={currencies[Field.INPUT]}
                     id="swap-currency-output"
-                  />
+                  />:null}
 
                   {isExpertMode && recipient !== null && !showWrap ? (
                     <>
@@ -1046,10 +1100,10 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                   )}
                 </AutoColumn>
 
-                <Box mt="1rem">
+             {/* {isMarketOrder?  <Box mt="1rem">
                   <Flex width="100%" justifyContent="space-between" position="relative" />
                   <TextCustom>Price:</TextCustom>
-                  {isMarketOrder ? (
+                  {!isMarketOrder ? (
                     <TradePrice
                       price={trade?.executionPrice}
                       setShowInverted={setShowInverted}
@@ -1058,44 +1112,30 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                   ) : (
                     <PriceInput
                       placeholder="0"
-                      disabled={isMarketOrder}
+                      disabled={!isMarketOrder}
                       onChange={(e) => {
                         setOrderPrice(e.target.value)
                       }}
                       value={orderPrice}
                     />
                   )}
-                </Box>
+                </Box>:null} */}
 
                 <Box mt="1rem">
                   <Flex width="100%" justifyContent="space-between" position="relative">
                     <PriceDiv>
-                      <TextCustom>Total Price:</TextCustom>
-                      <img
-                        src="/images1/icons/icon-price.svg"
-                        alt="PriceIcon"
-                        width="16px"
-                        onClick={() => {
-                          setApprovalSubmitted(false) // reset 2 step UI for approvals
-                          onSwitchTokens()
-                        }}
-                        onKeyUp={() => false}
-                        aria-hidden="true"
-                        color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? 'primary' : 'text'}
-                      />
+                      <TextCustom> Total Price:</TextCustom>
+                      <TextCustom>
+                        {renderTotalMarketPrice(trade?.executionPrice,showInverted)}
+                      </TextCustom>
+
                     </PriceDiv>
-                    {/* <MarketButton
-                      onClick={() => {
-                        selectedPrice.current.value = formattedAmounts[Field.OUTPUT]
-                      }}
-                      scale="xs"
-                    >
-                      MARKET
-                    </MarketButton> */}
+                    
                   </Flex>
                   <PriceInput
                     placeholder="Set total price: 0"
                     ref={selectedPrice}
+                    style={{display:"none"}}
                     disabled={isMarketOrder}
                     onChange={async (e) => {
                       if (e.target.value > formattedAmounts[Field.OUTPUT]) {
@@ -1157,7 +1197,9 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     </GreyCard>
                   ) : isapproved ? (
                     <CustomOrderButton
-                      variant="primary"
+                              variant="primary"
+                              bgColor="#0088cc"
+                              textColor="white"
                       onClick={async () => {
                         const currency0 = currencies[Field.INPUT]
                         const address0 =
@@ -1292,7 +1334,9 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                     </CustomOrderButton>
                   ) : (
                     <CustomOrderButton
-                      variant="primary"
+                                variant="primary"
+                                bgColor="#0088cc"
+
                       onClick={async () => {
                         const currency0 = currencies[Field.INPUT]
                         const address0 =
@@ -1328,6 +1372,18 @@ export default function LimitOrders({ history }: RouteComponentProps) {
                   )}
 
                   {isExpertMode && swapErrorMessage ? <SwapCallbackError error={swapErrorMessage} /> : null}
+                </Box>
+
+                <Box mt="1rem">
+
+                  
+                    <CurrencyBalance currency={currencies[Field.INPUT]}/>
+                    <CurrencyBalance currency={currencies[Field.OUTPUT]}/>
+
+                  {/* <TextCustom>{getTokenBalance(currencies[Field.INPUT]) }</TextCustom>
+                  <TextCustom>{getTokenBalance(currencies[Field.OUTPUT]) }</TextCustom> */}
+
+
                 </Box>
 
                 <div className="header">

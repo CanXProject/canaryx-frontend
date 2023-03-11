@@ -488,6 +488,7 @@ export const useFetchPairPrices = ({
       setAddress0(token0Address)
       setAddress1(token1Address)
 
+      console.log("loaddata")
       if (
         (address0 !== data0 || address1 !== data1 || timeWindow !== timewd) &&
         address0.length > 0 &&

@@ -7,18 +7,11 @@
     "patch": 0
   },
   "tags": {},
-  "logoURI": "https://canarydex.netlify.app/logo.png",
+  "logoURI": "/images/tokens/CANARY.png",
   "keywords": ["pancake", "default"],
   "tokens": [
     
-    {
-      "name": "Canary",
-      "symbol": "CANARY",
-      "address": "0xB2cD91b79df296ea181AA5f6d729E5136e1853A4",
-      "chainId": 19,
-      "decimals": 18,
-      "logoURI": "https://canarydex.netlify.app/images/tokens/0xB2cD91b79df296ea181AA5f6d729E5136e1853A4.png"
-    },
+   
     {
       "name": "CanaryX",
       "symbol": "CNYX",

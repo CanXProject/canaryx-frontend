@@ -5,14 +5,14 @@ import { ContextApi } from 'contexts/Localization/types'
 export type ConfigMenuItemsType = MenuItemsType & { hideSubNav?: boolean }
 
 const config: (t: ContextApi['t']) => ConfigMenuItemsType[] = (t) => [
-  {
-    label: t('Trade'),
-    href: '/limitorders',
-    icon: '/images1/icons/icon-trade.svg',
-    activeIcon: '/images1/icons/icon-trade-active.svg',
-    showItemsOnMobile: false,
-    items: [],
-  },
+  // {
+  //   label: t('Trade'),
+  //   href: '/limitorders',
+  //   icon: '/images1/icons/icon-trade.svg',
+  //   activeIcon: '/images1/icons/icon-trade-active.svg',
+  //   showItemsOnMobile: false,
+  //   items: [],
+  // },
   {
     label: t('Swap'),
     href: '/swap',

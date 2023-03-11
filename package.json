@@ -63,6 +63,7 @@
     "js-cookie": "^2.2.1",
     "lightweight-charts": "^3.8.0",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "multicodec": "^2.0.0",
     "multihashes": "^3.0.1",
     "numeral": "^2.0.6",

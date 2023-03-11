@@ -27,7 +27,7 @@ const ifos: Ifo[] = [
     token: tokens.ifotoken,
     releaseBlockNumber: 16993396,
     campaignId: '1',
-    articleUrl: 'https://canarydex.netlify.app/voting/proposal/QmUqRxjwZCWeZWEdgV2vHJ6hex7jMW7i247NKFas73xc8j',
+    articleUrl: '/voting/proposal/QmUqRxjwZCWeZWEdgV2vHJ6hex7jMW7i247NKFas73xc8j',
     tokenOfferingPrice: 2.5,
     version: 2,
   },

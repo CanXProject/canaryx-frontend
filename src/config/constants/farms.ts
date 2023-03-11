@@ -35,8 +35,8 @@ const farms: SerializedFarmConfig[] = [
       97: '',
       19: '0x62006F35a5721834fD612fb5a0951d8C0019334B',
     },
-    token: serializedTokens.busd,
-    quoteToken: serializedTokens.wbnb,
+    token: serializedTokens.wbnb,
+    quoteToken: serializedTokens.busd,
   },
 ]
 

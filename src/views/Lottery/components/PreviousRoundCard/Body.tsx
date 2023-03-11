@@ -70,7 +70,6 @@ const PreviousRoundCardBody: React.FC<{ lotteryNodeData: LotteryRound; lotteryId
   const [onPresentViewTicketsModal] = useModal(
     <ViewTicketsModal roundId={lotteryId} roundStatus={lotteryNodeData?.status} />,
   )
-  console.log('jjjjjjjjjjjjj', lotteryNodeData)
   const totalTicketNumber = userDataForRound ? userDataForRound.totalTickets : 0
   const ticketRoundText =
     totalTicketNumber > 1
