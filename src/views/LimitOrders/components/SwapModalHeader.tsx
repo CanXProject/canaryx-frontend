@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
-import { Trade, TradeType } from '@pancakeswap/sdk'
-import { Button, Text, ErrorIcon, ArrowDownIcon } from '@pancakeswap/uikit'
+import { Trade, TradeType } from 'canaryx-sdk'
+import { Button, Text, ErrorIcon, ArrowDownIcon } from 'canaryx-uikit'
 import { Field } from 'state/limitorders/actions'
 import { useTranslation } from 'contexts/Localization'
 import { computeSlippageAdjustedAmounts, computeTradePriceBreakdown, warningSeverity } from 'utils/prices'

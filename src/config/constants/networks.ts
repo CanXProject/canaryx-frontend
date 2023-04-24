@@ -1,4 +1,4 @@
-import { ChainId } from '@pancakeswap/sdk'
+import { ChainId } from 'canaryx-sdk'
 
 const NETWORK_URLS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: 'https://sgbnode3.canaryx.finance/rpc',

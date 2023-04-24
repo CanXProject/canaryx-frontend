@@ -1,16 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 import every from 'lodash/every'
-import { Stepper, Step, StepStatus, Card, CardBody, Heading, Text, Button, Link, OpenNewIcon } from '@pancakeswap/uikit'
-import { Link as RouterLink } from 'react-router-dom'
-import { useWeb3React } from '@web3-react/core'
+import { Stepper, Step, StepStatus, Card, CardBody, Heading, Text, Button, Link, OpenNewIcon } from 'canaryx-uikit'
 import { Ifo } from 'config/constants/types'
 import { WalletIfoData } from 'views/Ifos/types'
 import { useTranslation } from 'contexts/Localization'
 import useTokenBalance from 'hooks/useTokenBalance'
 import Container from 'components/Layout/Container'
-import { nftsBaseUrl } from 'views/Nft/market/constants'
-import ConnectWalletButton from 'components/ConnectWalletButton'
+
+// import { useWeb3React } from '@web3-react/core'
+// import { Link as RouterLink } from 'react-router-dom'
+// import { nftsBaseUrl } from 'views/Nft/market/constants'
+// import ConnectWalletButton from 'components/ConnectWalletButton'
 
 interface Props {
   ifo: Ifo
@@ -32,7 +33,7 @@ const Wrapper = styled(Container)`
 
 const IfoSteps: React.FC<Props> = ({ ifo, walletIfoData }) => {
   const { poolBasic, poolUnlimited } = walletIfoData
-  const { account } = useWeb3React()
+  // const { account } = useWeb3React()
   const { t } = useTranslation()
   const { balance } = useTokenBalance(ifo.currency.address)
   const stepsValidationStatus = [
@@ -50,12 +51,9 @@ const IfoSteps: React.FC<Props> = ({ ifo, walletIfoData }) => {
   }
 
   const renderCardBody = (step: number) => {
-    const isStepValid = stepsValidationStatus[step]
-
-    
+    // const isStepValid = stepsValidationStatus[step]
 
     switch (step) {
-      
       case 0:
         return (
           <CardBody>

@@ -11,14 +11,12 @@ export const swapSectionData: SalesSectionProps = {
   },
   secondaryButton: {
     to: 'https://docs.canaryx.xyz/products/token-creation',
-    text: ('Learn'),
+    text: 'Learn',
     external: true,
   },
   images: {
     path: '/images/home/',
-    attributes: [
-      { src: '/images/home/YuklaBNB.png', alt: 'CANARY token logo' },
-    ],
+    attributes: [{ src: '/images/home/YuklaBNB.png', alt: 'CANARY token logo' }],
   },
 }
 
@@ -33,22 +31,19 @@ export const earnSectionData: SalesSectionProps = {
   },
   secondaryButton: {
     to: 'https://docs.canaryx.xyz',
-    text: ('Learn'),
+    text: 'Learn',
     external: true,
   },
-  
+
   images: {
     path: '/images/home/',
-    attributes: [
-      { src: '/images/home/YuklaUSDT.png', alt: 'Trading Everything' },
-    ],
+    attributes: [{ src: '/images/home/YuklaUSDT.png', alt: 'Trading Everything' }],
   },
 }
 
 export const cakeSectionData: SalesSectionProps = {
   headingText: 'Earn passive income.',
-  bodyText:
-    'CanarySwap makes it easy to make your crypto work for you.',
+  bodyText: 'CanarySwap makes it easy to make your crypto work for you.',
   reverse: false,
   primaryButton: {
     to: '/farms',
@@ -57,14 +52,12 @@ export const cakeSectionData: SalesSectionProps = {
   },
   secondaryButton: {
     to: 'https://docs.canaryx.xyz',
-    text: ('Learn'),
+    text: 'Learn',
     external: true,
   },
 
   images: {
     path: '/images/home/',
-    attributes: [
-      { src: '/images/home/YuklaBUSD.png', alt: 'Canary Mountains' }
-    ],
+    attributes: [{ src: '/images/home/YuklaBUSD.png', alt: 'Canary Mountains' }],
   },
 }

@@ -1,6 +1,6 @@
-import { Currency } from '@pancakeswap/sdk'
+import { Currency } from 'canaryx-sdk'
 import useTheme from 'hooks/useTheme'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState,useEffect } from 'react'
 import BnbWbnbNotice from './BnbWbnbNotice'
 import { BNB_ADDRESS } from './constants'
 import PriceChart from './PriceChart'
@@ -36,6 +36,19 @@ const PriceChartContainer: React.FC<PriceChartContainerProps> = ({
   const [isPairReversed, setIsPairReversed] = useState(false)
   const togglePairReversed = useCallback(() => setIsPairReversed((prePairReversed) => !prePairReversed), [])
 
+
+  // useEffect(() => {
+    
+  //   console.log("",{  inputCurrencyId,
+  //     inputCurrency,
+  //     outputCurrency,
+  //     outputCurrencyId,
+  //     isChartExpanded,
+  //     setIsChartExpanded,
+  //     isChartDisplayed,
+  //     isMobile,
+  //     currentSwapPrice,})
+  // },[])
   const { isDark } = useTheme()
 
   if (!isChartDisplayed) {

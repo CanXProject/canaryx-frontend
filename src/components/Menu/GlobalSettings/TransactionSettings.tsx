@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { escapeRegExp } from 'utils'
-import { Text, Button, Input, Flex, Box } from '@pancakeswap/uikit'
+import { Text, Button, Input, Flex, Box } from 'canaryx-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useUserSlippageTolerance, useUserTransactionTTL } from 'state/user/hooks'
 import QuestionHelper from '../../QuestionHelper'
@@ -19,7 +19,7 @@ const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`) // match escaped "." charact
 
 const SlippageTabs = () => {
   const [userSlippageTolerance, setUserSlippageTolerance] = useUserSlippageTolerance()
-  
+
   const [ttl, setTtl] = useUserTransactionTTL()
   const [slippageInput, setSlippageInput] = useState('')
   const [deadlineInput, setDeadlineInput] = useState('')

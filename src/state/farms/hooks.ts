@@ -22,7 +22,6 @@ const deserializeFarmUserData = (farm: SerializedFarm): DeserializedFarmUserData
 
 const deserializeFarm = (farm: SerializedFarm): DeserializedFarm => {
   const { lpAddresses, lpSymbol, pid, dual, multiplier, isCommunity, quoteTokenPriceBusd, tokenPriceBusd } = farm
-
   return {
     lpAddresses,
     lpSymbol,
@@ -144,13 +143,31 @@ export const useLpTokenPrice = (symbol: string) => {
 
 // /!\ Deprecated , use the BUSD hook in /hooks
 
+const ZERO = new BigNumber(0)
+
+export const usePriceSGCAND= (): BigNumber => {
+  const pid = 2 // BUSD-BNB LP
+  const farm = useFarmFromPid(pid)
+  return farm.tokenPriceVsQuote ? new BigNumber(farm.tokenPriceVsQuote) : ZERO
+}
 export const usePriceCakeBusd = (): BigNumber => {
-  const cakeBnbFarm = useFarmFromPid(1)
+  // const cakeBnbFarm = useFarmFromPid(1)
 
-  const cakePriceBusdAsString = cakeBnbFarm.tokenPriceBusd
-  const cakePriceBusd = useMemo(() => {
-    return new BigNumber(cakePriceBusdAsString)
-  }, [cakePriceBusdAsString])
+  // const cakePriceBusdAsString = cakeBnbFarm.tokenPriceBusd
 
-  return cakePriceBusd
+  // console.log({cakePriceBusdAsString,cakeBnbFarm})
+  // const cakePriceBusd = useMemo(() => {
+  //   return new BigNumber(cakePriceBusdAsString)
+  // }, [cakePriceBusdAsString])
+
+
+
+  // return cakePriceBusd
+
+  const pid = 1 // CAKE-BNB LP
+  const bnbPriceUSD = usePriceSGCAND()
+  const farm = useFarmFromPid(pid)
+  const price = farm.tokenPriceVsQuote ? bnbPriceUSD.times(farm.tokenPriceVsQuote) : ZERO
+  
+  return price
 }

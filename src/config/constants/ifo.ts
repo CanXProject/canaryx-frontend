@@ -1,4 +1,4 @@
-import { Token, ChainId } from '@pancakeswap/sdk'
+import { Token, ChainId } from 'canaryx-sdk'
 import tokens from './tokens'
 import farms from './farms'
 import { Ifo } from './types'
@@ -27,10 +27,10 @@ const ifos: Ifo[] = [
     token: tokens.ifotoken,
     releaseBlockNumber: 16993396,
     campaignId: '1',
-    articleUrl: 'https://canarydex.netlify.app/voting/proposal/QmUqRxjwZCWeZWEdgV2vHJ6hex7jMW7i247NKFas73xc8j',
+    articleUrl: '/voting/proposal/QmUqRxjwZCWeZWEdgV2vHJ6hex7jMW7i247NKFas73xc8j',
     tokenOfferingPrice: 2.5,
     version: 2,
-  }
+  },
 ]
 
 export default ifos

@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { Box, CardBody, Flex, Text } from '@pancakeswap/uikit'
+import { Box, CardBody, Flex, Text } from 'canaryx-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useWeb3React } from '@web3-react/core'
 import ConnectWalletButton from 'components/ConnectWalletButton'
@@ -36,9 +36,19 @@ const CakeVaultCard: React.FC<CakeVaultProps> = ({ pool, showStakedOnly }) => {
 
   const { cakeAsBigNumber } = convertSharesToCake(userShares, pricePerFullShare)
 
+  
   const accountHasSharesStaked = userShares && userShares.gt(0)
   const isLoading = !pool.userData || isVaultUserDataLoading
   const performanceFeeAsDecimal = performanceFee && performanceFee / 100
+
+
+  useEffect(() => {
+    console.log("accountHasSharesStaked",
+      pricePerFullShare.toString(),
+      userShares.toString())
+  }, [accountHasSharesStaked])
+
+
 
   if (showStakedOnly && !accountHasSharesStaked) {
     return null
@@ -68,6 +78,8 @@ const CakeVaultCard: React.FC<CakeVaultProps> = ({ pool, showStakedOnly }) => {
               isLoading={isLoading}
               performanceFee={performanceFeeAsDecimal}
             />
+          
+          
           ) : (
             <>
               <Text mb="10px" textTransform="uppercase" fontSize="12px" color="textSubtle" bold>

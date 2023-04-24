@@ -1,6 +1,6 @@
 import React from 'react'
-import { Price } from '@pancakeswap/sdk'
-import { Text, AutoRenewIcon } from '@pancakeswap/uikit'
+import { Price } from 'canaryx-sdk'
+import { Text, AutoRenewIcon } from 'canaryx-uikit'
 import { StyledBalanceMaxMini } from './styleds'
 
 interface TradePriceProps {
@@ -18,7 +18,17 @@ export default function TradePrice({ price, showInverted, setShowInverted }: Tra
     : `${price?.baseCurrency?.symbol} per ${price?.quoteCurrency?.symbol}`
 
   return (
-    <Text style={{ overflow: 'hidden',fontSize:'12px', height:'38px', border:'1px solid #D8DCE1', justifyContent: 'right', alignItems: 'center', display: 'flex' }}>
+    <Text
+      style={{
+        overflow: 'hidden',
+        fontSize: '12px',
+        height: '38px',
+        border: '1px solid #D8DCE1',
+        justifyContent: 'right',
+        alignItems: 'center',
+        display: 'flex',
+      }}
+    >
       {show ? (
         <>
           {formattedPrice ?? '-'} {label}

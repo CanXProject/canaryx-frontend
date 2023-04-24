@@ -1,6 +1,6 @@
 import React from 'react'
-import { Currency, Pair } from '@pancakeswap/sdk'
-import { Button, ChevronDownIcon, Text, useModal, Flex, Box } from '@pancakeswap/uikit'
+import { Currency, Pair } from 'canaryx-sdk'
+import { Button, ChevronDownIcon, Text, useModal, Flex, Box } from 'canaryx-uikit'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
@@ -11,15 +11,17 @@ import { CurrencyLogo, DoubleCurrencyLogo } from '../Logo'
 import { RowBetween } from '../Layout/Row'
 import { Input as NumericalInput } from './NumericalInput'
 
-const InputRow = styled.div<{ selected: boolean }>`
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-end;
-  padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')};
-`
+// const InputRow = styled.div<{ selected: boolean }>`
+//   display: flex;
+//   flex-flow: row nowrap;
+//   align-items: center;
+//   justify-content: flex-end;
+//   /* padding: ${({ selected }) => (selected ? '0.75rem 0.5rem 0.75rem 1rem' : '0.75rem 0.75rem 0.75rem 1rem')}; */
+// `
 const CurrencySelectButton = styled(Button).attrs({ variant: 'text', scale: 'sm' })`
   padding: 0 0.5rem;
+  background:#e9eaeb
+
 `
 const LabelRow = styled.div`
   display: flex;
@@ -30,8 +32,8 @@ const InputPanel = styled.div`
   flex-flow: column nowrap;
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
-  border: 1px solid #D8DCE1;
+  background: #ffffff;
+  border: 1px solid #d8dce1;
   border-radius: 2px;
   height: 38px;
 `
@@ -47,7 +49,7 @@ export const TextCustom = styled(Text)`
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 0.48px;
-  color: #8C8D91;
+  color: #8c8d91;
 `
 const NumericalInputCustom = styled(NumericalInput)`
   padding: 0 12px;
@@ -57,13 +59,41 @@ const NumericalInputCustom = styled(NumericalInput)`
   line-height: 12px;
   letter-spacing: 0.36px;
 `
+
+const StyledButton = styled(Button)`
+  width: 48px;
+  height: 25px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border: 1px solid #d8dce1;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 0.48px;
+  color: #92959a;
+  cursor: pointer;
+`
+
+const buttonsConfig = [
+  {
+    buttonLabel: '25%',
+    buttonValue: 0.25,
+  },
+  { buttonLabel: '50%', buttonValue: 0.5 },
+  { buttonLabel: '75%', buttonValue: 0.75 },
+  { buttonLabel: '100%', buttonValue: 1 },
+]
 interface CurrencyInputPanelProps {
   value: string
   onUserInput: (value: string) => void
   onMax?: () => void
-  showMaxButton: boolean
-  label?: string
   onCurrencySelect: (currency: Currency) => void
+  onPercentChange?: (buttonValue: number) => void
   currency?: Currency | null
   disableCurrencySelect?: boolean
   hideBalance?: boolean
@@ -71,13 +101,12 @@ interface CurrencyInputPanelProps {
   otherCurrency?: Currency | null
   id: string
   showCommonBases?: boolean
+  isLimitOrder?:boolean
 }
 export function CurrencyInputPanelCustom({
   value,
   onUserInput,
   onMax,
-  showMaxButton,
-  label,
   onCurrencySelect,
   currency,
   disableCurrencySelect = false,
@@ -85,7 +114,9 @@ export function CurrencyInputPanelCustom({
   pair = null, // used for double token logo
   otherCurrency,
   id,
+  isLimitOrder,
   showCommonBases,
+  onPercentChange,
 }: CurrencyInputPanelProps) {
   const { account } = useActiveWeb3React()
   const selectedCurrencyBalance = useCurrencyBalance(account ?? undefined, currency ?? undefined)
@@ -100,9 +131,22 @@ export function CurrencyInputPanelCustom({
     />,
   )
   return (
-    <Box id={id} style={{paddingTop: 24}}>
+    <Box id={id} style={{ paddingTop: 24 }}>
       <Flex mb="6px" alignItems="center" justifyContent="space-between">
-        <CurrencySelectButton
+    
+        {/* {account && (
+          <Text onClick={onMax} color="textSubtle" fontSize="12px" style={{ display: 'inline', cursor: 'pointer' }}>
+            {!hideBalance && !!currency
+              ? t('Balance: %balance%', { balance: selectedCurrencyBalance?.toSignificant(6) ?? t('Loading') })
+              : ' -'}
+          </Text>
+        )} */}
+      </Flex>
+      <InputPanel>
+        <Container>
+          <LabelRow>
+            <RowBetween>
+            <CurrencySelectButton
           className="open-currency-select-button"
           selected={!!currency}
           onClick={() => {
@@ -134,18 +178,6 @@ export function CurrencyInputPanelCustom({
             {!disableCurrencySelect && <ChevronDownIcon />}
           </Flex>
         </CurrencySelectButton>
-        {account && (
-          <Text onClick={onMax} color="textSubtle" fontSize="6px" style={{ display: 'inline', cursor: 'pointer' }}>
-            {!hideBalance && !!currency
-              ? t('Balance: %balance%', { balance: selectedCurrencyBalance?.toSignificant(6) ?? t('Loading') })
-              : ' -'}
-          </Text>
-        )}
-      </Flex>
-      <InputPanel>
-        <Container>
-          <LabelRow>
-            <RowBetween>
               <NumericalInputCustom
                 className="token-amount-input"
                 value={value}
@@ -155,13 +187,20 @@ export function CurrencyInputPanelCustom({
               />
             </RowBetween>
           </LabelRow>
-          <InputRow selected={disableCurrencySelect}>
+
+          {!isLimitOrder? <Flex paddingTop="5px">
+            {buttonsConfig.map(({ buttonLabel, buttonValue }) => (
+              <StyledButton onClick={() => onPercentChange(buttonValue)}>{buttonLabel}</StyledButton>
+            ))}
+          </Flex>:null}
+         
+          {/* <InputRow selected={disableCurrencySelect}>
             {account && currency && showMaxButton && label !== 'To' && (
               <Button onClick={onMax} scale="xs" variant="secondary">
                 MAX
               </Button>
             )}
-          </InputRow>
+          </InputRow> */}
         </Container>
       </InputPanel>
     </Box>

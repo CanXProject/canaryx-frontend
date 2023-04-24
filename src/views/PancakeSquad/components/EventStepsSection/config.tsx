@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@pancakeswap/uikit'
+import { Button } from 'canaryx-uikit'
 import { SaleStatusEnum, UserStatusEnum } from 'views/PancakeSquad/types'
 import ActivateProfileButton from '../Buttons/ActivateProfile'
 import BuyTicketsButtons from '../Buttons/BuyTickets'
@@ -36,7 +36,9 @@ const stepsConfigBuilder = ({ t, userInfos, eventInfos, userStatus, account, the
         eventStatus: [SaleStatusEnum.Pending, SaleStatusEnum.Premint],
       }),
       title: t('Activate your profile'),
-      bodyText: [t('You’ll need an active Canary Exchange Profile to buy Minting Tickets and mint a Pancake Squad NFT!')],
+      bodyText: [
+        t('You’ll need an active Canary Exchange Profile to buy Minting Tickets and mint a Pancake Squad NFT!'),
+      ],
       buttons: (
         <>
           <ActivateProfileButton userStatus={userStatus} t={t} />
@@ -57,7 +59,7 @@ const stepsConfigBuilder = ({ t, userInfos, eventInfos, userStatus, account, the
         <>
           <Button
             as="a"
-            href="https://canarydex.netlify.app/swap?outputCurrency=0xB2cD91b79df296ea181AA5f6d729E5136e1853A4"
+            href="/swap?outputCurrency=0xB2cD91b79df296ea181AA5f6d729E5136e1853A4"
             target="_blank"
             width="100%"
           >

@@ -1,4 +1,4 @@
-import { ChainId, Pair, Token } from '@pancakeswap/sdk'
+import { ChainId, Pair, Token } from 'canaryx-sdk'
 import flatMap from 'lodash/flatMap'
 import { useCallback, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -117,7 +117,8 @@ export function useExpertModeManager(): [boolean, () => void] {
 
 export function useThemeManager(): [boolean, () => void] {
   const dispatch = useDispatch<AppDispatch>()
-  const isDark = false;
+  const isDark = useSelector<AppState, AppState['user']['isDark']>((state) => state.user.isDark)
+  // const isDark = false;
 
   const toggleTheme = useCallback(() => {
     dispatch(toggleThemeAction())

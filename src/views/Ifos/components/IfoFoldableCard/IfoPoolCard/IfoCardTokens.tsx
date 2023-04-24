@@ -10,9 +10,9 @@ import {
   Button,
   AutoRenewIcon,
   BunnyPlaceholderIcon,
-} from '@pancakeswap/uikit'
+} from 'canaryx-uikit'
 import { useWeb3React } from '@web3-react/core'
-import { Token } from '@pancakeswap/sdk'
+import { Token } from 'canaryx-sdk'
 import { Ifo, PoolIds } from 'config/constants/types'
 import tokens from 'config/constants/tokens'
 import { cakeBnbLpToken } from 'config/constants/ifo'
@@ -109,7 +109,7 @@ const IfoCardTokens: React.FC<IfoCardTokensProps> = ({
     if (isLoading) {
       return <SkeletonCardTokens />
     }
-    
+
     if (publicIfoData.status === 'coming_soon') {
       return (
         <>

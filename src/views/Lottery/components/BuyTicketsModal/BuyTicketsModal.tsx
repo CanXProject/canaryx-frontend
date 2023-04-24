@@ -13,7 +13,7 @@ import {
   Skeleton,
   Button,
   ArrowForwardIcon,
-} from '@pancakeswap/uikit'
+} from 'canaryx-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useWeb3React } from '@web3-react/core'
 import tokens from 'config/constants/tokens'
@@ -326,7 +326,9 @@ const BuyTicketsModal: React.FC<BuyTicketsModalProps> = ({ onDismiss }) => {
         onUserInput={handleInputChange}
         currencyValue={
           cakePriceBusd.gt(0) &&
-          `~${ticketsToBuy ? getFullDisplayBalance(priceTicketInDexToken.times(new BigNumber(ticketsToBuy))) : '0.00'} CANARY`
+          `~${
+            ticketsToBuy ? getFullDisplayBalance(priceTicketInDexToken.times(new BigNumber(ticketsToBuy))) : '0.00'
+          } CANARY`
         }
       />
       <Flex alignItems="center" justifyContent="flex-end" mt="4px" mb="12px">

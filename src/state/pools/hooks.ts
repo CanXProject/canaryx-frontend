@@ -112,6 +112,10 @@ export const useCakeVault = () => {
     return new BigNumber(dexTokenAtLastUserActionAsString)
   }, [dexTokenAtLastUserActionAsString])
 
+  console.log("pricePerFullShare111111",
+    pricePerFullShare.toString(),
+    userShares.toString())
+  
   return {
     totalShares,
     pricePerFullShare,

@@ -87,8 +87,8 @@ const getFarmQuoteTokenPrice = (
 
 const fetchFarmsPrices = async (farms: SerializedFarm[]) => {
   const bnbBusdFarm = farms.find((farm) => farm.pid === 2)
-  const bnbPriceBusd = bnbBusdFarm.tokenPriceVsQuote ? BIG_ONE.div(bnbBusdFarm.tokenPriceVsQuote) : BIG_ZERO
-
+  const bnbPriceBusd = bnbBusdFarm.tokenPriceVsQuote ? new BigNumber(bnbBusdFarm.tokenPriceVsQuote): BIG_ZERO
+  // farm.tokenPriceVsQuote ? new BigNumber(farm.tokenPriceVsQuote) : ZERO
   const farmsWithPrices = farms.map((farm) => {
     const quoteTokenFarm = getFarmFromTokenSymbol(farms, farm.quoteToken.symbol)
     const tokenPriceBusd = getFarmBaseTokenPrice(farm, quoteTokenFarm, bnbPriceBusd)

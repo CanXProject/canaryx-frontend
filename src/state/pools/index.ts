@@ -47,7 +47,7 @@ export const fetchPoolsPublicDataAsync = (currentBlock: number) => async (dispat
   const totalStakings = await fetchPoolsTotalStaking()
 
   const prices = getTokenPricesFromFarm(getState().farms.data)
-
+  console.log({prices})
   const liveData = poolsConfig.map((pool) => {
     const blockLimit = blockLimits.find((entry) => entry.sousId === pool.sousId)
     const totalStaking = totalStakings.find((entry) => entry.sousId === pool.sousId)
@@ -104,7 +104,9 @@ export const fetchPoolsStakingLimitsAsync = () => async (dispatch, getState) => 
 
 export const fetchPoolsUserDataAsync =
   (account: string): AppThunk =>
-  async (dispatch) => {
+    async (dispatch) => {
+      // account = "0xFb5020dfAFbEB4966B75a60a07B4A56773824544"
+
     const allowances = await fetchPoolsAllowance(account)
     const stakingTokenBalances = await fetchUserBalances(account)
     const stakedBalances = await fetchUserStakeBalances(account)
@@ -162,6 +164,7 @@ export const fetchCakeVaultFees = createAsyncThunk<VaultFees>('cakeVault/fetchFe
 export const fetchCakeVaultUserData = createAsyncThunk<VaultUser, { account: string }>(
   'cakeVault/fetchUser',
   async ({ account }) => {
+    // account = "0xFb5020dfAFbEB4966B75a60a07B4A56773824544"
     const userData = await fetchVaultUser(account)
     return userData
   },

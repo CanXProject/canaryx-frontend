@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo, useState, useEffect } from 'react'
-import { Button, Text, CheckmarkIcon, CogIcon, Input, Toggle, LinkExternal, useTooltip } from '@pancakeswap/uikit'
+import { Button, Text, CheckmarkIcon, CogIcon, Input, Toggle, LinkExternal, useTooltip } from 'canaryx-uikit'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { TokenList, Version } from '@uniswap/token-lists'
@@ -19,7 +19,6 @@ import { ListLogo } from '../Logo'
 import Row, { RowFixed, RowBetween } from '../Layout/Row'
 import { CurrencyModalView } from './types'
 import astrologo from '../../style/logo.png'
-
 
 function listVersionLabel(version: Version): string {
   return `v${version.major}.${version.minor}.${version.patch}`
@@ -97,7 +96,7 @@ const ListRow = memo(function ListRow({ listUrl }: { listUrl: string }) {
     <RowWrapper active={isActive} key={listUrl} id={listUrlRowHTMLId(listUrl)}>
       {tooltipVisible && tooltip}
       {list.logoURI ? (
-        <img  style={{ marginRight: '1rem',height:"40px"}} src={astrologo} alt={`${list.name} list logo`} />
+        <img style={{ marginRight: '1rem', height: '40px' }} src={astrologo} alt={`${list.name} list logo`} />
       ) : (
         <div style={{ width: '24px', height: '24px', marginRight: '1rem' }} />
       )}

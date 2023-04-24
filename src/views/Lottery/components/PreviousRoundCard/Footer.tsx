@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Flex, ExpandableLabel, CardFooter } from '@pancakeswap/uikit'
+import { Flex, ExpandableLabel, CardFooter } from 'canaryx-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { LotteryRound } from 'state/types'
 import FooterExpanded from './FooterExpanded'
@@ -22,7 +22,6 @@ const PreviousRoundCardFooter: React.FC<PreviousRoundCardFooterProps> = ({ lotte
   return (
     <CardFooter p="0">
       {isExpanded && <FooterExpanded lotteryNodeData={lotteryNodeData} lotteryId={lotteryId} />}
-      
     </CardFooter>
   )
 }

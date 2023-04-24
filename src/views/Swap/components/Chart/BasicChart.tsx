@@ -1,6 +1,6 @@
-import { Box, ButtonMenu, ButtonMenuItem, Flex, Text } from '@pancakeswap/uikit'
+import { Box, ButtonMenu, ButtonMenuItem, Flex, Text } from 'canaryx-uikit'
 import { useTranslation } from 'contexts/Localization'
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import { useFetchPairPrices } from 'state/swap/hooks'
 import { PairDataTimeWindowEnum } from 'state/swap/types'
 import NoChartAvailable from './NoChartAvailable'
@@ -19,6 +19,7 @@ const BasicChart = ({
 }) => {
   const [timeWindow, setTimeWindow] = useState<PairDataTimeWindowEnum>(0)
 
+ 
   const { pairPrices = [], pairId } = useFetchPairPrices({
     token0Address,
     token1Address,
@@ -52,6 +53,8 @@ const BasicChart = ({
       (price) => !price.value || price.value === 0 || price.value === Infinity || Number.isNaN(price.value),
     )
 
+  
+    
   if (isBadData) {
     return (
       <NoChartAvailable

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, Flex, Skeleton, Image } from '@pancakeswap/uikit'
+import { Text, Flex, Skeleton, Image } from 'canaryx-uikit'
 import { useFarmAuctionContract } from 'hooks/useContract'
 import { useTranslation } from 'contexts/Localization'
 import { usePriceCakeBusd } from 'state/farms/hooks'
@@ -49,7 +49,7 @@ const AuctionCakeBurn: React.FC = () => {
         <BurnedText textTransform="uppercase" bold color="secondary">
           {t('Burned')}
         </BurnedText>
-       
+
         {!burnedAmountAsUSD.isNaN() && !burnedAmountAsUSD.isZero() ? (
           <Text color="textSubtle">
             ~${burnedAmountAsUSD.toNumber().toLocaleString('en', { maximumFractionDigits: 0 })}

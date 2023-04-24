@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, LinkExternal, Image, Text, PrizeIcon, Skeleton } from '@pancakeswap/uikit'
+import { Flex, LinkExternal, Image, Text, Skeleton } from 'canaryx-uikit'
 import tokens from 'config/constants/tokens'
 import { useTranslation } from 'contexts/Localization'
 import { PublicIfoData } from 'views/Ifos/types'
@@ -39,7 +39,7 @@ const StyledLinkExternal = styled(LinkExternal)`
 
 const Achievement: React.FC<Props> = ({ ifo, publicIfoData }) => {
   const { t } = useTranslation()
-  const tokenName = ifo.token.symbol?.toLowerCase()
+  // const tokenName = ifo.token.symbol?.toLowerCase()
   const campaignTitle = ifo.name
   const minLpForAchievement = publicIfoData.thresholdPoints
     ? formatBigNumber(publicIfoData.thresholdPoints, 3)
@@ -57,7 +57,6 @@ const Achievement: React.FC<Props> = ({ ifo, publicIfoData }) => {
             <Text bold mr="8px">
               {t('IFO Shopper: %title%', { title: campaignTitle })}
             </Text>
-            
           </Flex>
           {publicIfoData.currencyPriceInUSD.gt(0) ? (
             <Text color="textSubtle" fontSize="12px">

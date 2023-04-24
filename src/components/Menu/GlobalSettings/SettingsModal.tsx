@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Text, PancakeToggle, Toggle, Flex, Modal, InjectedModalProps, ThemeSwitcher } from '@pancakeswap/uikit'
+import { Text, Toggle, Flex, Modal, InjectedModalProps } from 'canaryx-uikit'
 import {
-  useAudioModeManager,
   useExpertModeManager,
   useUserExpertModeAcknowledgementShow,
   useUserSingleHopOnly,
@@ -31,7 +30,7 @@ const SettingsModal: React.FC<InjectedModalProps> = ({ onDismiss }) => {
   const { onChangeRecipient } = useSwapActionHandlers()
 
   const { t } = useTranslation()
-  const { theme, isDark, toggleTheme } = useTheme()
+  const { theme } = useTheme()
 
   if (showConfirmExpertModal) {
     return (
@@ -67,7 +66,7 @@ const SettingsModal: React.FC<InjectedModalProps> = ({ onDismiss }) => {
           <Text bold textTransform="uppercase" fontSize="12px" color="secondary" mb="24px">
             {t('Global')}
           </Text>
-          
+
           <GasSettings />
         </Flex>
         <Flex pt="24px" flexDirection="column" borderTop={`1px ${theme.colors.cardBorder} solid`}>
@@ -101,7 +100,6 @@ const SettingsModal: React.FC<InjectedModalProps> = ({ onDismiss }) => {
             }}
           />
         </Flex>
-       
       </ScrollableContainer>
     </Modal>
   )

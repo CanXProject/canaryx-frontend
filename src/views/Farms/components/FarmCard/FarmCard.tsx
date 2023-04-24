@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
-import { Card, Flex, Text, Skeleton } from '@pancakeswap/uikit'
+import { Card, Flex, Text, Skeleton } from 'canaryx-uikit'
 import { DeserializedFarm } from 'state/types'
 import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
@@ -61,7 +61,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
     quoteTokenAddress: farm.quoteToken.address,
     tokenAddress: farm.token.address,
   })
-  const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
+  const addLiquidityUrl = `/add/${liquidityUrlPathParts}`
   const lpAddress = getAddress(farm.lpAddresses)
   const isPromotedFarm = farm.token.symbol === 'CANARY'
 
@@ -101,7 +101,7 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
           <Text>{t('Earn')}:</Text>
           <Text bold>{earnLabel}</Text>
         </Flex>
-       
+
         <CardActionsContainer
           farm={farm}
           lpLabel={lpLabel}

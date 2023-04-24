@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@pancakeswap/sdk'
+import { ChainId, Token } from 'canaryx-sdk'
 import { serializeToken } from 'state/user/hooks/helpers'
 import { SerializedToken } from './types'
 
@@ -47,16 +47,8 @@ export const mainnetTokens = {
     'Shilly Bar',
     'https://shillywonka.finance',
   ),
-  oni: new Token(
-    MAINNET,
-    '0x7e1168A00Dd7d13e14e3f1B4035fd34c757959Bc',
-    18,
-    'ONI',
-    'Bitonium',
-    '#',
-  ),
-  
-  
+  oni: new Token(MAINNET, '0x7e1168A00Dd7d13e14e3f1B4035fd34c757959Bc', 18, 'ONI', 'Bitonium', '#'),
+
   tlos: new Token(MAINNET, '0xb6C53431608E626AC81a9776ac3e999c5556717c', 18, 'TLOS', 'Telos', 'https://www.telos.net/'),
   beta: new Token(
     MAINNET,

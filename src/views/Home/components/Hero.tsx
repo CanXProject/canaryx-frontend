@@ -1,12 +1,12 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Flex, Heading, Button ,Link} from '@pancakeswap/uikit'
+import { Flex, Heading, Button, Link } from 'canaryx-uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import useTheme from 'hooks/useTheme'
-import { SlideSvgDark, SlideSvgLight } from './SlideSvg'
-import CompositeImage, { getSrcSet, CompositeImageProps } from './CompositeImage'
+// import useTheme from 'hooks/useTheme'
+// import { SlideSvgDark, SlideSvgLight } from './SlideSvg'
+// import CompositeImage, { getSrcSet, CompositeImageProps } from './CompositeImage'
 
 const flyingAnim = () => keyframes`
   from {
@@ -20,72 +20,67 @@ const flyingAnim = () => keyframes`
   }
 `
 
-const fading = () => keyframes`
-  from {
-    opacity: 0.9;
-  }
-  50% {
-    opacity: 0.1;
-  }
-  to {
-    opacity: 0.9;
-  }
-`
+// const fading = () => keyframes`
+//   from {
+//     opacity: 0.9;
+//   }
+//   50% {
+//     opacity: 0.1;
+//   }
+//   to {
+//     opacity: 0.9;
+//   }
+// `
 
-const BgWrapper = styled.div`
-  z-index: -1;
-  overflow: hidden;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  bottom: 0px;
-  left: 0px;
-`
+// const BgWrapper = styled.div`
+//   z-index: -1;
+//   overflow: hidden;
+//   position: absolute;
+//   width: 100%;
+//   height: 100%;
+//   bottom: 0px;
+//   left: 0px;
+// `
 
-const InnerWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-  bottom: -3px;
-`
+// const InnerWrapper = styled.div`
+//   position: absolute;
+//   width: 100%;
+//   bottom: -3px;
+// `
 
 const BunnyWrapper = styled.div`
   width: 100%;
   animation: ${flyingAnim} 3.5s ease-in-out infinite;
 `
 
-const StarsWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
+// const StarsWrapper = styled.div`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
 
-  & :nth-child(2) {
-    animation: ${fading} 2s ease-in-out infinite;
-    animation-delay: 1s;
-  }
+//   & :nth-child(2) {
+//     animation: ${fading} 2s ease-in-out infinite;
+//     animation-delay: 1s;
+//   }
 
-  & :nth-child(3) {
-    animation: ${fading} 5s ease-in-out infinite;
-    animation-delay: 0.66s;
-  }
+//   & :nth-child(3) {
+//     animation: ${fading} 5s ease-in-out infinite;
+//     animation-delay: 0.66s;
+//   }
 
-  & :nth-child(4) {
-    animation: ${fading} 2.5s ease-in-out infinite;
-    animation-delay: 0.33s;
-  }
-`
-
-
-
-
+//   & :nth-child(4) {
+//     animation: ${fading} 2.5s ease-in-out infinite;
+//     animation-delay: 0.33s;
+//   }
+// `
 
 const Hero = () => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const { theme } = useTheme()
+  // const { theme } = useTheme()
 
   return (
     <>
-      
       <Flex
         position="relative"
         flexDirection={['column-reverse', null, null, 'row']}
@@ -101,7 +96,7 @@ const Hero = () => {
           <Heading scale="md" mb="24px">
             {t('Your gateway to the decentralized finance movement on Songbird Network.')}
           </Heading>
-         
+
           <Flex>
             {!account && <ConnectWalletButton mr="8px" />}
             <Link mr="16px" href="/swap">
@@ -118,12 +113,10 @@ const Hero = () => {
         >
           <BunnyWrapper>
             <picture>
-              <img width="95%" style={{margin:"5%",marginTop:"15%"}} src="/logo1.png" alt={t('Lunar bunny')} />
+              <img width="95%" style={{ margin: '5%', marginTop: '15%' }} src="/logo1.png" alt={t('Lunar bunny')} />
             </picture>
           </BunnyWrapper>
-         
         </Flex>
-        
       </Flex>
     </>
   )

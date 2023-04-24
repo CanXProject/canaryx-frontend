@@ -12,7 +12,7 @@ import {
   CardRibbon,
   useMatchBreakpoints,
   BunnyPlaceholderIcon,
-} from '@pancakeswap/uikit'
+} from 'canaryx-uikit'
 import { LotteryRound } from 'state/types'
 import { useGetUserLotteriesGraphData, useLottery } from 'state/lottery/hooks'
 import { LotteryStatus } from 'config/constants/types'
@@ -63,7 +63,6 @@ const PreviousRoundCardBody: React.FC<{ lotteryNodeData: LotteryRound; lotteryId
   const isLargerScreen = isLg || isXl || isXxl
 
   const currentLotteryIdAsInt = parseInt(currentLotteryId)
-  console.log(currentLotteryId)
   const mostRecentFinishedRoundId =
     status === LotteryStatus.CLAIMABLE ? currentLotteryIdAsInt : currentLotteryIdAsInt - 1
   const isLatestRound = mostRecentFinishedRoundId.toString() === lotteryId
@@ -71,7 +70,6 @@ const PreviousRoundCardBody: React.FC<{ lotteryNodeData: LotteryRound; lotteryId
   const [onPresentViewTicketsModal] = useModal(
     <ViewTicketsModal roundId={lotteryId} roundStatus={lotteryNodeData?.status} />,
   )
-  console.log("jjjjjjjjjjjjj",lotteryNodeData)
   const totalTicketNumber = userDataForRound ? userDataForRound.totalTickets : 0
   const ticketRoundText =
     totalTicketNumber > 1

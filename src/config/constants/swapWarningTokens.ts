@@ -1,7 +1,7 @@
-import { Token } from '@pancakeswap/sdk'
+import { Token } from 'canaryx-sdk'
 import tokens from 'config/constants/tokens'
 
-const { bondly, safemoon,cake } = tokens
+const { bondly, safemoon } = tokens
 
 interface WarningTokenList {
   [key: string]: Token

@@ -5,7 +5,7 @@ import { ethers } from 'ethers'
 import { formatUnits } from 'ethers/lib/utils'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
-import { Heading, Flex, Image, Text } from '@pancakeswap/uikit'
+import { Heading, Flex, Text } from 'canaryx-uikit'
 import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import { useTranslation } from 'contexts/Localization'
@@ -32,9 +32,10 @@ import PoolCard from './components/PoolCard'
 import CakeVaultCard from './components/CakeVaultCard'
 import PoolTabButtons from './components/PoolTabButtons'
 import BountyCard from './components/BountyCard'
-import HelpButton from './components/HelpButton'
 import PoolsTable from './components/PoolsTable/PoolsTable'
 import { getAprData, getCakeVaultEarnings } from './helpers'
+
+// import HelpButton from './components/HelpButton'
 
 const CardLayout = styled(FlexLayout)`
   justify-content: center;
@@ -113,6 +114,7 @@ const Pools: React.FC = () => {
 
   // TODO aren't arrays in dep array checked just by reference, i.e. it will rerender every time reference changes?
   const [finishedPools, openPools] = useMemo(() => partition(pools, (pool) => pool.isFinished), [pools])
+  
   const stakedOnlyFinishedPools = useMemo(
     () =>
       finishedPools.filter((pool) => {
@@ -269,7 +271,6 @@ const Pools: React.FC = () => {
             </Heading>
           </Flex>
           <Flex flex="1" height="fit-content" justifyContent="center" alignItems="center" mt={['24px', null, '0']}>
-          
             <BountyCard />
           </Flex>
         </Flex>
@@ -332,7 +333,6 @@ const Pools: React.FC = () => {
         )}
         {viewMode === ViewMode.CARD ? cardLayout : tableLayout}
         <div ref={observerRef} />
-        
       </Page>
     </>
   )

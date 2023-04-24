@@ -120,13 +120,13 @@ export const useGetCakeBalance = () => {
 export const useGetETHBalance = () => {
   const [fetchStatus, setFetchStatus] = useState(FetchStatus.NOT_FETCHED)
   const [balance, setBalance] = useState(BIG_ZERO)
-  const { account,library } = useWeb3React()
+  const { account, library } = useWeb3React()
   const { lastUpdated, setLastUpdated } = useLastUpdated()
 
   useEffect(() => {
     const fetchBalance = async () => {
       try {
-        const currency1contract=getBep20Contract(tokens.eth.address[56],library);
+        const currency1contract = getBep20Contract(tokens.eth.address[56], library)
         const walletBalance = await currency1contract.balanceOf(account)
         setBalance(new BigNumber(walletBalance.toString()))
         setFetchStatus(FetchStatus.SUCCESS)
@@ -138,7 +138,7 @@ export const useGetETHBalance = () => {
     if (account) {
       fetchBalance()
     }
-  }, [account, lastUpdated, setBalance, setFetchStatus,library])
+  }, [account, lastUpdated, setBalance, setFetchStatus, library])
 
   return { balance, fetchStatus, refresh: setLastUpdated }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link as RouterLink } from 'react-router-dom'
-import { Button, Heading, Text, Flex, Link, Breadcrumbs } from '@pancakeswap/uikit'
+import { Button, Heading, Text, Flex, Link, Breadcrumbs } from 'canaryx-uikit'
 import { useWeb3React } from '@web3-react/core'
 import { useTranslation } from 'contexts/Localization'
 import PageHeader from 'components/PageHeader'
@@ -92,7 +92,9 @@ const FarmAuction = () => {
               {t('Community Farm Auction')}
             </Heading>
             <Text color="textSubtle" mb="24px">
-              {t('Each week, qualifying projects can bid CANARY for the right to host a 7-day Farm on Canary Exchange.')}
+              {t(
+                'Each week, qualifying projects can bid CANARY for the right to host a 7-day Farm on Canary Exchange.',
+              )}
             </Text>
             <Text color="textSubtle">{t('This page is for projects to bid for farms.')}</Text>
             <Text color="textSubtle" mb="24px">

@@ -1,4 +1,4 @@
-import { ChainId, Token } from '@pancakeswap/sdk'
+import { ChainId, Token } from 'canaryx-sdk'
 import { Tags, TokenInfo, TokenList } from '@uniswap/token-lists'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
@@ -77,7 +77,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
         ...tokenMap,
         [token.chainId]: {
           ...tokenMap[token.chainId],
-          [token.address]: {
+          [token.address.toLowerCase()]: {
             token,
             list,
           },

@@ -13,7 +13,7 @@ import {
   Box,
   CardFooter,
   ExpandableLabel,
-} from '@pancakeswap/uikit'
+} from 'canaryx-uikit'
 import { useWeb3React } from '@web3-react/core'
 import { LotteryStatus } from 'config/constants/types'
 import { useTranslation } from 'contexts/Localization'
@@ -200,7 +200,6 @@ const NextDrawCard = () => {
             <RewardBrackets lotteryNodeData={currentRound} />
           </NextDrawWrapper>
         )}
-        
       </CardFooter>
     </StyledCard>
   )

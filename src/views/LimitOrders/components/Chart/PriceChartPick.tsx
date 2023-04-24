@@ -1,4 +1,4 @@
-import { Currency } from '@pancakeswap/sdk'
+import { Currency } from 'canaryx-sdk'
 import useTheme from 'hooks/useTheme'
 import React, { useCallback, useState } from 'react'
 import BnbWbnbNotice from './BnbWbnbNotice'
@@ -50,7 +50,6 @@ const PriceChartPick: React.FC<PriceChartContainerProps> = ({
 
   return (
     <TokenChart
-    
       token0Address={isPairReversed ? token1Address : token0Address}
       token1Address={isPairReversed ? token0Address : token1Address}
       inputCurrency={isPairReversed ? outputCurrency : inputCurrency}

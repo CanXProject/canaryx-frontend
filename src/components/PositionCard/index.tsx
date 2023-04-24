@@ -1,16 +1,6 @@
 import React, { useState } from 'react'
-import { JSBI, Pair, Percent } from '@pancakeswap/sdk'
-import {
-  Button,
-  Text,
-  ChevronUpIcon,
-  ChevronDownIcon,
-  Card,
-  CardBody,
-  Flex,
-  CardProps,
-  AddIcon,
-} from '@pancakeswap/uikit'
+import { JSBI, Pair, Percent } from 'canaryx-sdk'
+import { Button, Text, ChevronUpIcon, ChevronDownIcon, Card, CardBody, Flex, CardProps, AddIcon } from 'canaryx-uikit'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useTranslation } from 'contexts/Localization'
@@ -130,7 +120,6 @@ export function MinimalPositionCard({ pair, showUnwrapped = false }: PositionCar
       ) : (
         <LightCard>
           <Text fontSize="14px" style={{ textAlign: 'center' }}>
-            
             {t(
               "By adding liquidity you'll earn 0.17% of all trades on this pair proportional to your share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.",
             )}

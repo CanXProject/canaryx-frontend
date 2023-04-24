@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Box } from '@pancakeswap/uikit'
+import { Box } from 'canaryx-uikit'
 
 const floatingAnim = (x: string, y: string) => keyframes`
   from {
@@ -92,13 +92,10 @@ const CompositeImage: React.FC<ComponentProps> = ({ path, attributes, maxHeight 
         <source type="image/svg" srcSet={getSrcSet(path, attributes[0].src)} />
         <DummyImg src={getImageUrl(path, attributes[0].src)} maxHeight={maxHeight} />
       </picture>
-     
-        <ImageWrapper key="bnb">
-         
-            <img src="images/home/YuklaBNB.png" alt="bnb" />
-        
-        </ImageWrapper>
-      
+
+      <ImageWrapper key="bnb">
+        <img src="images/home/YuklaBNB.png" alt="bnb" />
+      </ImageWrapper>
     </Wrapper>
   )
 }

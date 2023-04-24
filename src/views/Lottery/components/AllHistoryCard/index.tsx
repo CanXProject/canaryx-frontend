@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
-import { Card, Text, Skeleton, CardHeader, Box } from '@pancakeswap/uikit'
+import { Card, Text, Skeleton, CardHeader, Box } from 'canaryx-uikit'
 import { useTranslation } from 'contexts/Localization'
 import { useAppDispatch } from 'state'
 import { useLottery } from 'state/lottery/hooks'
@@ -58,7 +58,7 @@ const AllHistoryCard = () => {
 
     const fetchLotteryData = async () => {
       const lotteryData = await fetchLottery(selectedRoundId)
-      
+
       const processedLotteryData = processLotteryResponse(lotteryData)
       setSelectedLotteryNodeData(processedLotteryData)
     }

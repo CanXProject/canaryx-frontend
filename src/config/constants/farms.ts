@@ -7,7 +7,7 @@ const farms: SerializedFarmConfig[] = [
   /**
    * These 3 farms (PID 0, 251, 252) should always be at the top of the file.
    */
-   {
+  {
     pid: 0,
     lpSymbol: 'CANARY',
     lpAddresses: {
@@ -16,8 +16,7 @@ const farms: SerializedFarmConfig[] = [
     },
     token: serializedTokens.syrup,
     quoteToken: serializedTokens.wbnb,
-  } 
-  ,
+  },
   {
     pid: 1,
     lpSymbol: 'CANARY-SGB LP',
@@ -27,10 +26,8 @@ const farms: SerializedFarmConfig[] = [
     },
     token: serializedTokens.cake,
     quoteToken: serializedTokens.wbnb,
-  }
- 
+  },
 
-  ,
   {
     pid: 2,
     lpSymbol: 'CAND-SGB LP',
@@ -38,10 +35,9 @@ const farms: SerializedFarmConfig[] = [
       97: '',
       19: '0x62006F35a5721834fD612fb5a0951d8C0019334B',
     },
-    token: serializedTokens.busd,
-    quoteToken: serializedTokens.wbnb,
-  }
-  
+    token: serializedTokens.wbnb,
+    quoteToken: serializedTokens.busd,
+  },
 ]
 
 export default farms

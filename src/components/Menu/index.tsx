@@ -1,24 +1,24 @@
 import React from 'react'
 import { useLocation } from 'react-router'
-import { Menu as UikitMenu } from '@pancakeswap/uikit'
+import { Menu as UikitMenu } from 'canaryx-uikit'
 import { languageList } from 'config/localization/languages'
 import { useTranslation } from 'contexts/Localization'
 import PhishingWarningBanner from 'components/PhishingWarningBanner'
 import useTheme from 'hooks/useTheme'
 import { usePriceCakeBusd } from 'state/farms/hooks'
-import { usePhishingBannerManager } from 'state/user/hooks'
 import config from './config/config'
 import UserMenu from './UserMenu'
 import GlobalSettings from './GlobalSettings'
 import { getActiveMenuItem, getActiveSubMenuItem } from './utils'
 // import { footerLinks } from './config/footerConfig'
+// import { usePhishingBannerManager } from 'state/user/hooks'
 
 const Menu = (props) => {
   const { isDark, toggleTheme } = useTheme()
   const cakePriceUsd = usePriceCakeBusd()
   const { currentLanguage, setLanguage, t } = useTranslation()
   const { pathname } = useLocation()
-  const [showPhishingWarningBanner] = usePhishingBannerManager()
+  // const [showPhishingWarningBanner] = usePhishingBannerManager()
 
   const activeMenuItem = getActiveMenuItem({ menuConfig: config(t), pathname })
   const activeSubMenuItem = getActiveSubMenuItem({ menuItem: activeMenuItem, pathname })
@@ -28,7 +28,7 @@ const Menu = (props) => {
       userMenu={<UserMenu />}
       globalMenu={<GlobalSettings />}
       banner={false && <PhishingWarningBanner />}
-      isDark={isDark}
+      isDark={!isDark}
       toggleTheme={toggleTheme}
       currentLang={currentLanguage.code}
       langs={languageList}

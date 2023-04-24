@@ -24,7 +24,6 @@ export const fetchPublicVaultData = async () => {
 
     const totalSharesAsBigNumber = shares ? new BigNumber(shares.toString()) : BIG_ZERO
     const sharePriceAsBigNumber = sharePrice ? new BigNumber(sharePrice.toString()) : BIG_ZERO
-    console.log("pppppppp",totalSharesAsBigNumber)
     const totalDexTokenInVaultEstimate = convertSharesToCake(totalSharesAsBigNumber, sharePriceAsBigNumber)
     return {
       totalShares: totalSharesAsBigNumber.toJSON(),

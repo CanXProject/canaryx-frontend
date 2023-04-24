@@ -14,7 +14,7 @@ export const convertSharesToCake = (
   const cakeAsNumberBalance = getBalanceNumber(amountInCake, decimals)
   const cakeAsBigNumber = getDecimalAmount(new BigNumber(cakeAsNumberBalance), decimals)
   const cakeAsDisplayBalance = getFullDisplayBalance(amountInCake, decimals, decimalsToRound)
-  
+
   return { cakeAsNumberBalance, cakeAsBigNumber, cakeAsDisplayBalance }
 }
 

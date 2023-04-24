@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent, Token } from '@pancakeswap/sdk'
+import { ChainId, JSBI, Percent, Token } from 'canaryx-sdk'
 import { mainnetTokens, testnetTokens } from './tokens'
 
 export const ROUTER_ADDRESS = '0x1CF1AFbD46A9bB1e584Da39A9205193169A7A2c7'

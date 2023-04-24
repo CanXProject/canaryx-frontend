@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { ModalBody, ModalContainer, Message, ModalHeader, Box, Heading } from '@pancakeswap/uikit'
+import { ModalBody, ModalContainer, Message, ModalHeader, Box, Heading } from 'canaryx-uikit'
 import useTheme from 'hooks/useTheme'
 import { useTranslation } from 'contexts/Localization'
 import { WrappedTokenInfo } from 'state/lists/hooks'
@@ -8,7 +8,7 @@ import SwapWarningTokensConfig from 'config/constants/swapWarningTokens'
 import SafemoonWarning from './SafemoonWarning'
 import BondlyWarning from './BondlyWarning'
 import Acknowledgement from './Acknowledgement'
-import AstroWarning from './AstroWarning'
+// import AstroWarning from './AstroWarning'
 
 const StyledModalContainer = styled(ModalContainer)`
   max-width: 440px;
@@ -59,7 +59,6 @@ const SwapWarningModal: React.FC<SwapWarningModalProps> = ({ swapCurrency, onDis
       symbol: SwapWarningTokensConfig.bondly.symbol,
       component: <BondlyWarning />,
     },
-    
   }
 
   const SWAP_WARNING = TOKEN_WARNINGS[swapCurrency.address]

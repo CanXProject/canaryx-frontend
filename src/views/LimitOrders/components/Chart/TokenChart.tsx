@@ -9,7 +9,7 @@ import {
   TradingViewIcon,
   LineGraphIcon,
   useMatchBreakpoints,
-} from '@pancakeswap/uikit'
+} from 'canaryx-uikit'
 import { CurrencyLogo, DoubleCurrencyLogo } from 'components/Logo'
 import { useTranslation } from 'contexts/Localization'
 import React from 'react'
@@ -42,7 +42,7 @@ const TokenChart = ({
   const toggleExpanded = () => setIsChartExpanded((currentIsExpanded) => !currentIsExpanded)
   const [chartView, setChartView] = useExchangeChartViewManager()
   const { t } = useTranslation()
-  setChartView(ChartViewMode.BASIC);
+  setChartView(ChartViewMode.BASIC)
   return (
     <StyledPriceChart
       height={chartView === ChartViewMode.TRADING_VIEW ? '100%' : '70%'}
@@ -65,7 +65,6 @@ const TokenChart = ({
           <IconButton variant="text" onClick={onSwitchTokens}>
             <SyncAltIcon ml="6px" color="primary" />
           </IconButton>
-          
         </Flex>
         {!isMobile && (
           <Flex>
@@ -75,9 +74,6 @@ const TokenChart = ({
           </Flex>
         )}
       </Flex>
-      
-   
-      
     </StyledPriceChart>
   )
 }

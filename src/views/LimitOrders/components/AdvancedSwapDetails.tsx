@@ -1,6 +1,6 @@
 import React from 'react'
-import { Trade, TradeType } from '@pancakeswap/sdk'
-import { Text } from '@pancakeswap/uikit'
+import { Trade, TradeType } from 'canaryx-sdk'
+import { Text } from 'canaryx-uikit'
 import { Field } from 'state/limitorders/actions'
 import { useTranslation } from 'contexts/Localization'
 import { useUserSlippageTolerance } from 'state/user/hooks'
@@ -18,7 +18,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
   const slippageAdjustedAmounts = computeSlippageAdjustedAmounts(trade, allowedSlippage)
 
   return (
-    <AutoColumn style={{ padding: '16px 16px', border:'1px solid #D8DCE1' }}>
+    <AutoColumn style={{ padding: '16px 16px', border: '1px solid #D8DCE1' }}>
       <RowBetween>
         <RowFixed>
           <Text fontSize="12px" color="textSubtle">
@@ -28,7 +28,6 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
             text={t(
               'Your transaction will revert if there is a large, unfavorable price movement before it is confirmed.',
             )}
-           
           />
         </RowFixed>
         <RowFixed>
@@ -46,7 +45,7 @@ function TradeSummary({ trade, allowedSlippage }: { trade: Trade; allowedSlippag
             {t('Price Impact')}
           </Text>
           <QuestionHelper
-            text ={t('The difference between the market price and estimated price due to trade size.')}
+            text={t('The difference between the market price and estimated price due to trade size.')}
             ml="4px"
           />
         </RowFixed>
